@@ -1,20 +1,27 @@
-CC    = g++
-OPTS  = -lm
-OPTSR = -O3
-OPTSD = -g -Wall
-
+#compiling locations
 SRCDIR=./src
 OBJDIR=./obj
 INCDIR=./include
 BINDIR=./bin
 
-SRCS=$(SRCDIR)/main.c
+#Installing
+DESTDIR          = /
+INSTALL_LOCATION = $(DESTDIR)/usr/
+NAME             = game
 
-INCLUDE = $(addprefix -I,$(INCDIR))
-OBJS  = ${SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o}
-CFLAGS  = $(OPTS) $(INCLUDE) $(DEBUG)
+#comiler options
+CC       = g++
+OPTS     = -lm
+OPTSR    = -O3
+OPTSD    = -g -Wall
+INCLUDE := $(addprefix -I,$(INCDIR))
+CFLAGS  := $(OPTS) $(INCLUDE) $(DEBUG) $(shell dpkg-buildflags --get CFLAGS)  
+LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 
-TARGET = $(BINDIR)/game
+SRCS     = $(SRCDIR)/main.c
+OBJS     = ${SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o}
+
+TARGET   = $(BINDIR)/$(NAME)
 
 all: $(TARGET)
 
@@ -30,8 +37,12 @@ $(OBJDIR):
 $(BINDIR):
 	mkdir $(BINDIR)
 
-install:
-	echo TODO
+install: install_exec_linux
+
+install_exec_linux:
+	mkdir -p $(INSTALL_LOCATION)/bin
+	cp $(TARGET) $(INSTALL_LOCATION)/bin
+	chmod 755 $(INSTALL_LOCATION)/bin/$(NAME)
 
 deb
 	echo TODO
