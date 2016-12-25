@@ -7,19 +7,15 @@ project(game)
 # Set the output folder where your program will be created
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
+#set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 set(${PROJECT_NAME}_EXEC_NAME game)
 
 # Set sources/include
 set(${PROJECT_NAME}_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(${PROJECT_NAME}_SOURCES
-  ${PROJECT_NAME}_SOURCE_DIR/main.cpp
+  ${${PROJECT_NAME}_SOURCE_DIR}/main.cpp
 )
 include_directories("${PROJECT_SOURCE_DIR}/include")
-
-# Set linked libs
-# Link the libraries
-target_link_libraries(${PROJECT_NAME} ${LIBS} m )
 
 # Set version
 set (LEARN_CMAKE_VERSION_MAJOR 0)
@@ -27,7 +23,13 @@ set (LEARN_CMAKE_VERSION_MINOR 0)
 set (LEARN_CMAKE_VERSION_PATCH 0)
 
 # Specify creation of executable
-add_executable(${PROJECT_NAME}_EXEC_NAME ${PROJECT_NAME}_SOURCES)
+add_executable(${${PROJECT_NAME}_EXEC_NAME} ${${PROJECT_NAME}_SOURCES})
+
+# Set linked libs
+# Link the libraries
+target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
+  sfml-graphics sfml-window sfml-system
+)
 
 # Compiler Condition (gcc ; g++)
 if ( "${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" )
