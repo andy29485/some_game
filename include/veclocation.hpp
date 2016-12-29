@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////////////////
-// location.h
+// veclocation.hpp
 // This file is part of SomeGame
 //
 // Copyright (C) 2017 - GroupName
 //
 // SomeGame is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
+// the Free Software Foundation; either version 3 of the License, or
 // (at your option) any later version.
 //
 // SomeGame is distributed in the hope that it will be useful,
@@ -18,18 +18,14 @@
 // along with SomeGame. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#ifndef LOCATION_H
-#define LOCATION_H
+#ifndef VEC_LOCATION_HPP
+#define VEC_LOCATION_HPP
 
-class Location {
-  // x and y positions on the map
-  unsigned int x, y;
+#include "location.hpp"
 
-  //state of player(includes direction
+class VecLocation : public Location {
+  //state of player (includes direction)
   unsigned char state;
-  
-  //constructor helper
-  void init(unsigned int, unsigned int, unsigned char);
   
 public:
   static const char LEFT  = 0;
@@ -44,20 +40,10 @@ public:
   static const char DOWN  = 3;
   static const char SOUTH = 3;
 
-  Location();
-  Location(char);
-  Location(int, int);
-  Location(int, int, char);
-
-  //get direction without
-  //  other parts of state
-  unsigned char getDirection();
-  
-  //get X position
-  unsigned int getX();
-  
-  //get Y position
-  unsigned int getY();
+  VecLocation();
+  VecLocation(unsigned char);
+  VecLocation(unsigned int, unsigned int);
+  VecLocation(unsigned int, unsigned int, unsigned char);
 
   //move/turn in direction
   //  same as move(dir, false)
@@ -67,21 +53,18 @@ public:
   //  if bool is true move without turning
   bool move(char, bool);
 
-  //set X position
-  void setX(unsigned int);
-  
-  //set Y position
-  void setY(unsigned int);
-
   //set the state
   void setState(unsigned char);
+
+  //set the state
+  unsigned char getState();
 
   //set the direction w/o affecting other parts of the state
   void setDirection(unsigned char);
 
-  //set the x/y position
-  void setPosition(unsigned int, unsigned int);
-
+  //set the direction w/o affecting other parts of the state
+  unsigned char getDirection();
 };
 
-#endif /* LOCATION_H */
+#endif /* VEC_LOCATION_HPP */
+

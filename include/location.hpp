@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-// main.cpp
+// location.hpp
 // This file is part of SomeGame
 //
 // Copyright (C) 2017 - GroupName
@@ -18,27 +18,32 @@
 // along with SomeGame. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
+#ifndef LOCATION_HPP
+#define LOCATION_HPP
 
-int main() {
-  sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-  sf::CircleShape shape(100.f);
-  shape.setFillColor(sf::Color::Green);
-
-  window.setVerticalSyncEnabled(true);
-  window.setFramerateLimit(30);
+class Location {
+protected:
+  // x and y positions on the map
+  unsigned int x, y;
   
-  while (window.isOpen()) {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed)
-        window.close();
-    }
+public:
+  Location();
+  Location(int, int);
 
-    window.clear();
-    window.draw(shape);
-    window.display();
-  }
+  //get X position
+  unsigned int getX();
   
-  return 0;
-}
+  //get Y position
+  unsigned int getY();
+
+  //set X position
+  void setX(unsigned int);
+  
+  //set Y position
+  void setY(unsigned int);
+
+  void setPosition(unsigned int, unsigned int);
+};
+
+#endif /* LOCATION_H */
+
