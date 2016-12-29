@@ -39,6 +39,10 @@ endif()
 
 # Check for OS
 if( UNIX )
-    set( LEARN_CMAKE_DEFINITIONS
-        "${LEARN_CMAKE_DEFINITIONS} -Wall -Wextra -Werror -Wno-deprecated-declarations -Wno-unused-parameter -Wno-comment" )
+  set( LEARN_CMAKE_DEFINITIONS
+    "${LEARN_CMAKE_DEFINITIONS} -Wall -Wextra -Werror -Wno-deprecated-declarations -Wno-unused-parameter -Wno-comment" )
+else if( MINGW )
+  set(SFML_PATH "SFML")
+  include_directories(${SFML_PATH}/include)
+  include_directories(${SFML_PATH}/lib)
 endif()
