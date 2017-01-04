@@ -34,7 +34,7 @@ if( UNIX )
   set( LEARN_CMAKE_DEFINITIONS
     "${LEARN_CMAKE_DEFINITIONS} -Wall -Wextra -Werror -Wno-deprecated-declarations -Wno-unused-parameter -Wno-comment" )
 elseif( WIN32 )
-  cmake_policy(set cmp0015 old)
+  cmake_policy(SET CMP0015 OLD)
   include_directories(${SFML_PATH}/include)
   link_directories(${SFML_PATH}/lib)
 endif()
