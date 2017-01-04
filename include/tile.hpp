@@ -33,10 +33,11 @@ class Tile : public sf::Drawable {
   //         also appear on dirt 
   //TODO this is needed for map-edditing, but will server no purpose in-game,
   //     (delete these variables later)
-  #if defined(DEBUG) || defined(EDITOR)
+  #ifdef EDITOR
     unsigned short nTextureBottom;
     unsigned short nTextureTop;
   #endif
+  //TODO Tile textures should probably be rectangles
   sf::Texture texBottom;
   sf::Texture texTop;
   
@@ -55,7 +56,15 @@ public:
   //Draw tile
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states);
   
-  //TODO
+  #ifdef EDITOR
+    void setBottomTile(unsigned short, sf::Image&);
+    void setTopTile(unsigned short, sf::Image&);
+    unsigned char setState();
+
+    unsigned short getBottomTile();
+    unsigned short getTopTile();
+  #endif
+  unsigned char getState();
 };
 
 #endif /* TILE_HPP */
