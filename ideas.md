@@ -9,18 +9,18 @@ A place to put diffrent ideas for the game (mainly relating to the story).
 2. NPC dialogues change after some missions (e.x. I saw some
    dude painting a wall and helped him, then other NPCs told me
    that the wall looked good and that I did a good job).
-3. Multiple factions to join/endings to achieve.
-4. I can have companions follow me around (like a dog or actual people)
+3. ~~Multiple factions to join/endings to achieve.~~
+4. ~~I can have companions follow me around (like a dog or actual people)
    depending on what I do (kill factions they like/hate, find stuff, or
    lockpick/pickpocket in front of them) they start to like me more/less
-   and possibly give me stuff.
+   and possibly give me stuff.~~
 
 ## Program
 
 ### Treads
 The program will have 5 threads in total:
 1. Heavy backend work 1
-  - **attempt to share as much load with thread 2 as possible - ~50%**
+  - **attempt to share as much load with thread 2 as possible - ~50% each**
 2. Heavy backend work 2
 3. Main interface
   - hanles displaying stuff/getting input from user
@@ -28,9 +28,13 @@ The program will have 5 threads in total:
   - will send player info to ally(s)
   - Protacols [subject to change]
     - If 1 ally only - use TCP
-    - if multiple are possible - use UDP
+    - ~~if multiple are possible - use UDP~~
 5. Recive
   - Will get ally(s) info and update their local info
+
+### Intrenal Representation
+sf::Image with all tiles will be stored in the map object
+Tiles will store 2 sf::Texture vars
 
 ## Files
 

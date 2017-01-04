@@ -27,6 +27,8 @@ protected:
   unsigned int x, y;
   
 public:
+  static const unsigned int TILE_SIZE = 30;
+
   Location();
   Location(int, int);
 

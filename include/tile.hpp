@@ -19,15 +19,39 @@
 ///////////////////////////////////////////////////////////////////////
 
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include "location.hpp"
 
 #ifndef TILE_HPP
 #define TILE_HPP
 
-class Tile : public sf::Drawable, public Location {
-  //TODO
+class Tile : public sf::Drawable {
+  //Tiles should be made from bottom up,
+  //  top texture will generarly have some transparancy to it.
+  //  E.G. bottom will be grass, top will also have a bridge on it
+  //       - thus we get a bridge on grass, but that exact same bridge can
+  //         also appear on dirt 
+  //TODO this is needed for map-edditing, but will server no purpose in-game,
+  //     (delete these variables later)
+  #if defined(DEBUG) || defined(EDITOR)
+    unsigned short nTextureBottom;
+    unsigned short nTextureTop;
+  #endif
+  sf::Texture texBottom;
+  sf::Texture texTop;
+  
+  //type of tile that this is:
+  //  0   - can walk on
+  //  1   - cannot walk on
+  //  10+ - triggers some map even on step
+  unsigned char state;
+
   
 public:
+  //Constructors
+  Tile(unsigned short, unsigned char);
+  Tile(unsigned short, unsigned short, unsigned char);
+  
   //Draw tile
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states);
   

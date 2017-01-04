@@ -29,6 +29,16 @@ if ( "${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" )
   add_definitions( -O3 )
 endif()
 
+#add preprocessor definitions
+if (DEFINED DEBUG)
+ add_definitions(-DDEBUG)
+endif ()
+
+if (DEFINED EDITOR)
+ add_definitions(-DEDITOR)
+endif ()
+
+
 # Check for OS
 if( UNIX )
   set( LEARN_CMAKE_DEFINITIONS
