@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-// tile.hpp
+// tilemap.hpp
 // This file is part of SomeGame
 //
 // Copyright (C) 2017 - GroupName
@@ -18,20 +18,24 @@
 // along with SomeGame. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
+#include <vector>
 #include <SFML/Graphics/Drawable.hpp>
-#include "location.hpp"
+#include "tile.hpp"
 
-#ifndef TILE_HPP
-#define TILE_HPP
+#ifndef TILE_MAP_HPP
+#define TILE_MAP_HPP
 
-class Tile : public sf::Drawable, public Location {
-  //TODO
-  
+class TileMap : public sf::Drawable {
+  //2D vector of tiles
+  std::vector<std::vector<Tile>> tiles;
+
 public:
   //Draw tile
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states);
   
-  //TODO
+  //find shortest path between two locations
+  std::vector<char> findPath(Location a, Location b);
+  
 };
 
-#endif /* TILE_HPP */
+#endif /* TILE_MAP_HPP */
