@@ -19,7 +19,8 @@
 ///////////////////////////////////////////////////////////////////////
 
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/Image.hpp>
 #include "location.hpp"
 
 #ifndef TILE_HPP
@@ -31,16 +32,16 @@ class Tile : public sf::Drawable {
   //  E.G. bottom will be grass, top will also have a bridge on it
   //       - thus we get a bridge on grass, but that exact same bridge can
   //         also appear on dirt 
-  //TODO this is needed for map-edditing, but will server no purpose in-game,
-  //     (delete these variables later)
   #ifdef EDITOR
     unsigned short nTextureBottom;
     unsigned short nTextureTop;
   #endif
-  //TODO Tile textures should probably be rectangles
-  sf::Texture texBottom;
-  sf::Texture texTop;
-  
+  sf::IntRect texBottomRect;
+  sf::IntRect texTopRect;
+
+  //Pointer to image with tiles
+  sf::Image *imgIiles;
+
   //type of tile that this is:
   //  0   - can walk on
   //  1   - cannot walk on
@@ -50,8 +51,8 @@ class Tile : public sf::Drawable {
   
 public:
   //Constructors
-  Tile(unsigned short, unsigned char);
-  Tile(unsigned short, unsigned short, unsigned char);
+  Tile(sf::Image*, unsigned short, unsigned char);
+  Tile(sf::Image*, unsigned short, unsigned short, unsigned char);
   
   //Draw tile
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states);
