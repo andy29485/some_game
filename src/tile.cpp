@@ -18,6 +18,7 @@
 // along with SomeGame. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
+#include <SFML/Graphics/RenderTarget.hpp>
 #include "tile.hpp"
 
 inline sf::IntRect rect(unsigned, const sf::Texture&, unsigned);
@@ -56,26 +57,37 @@ void Tile::setState(unsigned char state) {
   this->state = state;
 }
 
-#ifdef EDITOR
-  void Tile::setBottomTile(unsigned short nTileNum) {
+
+void Tile::setPosition(unsigned int x, unsigned int y) {
+  this->spriteBottom.setPosition(x, y);
+  this->spriteTop.setPosition(x, y);
+}
+
+
+void Tile::setBottomTile(unsigned short nTileNum) {
+  #ifdef EDITOR
     this->nTextureBottom = nTileNum;
-    this->spriteBottom.setTextureRect(rect(nTileNum,
-                                           *this->texTiles, Tile::TILE_SIZE)
-      );
-  }
+  #endif
+  this->spriteBottom.setTextureRect(rect(nTileNum,
+                                         *this->texTiles, Tile::TILE_SIZE)
+    );
+}
 
-  void Tile::setTopTile(unsigned short nTileNum) {
+void Tile::setTopTile(unsigned short nTileNum) {
+  #ifdef EDITOR
     this->nTextureTop = nTileNum;
-    if(nTileNum) {
-      this->spriteTop.setTextureRect(rect(nTileNum,
-                                          *this->texTiles, Tile::TILE_SIZE)
-      );
-    }
-    else {
-      this->spriteTop.setTextureRect(sf::IntRect());
-    }
+  #endif
+  if(nTileNum) {
+    this->spriteTop.setTextureRect(rect(nTileNum,
+                                        *this->texTiles, Tile::TILE_SIZE)
+    );
   }
+  else {
+    this->spriteTop.setTextureRect(sf::IntRect());
+  }
+}
 
+#ifdef EDITOR
   unsigned short Tile::getBottomTile() {
     return this->nTextureBottom;
   }

@@ -31,16 +31,22 @@ public:
   Location(int, int);
 
   //get X position
-  unsigned int getX();
+  unsigned int getX() const;
   
   //get Y position
-  unsigned int getY();
+  unsigned int getY() const;
 
   //set X position
   void setX(unsigned int);
   
   //set Y position
   void setY(unsigned int);
+  
+  //add to X position
+  void addX(unsigned int);
+
+  //add to Y position
+  void addY(unsigned int);
 
   void setPosition(unsigned int, unsigned int);
 };

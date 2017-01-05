@@ -20,37 +20,41 @@
 
 #include <vector>
 #include <string>
+#include <fstream>
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
 #include "tile.hpp"
+#include "location.hpp"
 
 #ifndef TILE_MAP_HPP
 #define TILE_MAP_HPP
 
-class TileMap : public sf::Drawable {
+class TileMap : public sf::Drawable, public Location {
   //2D vector of tiles
   std::vector<std::vector<Tile>> tiles;
 
-  //Image containing all tiles that this map will use
-  sf::Image imgTiles;
+  //Texture containing all tiles that this map will use
+  sf::Texture texTiles;
+
+  //RenderTexture containing image of the map, used to render map faster
+  sf::RenderTexture renderTexture;
 
 public:
   //Constructors
   //TODO - do we need more?
-  TileMap(const std::string& imgFileName, const std::string& mapFileName);
+  TileMap(const std::string& texFileName, const std::string& mapFileName);
+
+  bool move(int x, int y);
 
   //Draw tile
-  virtual void draw(sf::RenderTarget& target, sf::RenderStates states);
+  void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
   
   //find shortest path between two locations
   std::vector<char> findPath(Location a, Location b);
   
-  #ifdef EDITOR
-    void save(const std::string& filename);
-    
-    void load(const std::string& filename);
-  #endif
-  
+  void save(const std::string& filename, bool append = false);
+  std::streampos load(const std::string& filename, std::streampos pos = 0);
 };
 
 #endif /* TILE_MAP_HPP */

@@ -25,12 +25,12 @@ Location::Location() : x(0), y(0) {}
 Location::Location(int x, int y) : x(x), y(y) {}
   
 //get X position
-unsigned int Location::getX() {
+unsigned int Location::getX() const {
   return this->x;
 }
 
 //get Y position
-unsigned int Location::getY() {
+unsigned int Location::getY() const {
   return this->y;
 }
 
@@ -42,6 +42,16 @@ void Location::setX(unsigned int x) {
 //set Y position
 void Location::setY(unsigned int y) {
   this->y = y;
+}
+
+//add to X position
+void Location::addX(unsigned int x) {
+  this->x += x;
+}
+
+//add to Y position
+void Location::addY(unsigned int y) {
+  this->y += y;
 }
 
 //set the x/y position

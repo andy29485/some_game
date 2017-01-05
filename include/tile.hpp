@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////
 
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include "location.hpp"
@@ -60,14 +59,13 @@ public:
   //Draw tile
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
   
+  void setBottomTile(unsigned short);
+  void setTopTile(unsigned short);
   void setState(unsigned char);
-  #ifdef EDITOR
-    void setBottomTile(unsigned short);
-    void setTopTile(unsigned short);
+  void setPosition(unsigned int, unsigned int);
 
-    unsigned short getBottomTile();
-    unsigned short getTopTile();
-  #endif
+  unsigned short getBottomTile();
+  unsigned short getTopTile();
   unsigned char getState();
 };
 
