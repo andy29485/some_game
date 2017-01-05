@@ -41,7 +41,7 @@ class Tile : public sf::Drawable {
   sf::Sprite spriteTop;
 
   //Pointer to image with tiles
-  sf::Texture *texTiles;
+  const sf::Texture* texTiles;
 
   //type of tile that this is:
   //  0   - can walk on
@@ -54,16 +54,16 @@ public:
   static const unsigned int TILE_SIZE = 30;
 
   //Constructors
-  Tile(sf::Texture*, unsigned short, unsigned char);
-  Tile(sf::Texture*, unsigned short, unsigned short, unsigned char);
+  Tile(const sf::Texture&, unsigned short, unsigned char);
+  Tile(const sf::Texture&, unsigned short, unsigned short, unsigned char);
   
   //Draw tile
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
   
   void setState(unsigned char);
   #ifdef EDITOR
-    void setBottomTile(unsigned short, sf::Image&);
-    void setTopTile(unsigned short, sf::Image&);
+    void setBottomTile(unsigned short);
+    void setTopTile(unsigned short);
 
     unsigned short getBottomTile();
     unsigned short getTopTile();
