@@ -19,8 +19,9 @@
 ///////////////////////////////////////////////////////////////////////
 
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include "location.hpp"
 
 #ifndef TILE_HPP
@@ -36,11 +37,11 @@ class Tile : public sf::Drawable {
     unsigned short nTextureBottom;
     unsigned short nTextureTop;
   #endif
-  sf::IntRect texBottomRect;
-  sf::IntRect texTopRect;
+  sf::Sprite spriteBottom;
+  sf::Sprite spriteTop;
 
   //Pointer to image with tiles
-  sf::Image *imgIiles;
+  sf::Texture *texTiles;
 
   //type of tile that this is:
   //  0   - can walk on
@@ -50,17 +51,19 @@ class Tile : public sf::Drawable {
 
   
 public:
+  static const unsigned int TILE_SIZE = 30;
+
   //Constructors
-  Tile(sf::Image*, unsigned short, unsigned char);
-  Tile(sf::Image*, unsigned short, unsigned short, unsigned char);
+  Tile(sf::Texture*, unsigned short, unsigned char);
+  Tile(sf::Texture*, unsigned short, unsigned short, unsigned char);
   
   //Draw tile
-  virtual void draw(sf::RenderTarget& target, sf::RenderStates states);
+  void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
   
+  void setState(unsigned char);
   #ifdef EDITOR
     void setBottomTile(unsigned short, sf::Image&);
     void setTopTile(unsigned short, sf::Image&);
-    unsigned char setState();
 
     unsigned short getBottomTile();
     unsigned short getTopTile();
