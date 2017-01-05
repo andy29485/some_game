@@ -18,7 +18,7 @@
 // along with SomeGame. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#include "tilemap.hpp"
+#include "tiles/tilemap.hpp"
 
 //Constructors
 TileMap::TileMap(const std::string& texFileName,

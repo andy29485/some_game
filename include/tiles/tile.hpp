@@ -21,7 +21,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include "location.hpp"
+#include "tiles/location.hpp"
 
 #ifndef TILE_HPP
 #define TILE_HPP

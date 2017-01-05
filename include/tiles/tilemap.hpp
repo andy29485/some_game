@@ -24,8 +24,8 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
-#include "tile.hpp"
-#include "location.hpp"
+#include "tiles/tile.hpp"
+#include "tiles/location.hpp"
 
 #ifndef TILE_MAP_HPP
 #define TILE_MAP_HPP

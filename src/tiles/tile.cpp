@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////
 
 #include <SFML/Graphics/RenderTarget.hpp>
-#include "tile.hpp"
+#include "tiles/tile.hpp"
 
 inline sf::IntRect rect(unsigned, const sf::Texture&, unsigned);
 

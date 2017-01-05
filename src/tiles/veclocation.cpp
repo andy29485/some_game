@@ -18,7 +18,7 @@
 // along with SomeGame. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#include "veclocation.hpp"
+#include "tiles/veclocation.hpp"
 
 VecLocation::VecLocation() 
   : state(0), Location() {}

@@ -18,7 +18,7 @@
 // along with SomeGame. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#include "location.hpp"
+#include "tiles/location.hpp"
 
 Location::Location() : x(0), y(0) {}
 

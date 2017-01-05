@@ -21,7 +21,7 @@
 #ifndef VEC_LOCATION_HPP
 #define VEC_LOCATION_HPP
 
-#include "location.hpp"
+#include "tiles/location.hpp"
 
 class VecLocation : public Location {
   //state of player (includes direction)
