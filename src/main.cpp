@@ -20,14 +20,23 @@
 
 #include <SFML/Graphics.hpp>
 
+#ifdef _WIN32
+  #include <Windows.h>
+#endif /* _WIN32 */
+
+
 int main() {
+  #if defined (_WIN32) && !defined (DEBUG)
+    FreeConsole();
+  #endif /* defined (_WIN32) && !defined (DEBUG) */
+
   sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
   sf::CircleShape shape(100.f);
   shape.setFillColor(sf::Color::Green);
 
   window.setVerticalSyncEnabled(true);
   window.setFramerateLimit(30);
-  
+
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -39,6 +48,6 @@ int main() {
     window.draw(shape);
     window.display();
   }
-  
+
   return 0;
 }
