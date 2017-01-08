@@ -28,26 +28,9 @@
 int main() {
   #if defined (_WIN32) && !defined (DEBUG)
     FreeConsole();
-  #endif /* defined (_WIN32) && !defined (DEBUG) */
+  #endif
 
-  sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-  sf::CircleShape shape(100.f);
-  shape.setFillColor(sf::Color::Green);
-
-  window.setVerticalSyncEnabled(true);
-  window.setFramerateLimit(30);
-
-  while (window.isOpen()) {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed)
-        window.close();
-    }
-
-    window.clear();
-    window.draw(shape);
-    window.display();
-  }
+  //TODO
 
   return 0;
 }
