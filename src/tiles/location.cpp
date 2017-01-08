@@ -24,16 +24,6 @@ Location::Location() : x(0), y(0) {}
 
 Location::Location(int x, int y) : x(x), y(y) {}
   
-//get X position
-unsigned int Location::getX() const {
-  return this->x;
-}
-
-//get Y position
-unsigned int Location::getY() const {
-  return this->y;
-}
-
 //set X position
 void Location::setX(unsigned int x) {
   this->x = x;

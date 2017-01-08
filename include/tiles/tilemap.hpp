@@ -49,11 +49,14 @@ public:
 
   //Draw tile
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-  
+
   //find shortest path between two locations
   std::vector<char> findPath(Location a, Location b);
-  
+
+  //save map to file
   void save(const std::string& filename, bool append = false);
+
+  //load map from file
   std::streampos load(const std::string& filename, std::streampos pos = 0);
 };
 

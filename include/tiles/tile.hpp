@@ -47,7 +47,6 @@ class Tile : public sf::Drawable {
   //  1   - cannot walk on
   //  10+ - triggers some map even on step
   unsigned char state;
-
   
 public:
   static const unsigned int TILE_SIZE = 30;
@@ -64,9 +63,11 @@ public:
   void setState(unsigned char);
   void setPosition(unsigned int, unsigned int);
 
-  unsigned short getBottomTile();
-  unsigned short getTopTile();
-  unsigned char getState();
+  #ifdef EDITOR
+    inline unsigned short getBottomTile() const { return this->nTextureBottom; }
+    inline unsigned short getTopTile()    const { return this->nTextureTop; }
+  #endif
+  inline   unsigned char  getState()      const { return this->state; }
 };
 
 #endif /* TILE_HPP */

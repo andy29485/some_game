@@ -31,10 +31,10 @@ public:
   Location(int, int);
 
   //get X position
-  unsigned int getX() const;
+  inline unsigned int getX() const { return this->x; }
   
   //get Y position
-  unsigned int getY() const;
+  inline unsigned int getY() const { return this->y; }
 
   //set X position
   void setX(unsigned int);

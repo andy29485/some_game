@@ -67,19 +67,9 @@ bool VecLocation::move(char dir, bool turn) {
 void VecLocation::setState(unsigned char state) {
   this->state = state;
 }
-//get the state
-unsigned char VecLocation::getState() {
-  return this->state;
-}
 
 //set the direction w/o affecting other parts of the state
 void VecLocation::setDirection(unsigned char dir) {
   this->state = (this->state & ~3) | (dir & 3); 
-}
-
-//get direction without
-//  other parts of state
-unsigned char VecLocation::getDirection() {
-  return this->state & 3;
 }
 

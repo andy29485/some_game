@@ -26,7 +26,7 @@
 class VecLocation : public Location {
   //state of player (includes direction)
   unsigned char state;
-  
+
 public:
   static const char LEFT  = 0;
   static const char EAST  = 0;
@@ -48,7 +48,7 @@ public:
   //move/turn in direction
   //  same as move(dir, false)
   bool move(char);
-  
+
   //move/turn in direction,
   //  if bool is true move without turning
   bool move(char, bool);
@@ -56,14 +56,14 @@ public:
   //set the state
   void setState(unsigned char);
 
-  //set the state
-  unsigned char getState();
-
   //set the direction w/o affecting other parts of the state
   void setDirection(unsigned char);
 
-  //set the direction w/o affecting other parts of the state
-  unsigned char getDirection();
+  //get the state
+  inline unsigned char getState() const { return this->state; }
+
+  //get the direction w/o the other parts of the state
+  inline unsigned char getDirection() const { return this->state & 3; }
 };
 
 #endif /* VEC_LOCATION_HPP */

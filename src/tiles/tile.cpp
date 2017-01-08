@@ -87,20 +87,6 @@ void Tile::setTopTile(unsigned short nTileNum) {
   }
 }
 
-#ifdef EDITOR
-  unsigned short Tile::getBottomTile() {
-    return this->nTextureBottom;
-  }
-
-  unsigned short Tile::getTopTile() {
-    return this->nTextureTop;
-  }
-#endif
-
-unsigned char Tile::getState() {
-  return this->state;
-}
-
 inline sf::IntRect rect(unsigned num, const sf::Texture& tex, unsigned size) {
   return sf::IntRect(num/tex.getSize().x*size*size,
                     (num%(tex.getSize().x/size))*size,
