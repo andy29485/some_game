@@ -22,8 +22,15 @@
 #define EDITOR_HPP
 
 // headers
-#include "tilemap.hpp"
-#include "tile.hpp"
+#include <string>
+
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
+
+#include "tiles/tilemap.hpp"
+#include "tiles/tile.hpp"
 
 class EditorEngine {
 private:
@@ -56,14 +63,15 @@ private:
   
 public:
   // Default Constructor
-  EditorEngine();
+  EditorEngine(const std::string&);
+  EditorEngine(const std::string&, const std::string&);
 
   // Main loop of the editor
-  int mainLoop(const std::string&, const std::string&);
+  int mainLoop();
   
   // Render the graphics on to the screen
   void draw();
 };
 
-
 #endif
+

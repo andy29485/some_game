@@ -21,9 +21,11 @@
 #include <vector>
 #include <string>
 #include <fstream>
+
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
+
 #include "tiles/tile.hpp"
 #include "tiles/location.hpp"
 
@@ -32,7 +34,7 @@
 
 class TileMap : public sf::Drawable, public Location {
   //2D vector of tiles
-  std::vector<std::vector<Tile>> tiles;
+  std::vector< std::vector<Tile> > tiles;
 
   //Texture containing all tiles that this map will use
   sf::Texture texTiles;
@@ -42,7 +44,7 @@ class TileMap : public sf::Drawable, public Location {
 
 public:
   //Constructors
-  //TODO - do we need more?
+  TileMap(const std::string& texFileName, const bool& fromTexture = false );
   TileMap(const std::string& texFileName, const std::string& mapFileName);
 
   bool move(int x, int y);
@@ -53,11 +55,22 @@ public:
   //find shortest path between two locations
   std::vector<char> findPath(Location a, Location b);
 
-  //save map to file
-  void save(const std::string& filename, bool append = false);
+  #ifdef EDITOR
+    //resize vectors
+    void resize(unsigned int, unsigned int);
+
+    //access vector
+    inline std::vector<Tile>& operator[](std::size_t idx) { return tiles[idx]; }
+
+    //save map to file
+    void save(const std::string& filename, bool append = false) const;
+  #endif
+
+  void redraw();
 
   //load map from file
-  std::streampos load(const std::string& filename, std::streampos pos = 0);
+  std::streampos load(const std::string&    filename,
+                      const std::streampos& pos = 0);
 };
 
 #endif /* TILE_MAP_HPP */

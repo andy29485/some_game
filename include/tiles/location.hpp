@@ -43,10 +43,10 @@ public:
   void setY(unsigned int);
   
   //add to X position
-  void addX(unsigned int);
+  inline void addX(unsigned int x) { this->x += x; }
 
   //add to Y position
-  void addY(unsigned int);
+  inline void addY(unsigned int y) { this->y += y; }
 
   void setPosition(unsigned int, unsigned int);
 };
