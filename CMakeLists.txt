@@ -13,9 +13,12 @@ set(${PROJECT_NAME}_EXEC_NAME game)
 
 # Set sources/include
 set(${PROJECT_NAME}_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
-set(${PROJECT_NAME}_SOURCES
-  ${${PROJECT_NAME}_SOURCE_DIR}/main.cpp
+
+file(GLOB ${PROJECT_NAME}_SOURCES
+  ${${PROJECT_NAME}_SOURCE_DIR}/*.cpp
+  ${${PROJECT_NAME}_SOURCE_DIR}/*/*.cpp
 )
+
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
 # Set version
@@ -25,24 +28,28 @@ set (LEARN_CMAKE_VERSION_PATCH 0)
 
 # Compiler Condition (gcc ; g++)
 if ( "${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" )
-  message( STATUS "Setting the flags for ${CMAKE_C_COMPILER_ID} compiler" )
   add_definitions( -O3 )
+  add_definitions( -std=gnu++14 )
+else ()
+  add_definitions( -std=c++14 )
 endif()
 
 #add preprocessor definitions
 if (DEFINED DEBUG)
- add_definitions(-DDEBUG)
+ add_definitions( -DDEBUG) 
 endif ()
 
 if (DEFINED EDITOR)
- add_definitions(-DEDITOR)
+ add_definitions( -DEDITOR )
 endif ()
 
 
 # Check for OS
 if( UNIX )
   set( LEARN_CMAKE_DEFINITIONS
-    "${LEARN_CMAKE_DEFINITIONS} -Wall -Wextra -Werror -Wno-deprecated-declarations -Wno-unused-parameter -Wno-comment" )
+    "${LEARN_CMAKE_DEFINITIONS} -Wall -Wextra -Werror
+    -Wno-deprecated-declarations -Wno-unused-parameter -Wno-comment" 
+  )
 elseif( WIN32 )
   cmake_policy(SET CMP0015 OLD)
   include_directories(${SFML_PATH}/include)
@@ -54,6 +61,13 @@ add_executable(${${PROJECT_NAME}_EXEC_NAME} ${${PROJECT_NAME}_SOURCES})
 
 # Set linked libs
 # Link the libraries
-target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
-  sfml-graphics sfml-window sfml-system
-)
+if( WIN32 )
+  target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
+    sfml-graphics-s sfml-window-s sfml-system-s
+  )
+else()
+  target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
+    sfml-graphics sfml-window sfml-system
+  )
+endif()
+
