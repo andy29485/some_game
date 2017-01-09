@@ -34,16 +34,6 @@ void Location::setY(unsigned int y) {
   this->y = y;
 }
 
-//add to X position
-void Location::addX(unsigned int x) {
-  this->x += x;
-}
-
-//add to Y position
-void Location::addY(unsigned int y) {
-  this->y += y;
-}
-
 //set the x/y position
 void Location::setPosition(unsigned int x, unsigned int y) {
   this->x = x;
