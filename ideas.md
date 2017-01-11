@@ -33,11 +33,11 @@ action after selecting it. Each action will have a specific charge time that
 will be noted in the overworld menu. Inside battle, however, charge time will be
 listed as **instantaneous**, **short**, **medium**, **long**, or **very long**.
 These descriptions correspond to the following time ranges:
-**Instantaneous**: 0 seconds
-**Short**: 0-3 seconds
-**Medium**: 3-6 seconds
-**Long**: 6-9 seconds
-**Very Long**: 9+ seconds
+- **Instantaneous**: 0 seconds
+- **Short**: 0-3 seconds
+- **Medium**: 3-6 seconds
+- **Long**: 6-9 seconds
+- **Very Long**: 9+ seconds
 
 Recovery time determines how long the character will need to wait after an
 action is completed to perform a new action.
