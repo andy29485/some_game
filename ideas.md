@@ -8,23 +8,27 @@ General ideas for the game, ranging from combat to the story.
 TODO
 
 ### Combat
-TODO: Finish combat options
+TODO: Polish and add as necessary
+
+N.B. For the combat section, unless otherwise specified, (parentheses) will
+indicate a submenu, and [square brackets] will indicate extra information.
 
 Combat in [Some Game] will be semi-turn based. All battle actions will take time
 to perform, which means each combatant will not necessarily have the same number
 of turns in a battle. However, when a character is ready to perform an action,
 time will freeze until the action is chosen.
 
-Options in combat (parentheses = submenu, square brackets = info):
+Options in combat:
 Attack (Physical ([List of physical attacks]), Magical ([List of magic attacks]),
-   Special [Displays as `Speical: SpecialName`])
+   Special [Displays as Speical: SpecialName])
 Defend (Defend [Basic defense], [List of defense skills])
 Item ([List of combat items])
-Wait [Character does nothing until a button is pushed]
+Misc/Other [Name pending] (Wait [Character does nothing until a button is
+   pushed [increased stamina regen]], [Other misc skills])
 Escape/Run/Flee [Name pending]
 
 #### Attacking
-TODO: Describe recovery time and cooldown time
+TODO: Polish and add as necessary
 Attacking is the main way of dealing damage in [Some Game]. Every attack will
 have a charge time, recovery time, and a cooldown time.
 
@@ -40,7 +44,26 @@ These descriptions correspond to the following time ranges:
 - **Very Long**: 9+ seconds
 
 Recovery time determines how long the character will need to wait after an
-action is completed to perform a new action.
+action is completed to perform a new action. Recovery time is measured in
+essentially the same way as charge time [specific when viewed from overworld,
+simplified when displayed in battle], with the only exception being that there
+is no instantaneous speed for recovery. The recovery times are as follows:
+- **Short**: 0-2 seconds
+- **Medium**: 2-4 seconds
+- **Long**: 4-6 seconds
+- **Very long**: 6+ seconds
+
+Cooldown time is how long the character must wait before using an ability again.
+For most abilities, cooldown time is shorter than the recovery time, making it
+essentially meaningless. However, for some powerful abilities, the cooldown time
+will be longer than the recovery time, making the ability unusable for some
+time. Unlike charge time and recovery time, the specific time will be indicated
+in battle. No cooldown will be displayed for abilities that have recovery times
+longer than their cooldown time. [Some perks may reduce recovery time - this
+will be taken into account when deciding whether or not cooldown time will be
+displayed] [The *Instant Recover* [Name pending] perk will not necessarily
+display the cooldown time because it is used after the skill has been used, not
+before]
 
 ##### Types of attack
 TODO: Pretty much everything, espeically formatting
