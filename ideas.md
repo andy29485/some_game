@@ -1,7 +1,59 @@
 # Ideas Scratchpad
-A place to put diffrent ideas for the game (mainly relating to the story).
+An overview for the main parts of the game.
 
-## Story
+## Game Design
+General ideas for the game, ranging from combat to the story.
+
+### Story
+TODO
+
+### Combat
+TODO: Finish combat options
+
+Combat in [Some Game] will be semi-turn based. All battle actions will take time
+to perform, which means each combatant will not necessarily have the same number
+of turns in a battle. However, when a character is ready to perform an action,
+time will freeze until the action is chosen.
+
+Options in combat (parentheses = submenu, square brackets = info):
+Attack (Physical ([List of physical attacks]), Magical ([List of magic attacks]),
+   Special [Displays as `Speical: SpecialName`])
+Defend (Defend [Basic defense], [List of defense skills])
+Item ([List of combat items])
+Wait [Character does nothing until a button is pushed]
+Escape/Run/Flee [Name pending]
+
+#### Attacking
+TODO: Describe recovery time and cooldown time
+Attacking is the main way of dealing damage in [Some Game]. Every attack will
+have a charge time, recovery time, and a cooldown time.
+
+Charge time determines how long the character will need to wait to perform an
+action after selecting it. Each action will have a specific charge time that
+will be noted in the overworld menu. Inside battle, however, charge time will be
+listed as **instantaneous**, **short**, **medium**, **long**, or **very long**.
+These descriptions correspond to the following time ranges:
+**Instantaneous**: 0 seconds
+**Short**: 0-3 seconds
+**Medium**: 3-6 seconds
+**Long**: 6-9 seconds
+**Very Long**: 9+ seconds
+
+Recovery time determines how long the character will need to wait after an
+action is completed to perform a new action.
+
+##### Types of attack
+TODO: Pretty much everything, espeically formatting
+The two main types of attack for the game will be physical, and magical. 
+Idea for combat: stamina bar, different levels of stamina needed for different
+attacks (more for physical, less for magic [magic would still require some,
+however])
+Stamina gradually replenishes, but attacks can be used without enough stamina,
+with an additional hp cost based on missing stamina (might be % based, or based
+on stamina values directly, not sure yet)
+
+### Overworld
+TODO
 
 ### Ideas taken from Fallout 4
 1. NPC dialogues change depending on the armour I'm wearing (vault suit,
@@ -17,7 +69,7 @@ A place to put diffrent ideas for the game (mainly relating to the story).
 
 ## Program
 
-### Treads
+### Threads
 The program will have 5 threads in total:
 1. Heavy backend work 1
   - **attempt to share as much load with thread 2 as possible - ~50% each**
@@ -26,10 +78,10 @@ The program will have 5 threads in total:
   - hanles displaying stuff/getting input from user
 4. Broadcast
   - will send player info to ally(s)
-  - Protacols [subject to change]
+  - Protocols [subject to change]
     - If 1 ally only - use TCP
     - ~~if multiple are possible - use UDP~~
-5. Recive
+5. Receive
   - Will get ally(s) info and update their local info
 
 ### Intrenal Representation
