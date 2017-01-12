@@ -56,6 +56,8 @@ public:
   std::vector<char> findPath(Location a, Location b);
 
   #ifdef EDITOR
+    //return vector
+    inline std::vector< std::vector<Tile> > getTiles() { return tiles; }
     //resize vectors
     void resize(unsigned int, unsigned int);
 

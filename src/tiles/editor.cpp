@@ -44,7 +44,7 @@ map(textureFileName, mapFileName),
   toolMap(textureFileName, true),
   hoverMap(textureFileName),
   mainWindow(sf::VideoMode(800, 600), "Editor"),
-  toolboxWindow(sf::VideoMode(60, 70), "toolbox"),
+  toolboxWindow(sf::VideoMode(120, 140), "toolbox"),
   selectionRectangle(sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE)),
   listen(2) {
     this->selectionRectangle.setOutlineColor(sf::Color::Magenta);
@@ -76,42 +76,58 @@ int EditorEngine::mainLoop() {
         toolboxWindow.close();
         mainWindow.close();
       }
-      if (event.type == sf::Event::MouseButtonPressed) {
-        setLoc(loc1, toolMap, event);
+      else if (event.type == sf::Event::Resized) {
+        toolboxWindow.setView(sf::View(sf::FloatRect(0.f, 0.f,
+                                                  toolboxWindow.getSize().x,
+                                                  toolboxWindow.getSize().y)));
+      }
+      else if (event.type == sf::Event::MouseButtonPressed) {
+        setLoc(loc1, toolMap, toolboxWindow);
+        #ifdef DEBUG
+          printf("press: %.0f, %.0f\n", loc1.x, loc1.y);
+        #endif
         mousePressed = true;
       }
-      if (event.type == sf::Event::MouseButtonReleased) {
-        setLoc(loc2, toolMap, event);
-        this->selectionRectangle.setPosition(loc1.getX()*Tile::TILE_SIZE,
-                                             loc1.getY()*Tile::TILE_SIZE);
-        sf::Vector2f tmpV2f((loc2.getX()-loc1.getX())*Tile::TILE_SIZE,
-                            (loc2.getY()-loc1.getY())*Tile::TILE_SIZE);
-        this->selectionRectangle.setSize(tmpV2f);
-        mousePressed = false;
-      }
-      if (mousePressed && event.type == sf::Event::MouseMoved) {
-        setLoc(loc2, toolMap, event);
-        sf::Vector2f tmp1(loc1.getX()<loc2.getX() ?loc1.getX() :loc2.getX(),
-                          loc1.getY()<loc2.getY() ?loc1.getY() :loc2.getY());
+      else if (mousePressed &&
+               (event.type == sf::Event::MouseButtonReleased ||
+                event.type == sf::Event::MouseMoved)) {
+        setLoc(loc2, toolMap, toolboxWindow);
 
-        sf::Vector2f tmp2((loc2.getX()-loc1.getX())*Tile::TILE_SIZE,
-                          (loc2.getY()-loc1.getY())*Tile::TILE_SIZE);
+        sf::Vector2f loc1_tmp(loc1);
 
-        tmp1.x *= Tile::TILE_SIZE;
-        tmp1.y *= Tile::TILE_SIZE;
+        if(loc1_tmp.x > loc2.x) {
+          loc1_tmp.x += loc2.x;
+          loc2.x      = loc1_tmp.x - loc2.x;
+          loc1_tmp.x -= loc2.x;
+        }
+        if(loc1_tmp.y > loc2.y) {
+          loc1_tmp.y += loc2.y;
+          loc2.y      = loc1_tmp.y - loc2.y;
+          loc1_tmp.y -= loc2.y;
+        }
 
-        if(tmp2.x < 0)
-          tmp2.x *= -1;
-        if(tmp2.x < Tile::TILE_SIZE)
-          tmp2.x = Tile::TILE_SIZE;
+        loc2.x -= loc1.x - Tile::TILE_SIZE;
+        loc2.y -= loc1.y - Tile::TILE_SIZE;
 
-        if(tmp2.y < 0)
-          tmp2.y *= -1;
-        if(tmp2.y < Tile::TILE_SIZE)
-          tmp2.y = Tile::TILE_SIZE;
+        if(!loc2.x)
+          loc2.x = Tile::TILE_SIZE;
+        if(!loc2.y)
+          loc2.y = Tile::TILE_SIZE;
 
-        this->selectionRectangle.setPosition(tmp1);
-        this->selectionRectangle.setSize(tmp2);
+        this->selectionRectangle.setPosition(loc1_tmp);
+        this->selectionRectangle.setSize(loc2);
+        #ifdef DEBUG
+          printf("moved: (%.0f, %.0f)  -> (%.0f, %.0f)\n", loc1_tmp.x,
+                                                            loc1_tmp.y,
+                                                            loc2.x,
+                                                            loc2.y);
+        #endif
+        if(event.type == sf::Event::MouseButtonReleased) {
+          mousePressed = false;
+          #ifdef DEBUG
+            printf("released\n");
+          #endif
+        }
       }
     }
 

@@ -21,6 +21,10 @@
 #include <sys/stat.h>
 #include <vector>
 
+#ifdef DEBUG
+  #include <stdio.h>
+#endif
+
 #include "tiles/tilemap.hpp"
 
 inline bool fileExists(const std::string& path);
@@ -97,6 +101,9 @@ std::vector<char> TileMap::findPath(Location a, Location b) {
 
 #ifdef EDITOR
   void TileMap::resize(unsigned int width, unsigned int height) {
+    #ifdef DEBUG
+      printf("resize: %d, %d\n", width, height);
+    #endif
     if (width == 0 || height == 0) {
       return;
     }
@@ -141,7 +148,7 @@ std::vector<char> TileMap::findPath(Location a, Location b) {
     data.write((char*)&height, sizeof(height));
 
     for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
-      for (auto tile = (*it).begin(); tile!=(*it).end(); ++tile) {
+      for (auto tile = it->begin(); tile!=it->end(); ++tile) {
         tmps = tile->getBottomTile();
         data.write((char*)&tmps, sizeof(tmps));
         if(tmps) {

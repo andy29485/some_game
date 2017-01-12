@@ -36,7 +36,8 @@ endif()
 
 #add preprocessor definitions
 if (DEFINED DEBUG)
- add_definitions( -DDEBUG) 
+ add_definitions( -DDEBUG)
+ add_definitions( -g )
 endif ()
 
 if (DEFINED EDITOR)
@@ -70,4 +71,3 @@ else()
     sfml-graphics sfml-window sfml-system
   )
 endif()
-
