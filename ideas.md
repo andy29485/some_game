@@ -47,7 +47,7 @@ Recovery time determines how long the character will need to wait after an
 action is completed to perform a new action. Recovery time is measured in
 essentially the same way as charge time [specific when viewed from overworld,
 simplified when displayed in battle], with the only exception being that there
-is no instantaneous speed for recovery. The recovery times are as follows:
+is no instantaneous speed for recovery. [Bill Note: It may be interesting to have skills that posses an instant recovery time, but a non-negligible charge time - possible setup for combos? E.G. a damage amp spell with 6 sec charge and 0 recovery leads immediately into damage spells) The recovery times are as follows:
 - **Short**: 0-2 seconds
 - **Medium**: 2-4 seconds
 - **Long**: 4-6 seconds
