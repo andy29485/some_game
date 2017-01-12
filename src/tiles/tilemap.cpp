@@ -35,11 +35,10 @@ TileMap::TileMap(const std::string& texFileName, const bool& fromTexture) {
   if(fromTexture) {
     this->resize((unsigned)(this->texTiles.getSize().x/Tile::TILE_SIZE),
                  (unsigned)(this->texTiles.getSize().y/Tile::TILE_SIZE));
-    int i = 0;
+    unsigned short i = ~0;
     for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
       for (auto tile = it->begin(); tile != it->end(); ++tile) {
-        tile->setBottomTile(i);
-        ++i;
+        tile->setBottomTile((unsigned short)(++i));
         tile->setTopTile(0);
       }
     }

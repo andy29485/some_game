@@ -21,14 +21,14 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "tiles/tile.hpp"
 
-inline sf::IntRect rect(unsigned, const sf::Texture&, unsigned);
+inline sf::IntRect rect(unsigned, const sf::Texture&);
 
 Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned char state) :
 #ifdef EDITOR
   nTextureBottom(bottom),
   nTextureTop(0),
 #endif
-spriteBottom(tex, rect(bottom, tex, Tile::TILE_SIZE)),
+spriteBottom(tex, rect(bottom, tex)),
 spriteTop(),
 state(state) {
   this->texTiles = &tex;
@@ -40,8 +40,8 @@ Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned short top,
   nTextureBottom(bottom),
   nTextureTop(top),
 #endif
-spriteBottom(tex, rect(bottom, tex, Tile::TILE_SIZE)),
-spriteTop(   tex, rect(top,    tex, Tile::TILE_SIZE)),
+spriteBottom(tex, rect(bottom, tex)),
+spriteTop(   tex, rect(top,    tex)),
 state(state) {
   this->texTiles = &tex;
 }
@@ -68,9 +68,7 @@ void Tile::setBottomTile(unsigned short nTileNum) {
   #ifdef EDITOR
     this->nTextureBottom = nTileNum;
   #endif
-  this->spriteBottom.setTextureRect(rect(nTileNum,
-                                         *this->texTiles, Tile::TILE_SIZE)
-    );
+  this->spriteBottom.setTextureRect(rect(nTileNum, *this->texTiles));
 }
 
 void Tile::setTopTile(unsigned short nTileNum) {
@@ -78,19 +76,17 @@ void Tile::setTopTile(unsigned short nTileNum) {
     this->nTextureTop = nTileNum;
   #endif
   if(nTileNum) {
-    this->spriteTop.setTextureRect(rect(nTileNum,
-                                        *this->texTiles, Tile::TILE_SIZE)
-    );
+    this->spriteTop.setTextureRect(rect(nTileNum, *this->texTiles));
   }
   else {
     this->spriteTop.setTextureRect(sf::IntRect());
   }
 }
 
-inline sf::IntRect rect(unsigned num, const sf::Texture& tex, unsigned size) {
-  return sf::IntRect(num/tex.getSize().x*size*size,
-                    (num%(tex.getSize().x/size))*size,
-                     size,
-                     size);
+inline sf::IntRect rect(unsigned num, const sf::Texture& tex) {
+  return sf::IntRect((num*Tile::TILE_SIZE)/tex.getSize().x*Tile::TILE_SIZE,
+                    (num%(tex.getSize().x/Tile::TILE_SIZE))*Tile::TILE_SIZE,
+                     Tile::TILE_SIZE,
+                     Tile::TILE_SIZE);
 }
 

@@ -21,7 +21,9 @@
 // headers
 #include "tiles/editor.hpp"
 
-inline void setLoc(Location&, const TileMap&, const sf::Event&);
+inline void setLoc(sf::Vector2f&, const TileMap&, const sf::Window&);
+void getSelection(TileMap&, const TileMap&,
+                  const sf::Vector2f&, const sf::Vector2f&);
 
 EditorEngine::EditorEngine(const std::string& textureFileName) :
   map(textureFileName),
@@ -56,7 +58,7 @@ map(textureFileName, mapFileName),
 
 int EditorEngine::mainLoop() {
   bool mousePressed = false;
-  Location loc1, loc2;
+  sf::Vector2f loc1, loc2;
 
   while (mainWindow.isOpen() && toolboxWindow.isOpen()) {
     sf::Event event;
@@ -66,6 +68,16 @@ int EditorEngine::mainLoop() {
       if (event.type == sf::Event::Closed) {
         mainWindow.close();
         toolboxWindow.close();
+      }
+      else if (event.type == sf::Event::Resized) {
+        mainWindow.setView(sf::View(sf::FloatRect(0.f, 0.f,
+                                                  mainWindow.getSize().x,
+                                                  mainWindow.getSize().y)));
+      }
+      else if (event.type == sf::Event::MouseMoved) {
+        sf::Vector2i pos = sf::Mouse::getPosition(mainWindow);
+        hoverMap.setPosition((unsigned)(pos.x/Tile::TILE_SIZE),
+                             (unsigned)(pos.y/Tile::TILE_SIZE));
       }
     }
  
@@ -156,8 +168,26 @@ void EditorEngine::draw() {
   this->mainWindow.draw(this->hoverMap);
 }
 
-inline void setLoc(Location& loc, const TileMap& map, const sf::Event& event) {
-  loc.setPosition((unsigned)(event.mouseButton.x/Tile::TILE_SIZE) + map.getX(),
-                  (unsigned)(event.mouseButton.y/Tile::TILE_SIZE) + map.getY());
+void getSelection(TileMap& hover, const TileMap& map,
+                  const sf::Vector2f& start, const sf::Vector2f& size) {
+  int i, j = 0;
+  hover.resize(size.x, size.y);
+  for(auto it=hover.getTiles().begin(); it!=hover.getTiles().end(); ++it, ++j) {
+    i = 0;
+    for(auto tile=it->begin(); tile!=it->end(); ++tile, ++i) {
+      tile->setBottomTile(map[j][i].getBottomTile());
+      //TODO?
+    }
+  }
+}
+
+inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
+  sf::Vector2i position = sf::Mouse::getPosition(w);
+  #ifdef DEBUG
+    printf("(%d, %d)\n", position.x, position.y);
+  #endif
+
+  v.x = (int)(position.x/Tile::TILE_SIZE + m.getX()) * Tile::TILE_SIZE;
+  v.y = (int)(position.y/Tile::TILE_SIZE + m.getY()) * Tile::TILE_SIZE;
 }
 
