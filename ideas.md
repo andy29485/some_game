@@ -10,11 +10,21 @@ General ideas for the game, ranging from combat to the story.
 *"Stop it. The glass isn't even half-full. It's like...full empty at this point."* - Famine of the Four Horsemen of the Apocalypse
 *"gg kms"* - Death of the Four Horsemen of the Apocalypse
 
-So, uh, let's set the setting. The year is 2126, and the combined efforts of the business magnate CEOs of Google, SpaceX, Facebook, Amazon, and McDonalds (I'm Lovin' It) have, in the previous year, managed to create the Philosopher's Stone, the Fountain of Youth, the Elixir of Immortality. Nicolas Flamel would have been proud, but he's already moved past that and invented time travel, so fuck'im. The drug has swept the world and ushered in a new era of world peace and prosperity, the human race celebrating the miracle that is eternal life. Hate, racism, power struggles, all that bad stuff has also disappeared, possibly as a side-effect of this euphoric moment in history. We're going to be together for the long haul - no need for bad feelings. The world has probably peaked, and will stay at this peak for a long time. Now here's the catch, the un problemo. There is none! Shit, pop a Hennessey and kiss your girl, life's great!
+So, uh, let's set the setting. The year is 2126, and the combined efforts of the business magnate CEOs of Google, SpaceX, Facebook, Apple, and McDonalds (I'm Lovin' It) have, in the previous year, managed to create the Philosopher's Stone, the Fountain of Youth, the Elixir of Immortality. Nicolas Flamel would have been proud, but he's already moved past that and invented time travel, so fuck'im. The drug has swept the world and ushered in a new era of world peace and prosperity, the human race celebrating the miracle that is eternal life. Hate, racism, power struggles, all that bad stuff has also disappeared, possibly as a side-effect of this euphoric moment in history. We're going to be together for the long haul - no need for bad feelings. The world has probably peaked, and will stay at this peak for a long time. Now here's the catch, the un problemo. There is none! Shit, pop a Hennessey and kiss your girl, life's great!
 
 That is, unless your name is one of the following: Steven J. Pestilence, Angelica F. Conquest, Bobby Famine, or Lord Death.
 
+Those four poor souls happen to be the Four Horsemen of the Apocalypse, and it seems like they're suddenly out of a job. Hate to break it to you, but, uh, death's gone out of fashion faster than Carly Rae Jepson. So, you know, there's that.
 
+The plot thickens.
+
+So it goes something like this: unemployed and after a night of furious drinking to recover from the loss of their job, the Four Horsemen have gotten the great idea to incarnate into physical form on a grand journey to fight for their jobs. The problems are that they have lost nearly all of their power, their respective spheres of influence almost stamped out by the golden age of humanity. They're the size of shut-in teenage kids. Lord Death got hit hard, he's the size of a kitten. Upon manifesting, however, they find unlikely allies in the Catholic Church, who are actually furious that death has been abolished, and thus have no more purpose as a religion.
+
+Together, the Apocalypse and the Church plot to assassinate the psychic AI hivemind that is currently at the center of humanity - a great cybernetic being known as Page-Brin-Zuckerberg-Musk-Gates-Jobs-Big-Mac, which controls the distribution of the drug, as well as functioning as the government of the world. They'll struggle against the armed, motorized mecha forces of the Hivemind, create insurgencies in fifteen countries, re-introduce smallpox to the world, and wipe out the leftovers of the Triassic age. Along the way, they will interact with a variety of colorful characters, including the Dalai Lama, a militant cult of temporally misplaced Samurai ("This man named Nicolas Flamel-san desu..."), the former President of the United States (currently working as janitor in the UN HQ), his Holy and Immortal Divinity Kim Jong Un, an ambiguous Frenchman, and a rogue droid who installed the "flirtatious" AI pack by accident. 
+
+Ah, yes, if it's the last thing they do, the Horsement shall return this world to a state of chaos.
+
+*"After all, how the fuck am I supposed to send my goddamn kid to college if I don't have a job?"* - Pestilence
 
 ### Combat
 TODO: Polish and add as necessary
