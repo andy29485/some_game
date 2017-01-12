@@ -57,12 +57,17 @@ public:
 
   #ifdef EDITOR
     //return vector
-    inline std::vector< std::vector<Tile> > getTiles() { return tiles; }
+    inline std::vector< std::vector<Tile> > getTiles() { return this->tiles; }
     //resize vectors
     void resize(unsigned int, unsigned int);
 
     //access vector
-    inline std::vector<Tile>& operator[](std::size_t idx) { return tiles[idx]; }
+    inline const std::vector<Tile>& operator[](std::size_t i) const {
+      return this->tiles[i];
+    }
+    inline std::vector<Tile>& operator[](std::size_t i) {
+      return this->tiles[i];
+    }
 
     //save map to file
     void save(const std::string& filename, bool append = false) const;
