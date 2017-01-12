@@ -129,6 +129,7 @@ int EditorEngine::mainLoop() {
         this->selectionRectangle.setPosition(loc1_tmp);
         this->selectionRectangle.setSize(loc2);
         #ifdef DEBUG
+          getSelection(hoverMap, toolMap, loc1, loc2);
           printf("moved: (%.0f, %.0f)  -> (%.0f, %.0f)\n", loc1_tmp.x,
                                                             loc1_tmp.y,
                                                             loc2.x,
@@ -171,8 +172,8 @@ void EditorEngine::draw() {
 void getSelection(TileMap& hover, const TileMap& map,
                   const sf::Vector2f& start, const sf::Vector2f& size) {
   int i, j = 0;
-  hover.resize(size.x, size.y);
-  for(auto it=hover.getTiles().begin(); it!=hover.getTiles().end(); ++it, ++j) {
+  hover.resize(size.x/Tile::TILE_SIZE, size.y/Tile::TILE_SIZE);
+  for(auto it=hover.begin(); it!=hover.end(); ++it, ++j) {
     i = 0;
     for(auto tile=it->begin(); tile!=it->end(); ++tile, ++i) {
       tile->setBottomTile(map[j][i].getBottomTile());
@@ -182,12 +183,12 @@ void getSelection(TileMap& hover, const TileMap& map,
 }
 
 inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
-  sf::Vector2i position = sf::Mouse::getPosition(w);
+  sf::Vector2i pos = sf::Mouse::getPosition(w);
   #ifdef DEBUG
-    printf("(%d, %d)\n", position.x, position.y);
+    printf("(%d, %d)\n", pos.x/Tile::TILE_SIZE, pos.y/Tile::TILE_SIZE);
   #endif
 
-  v.x = (int)(position.x/Tile::TILE_SIZE + m.getX()) * Tile::TILE_SIZE;
-  v.y = (int)(position.y/Tile::TILE_SIZE + m.getY()) * Tile::TILE_SIZE;
+  v.x = (int)(pos.x/Tile::TILE_SIZE + m.getX()) * Tile::TILE_SIZE;
+  v.y = (int)(pos.y/Tile::TILE_SIZE + m.getY()) * Tile::TILE_SIZE;
 }
 

@@ -56,15 +56,32 @@ public:
   std::vector<char> findPath(Location a, Location b);
 
   #ifdef EDITOR
-    //return vector
-    inline std::vector< std::vector<Tile> > getTiles() { return this->tiles; }
+    //return vector iterator[const]
+    inline std::vector< std::vector<Tile> >::const_iterator begin() const {
+      return this->tiles.begin();
+    }
+    //return vector iterator
+    inline std::vector< std::vector<Tile> >::iterator begin() {
+      return this->tiles.begin();
+    }
+
+    //return vector iterator end[const]
+    inline std::vector< std::vector<Tile> >::const_iterator end() const {
+      return this->tiles.end();
+    }
+    //return vector iterator end
+    inline std::vector< std::vector<Tile> >::iterator end() {
+      return this->tiles.end();
+    }
+
     //resize vectors
     void resize(unsigned int, unsigned int);
 
-    //access vector
+    //access vector[const
     inline const std::vector<Tile>& operator[](std::size_t i) const {
       return this->tiles[i];
     }
+    //access vector
     inline std::vector<Tile>& operator[](std::size_t i) {
       return this->tiles[i];
     }
