@@ -5,7 +5,16 @@ An overview for the main parts of the game.
 General ideas for the game, ranging from combat to the story.
 
 ### Story
-TODO
+*"Fuck, I think we're unemployed?!"* - Pestilence of the Four Horsemen of the Apocalypse
+*"It's more like this is a chance for us to show off a bit, hmm?"* - Conquest of the Four Horsemen of the Apocalypse
+*"Stop it. The glass isn't even half-full. It's like...full empty at this point."* - Famine of the Four Horsemen of the Apocalypse
+*"gg kms"* - Death of the Four Horsemen of the Apocalypse
+
+So, uh, let's set the setting. The year is 2126, and the combined efforts of the business magnate CEOs of Google, SpaceX, Facebook, Amazon, and McDonalds (I'm Lovin' It) have, in the previous year, managed to create the Philosopher's Stone, the Fountain of Youth, the Elixir of Immortality. Nicolas Flamel would have been proud, but he's already moved past that and invented time travel, so fuck'im. The drug has swept the world and ushered in a new era of world peace and prosperity, the human race celebrating the miracle that is eternal life. Hate, racism, power struggles, all that bad stuff has also disappeared, possibly as a side-effect of this euphoric moment in history. We're going to be together for the long haul - no need for bad feelings. The world has probably peaked, and will stay at this peak for a long time. Now here's the catch, the un problemo. There is none! Shit, pop a Hennessey and kiss your girl, life's great!
+
+That is, unless your name is one of the following: Steven J. Pestilence, Angelica F. Conquest, Bobby Famine, or Lord Death.
+
+
 
 ### Combat
 TODO: Polish and add as necessary
