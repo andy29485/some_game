@@ -51,7 +51,7 @@ if( UNIX )
     "${LEARN_CMAKE_DEFINITIONS} -Wall -Wextra -Werror
     -Wno-deprecated-declarations -Wno-unused-parameter -Wno-comment" 
   )
-elseif( WIN32 )
+elseif( DEFINED SFML_PATH )
   cmake_policy(SET CMP0015 OLD)
   include_directories(${SFML_PATH}/include)
   link_directories(${SFML_PATH}/lib)
@@ -64,8 +64,11 @@ add_executable(${${PROJECT_NAME}_EXEC_NAME} ${${PROJECT_NAME}_SOURCES})
 # Link the libraries
 if( WIN32 )
   target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
-    sfml-graphics-s sfml-window-s sfml-system-s
+    sfml-graphics sfml-window sfml-system
   )
+  add_definitions( -static-libgcc )
+  add_definitions( -static-libstdc++ )
+  add_definitions( -static )
 else()
   target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
     sfml-graphics sfml-window sfml-system
