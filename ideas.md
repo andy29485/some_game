@@ -10,9 +10,7 @@ Ganth are not the horsemen
 Hell On Earth: The Horse Chronicles (Shortened: HOE: Horse)  
 Unemployment of the Gods  
 The Apocolyptic Depression  
-Revelations Realized: The Horsemen Ride  
-Revelations
-godel escher bach
+Revelations Realized: The Horsemen Ride
 
 ### Story
 *"Fuck, I think we're unemployed?!"* - Pestilence of the Four Horsemen of the
