@@ -95,6 +95,16 @@ int EditorEngine::mainLoop() {
       }
       else if (event.type == sf::Event::MouseButtonPressed) {
         setLoc(loc1, toolMap, toolboxWindow);
+
+        if(loc1.x < 0)
+          loc1.x = 0;
+        else if(loc1.x >= toolMap.getWidth()*Tile::TILE_SIZE)
+          loc1.x = (toolMap.getWidth()-1)*Tile::TILE_SIZE;
+        if(loc1.y < 0)
+          loc1.y = 0;
+        else if(loc1.y >= toolMap.getHeight()*Tile::TILE_SIZE)
+          loc1.y = (toolMap.getHeight()-1)*Tile::TILE_SIZE;
+
         #ifdef DEBUG
           printf("press: %.0f, %.0f\n", loc1.x, loc1.y);
         #endif
@@ -104,6 +114,15 @@ int EditorEngine::mainLoop() {
                (event.type == sf::Event::MouseButtonReleased ||
                 event.type == sf::Event::MouseMoved)) {
         setLoc(loc2, toolMap, toolboxWindow);
+
+        if(loc2.x < 0)
+          loc2.x = 0;
+        else if(loc2.x >= toolMap.getWidth()*Tile::TILE_SIZE)
+          loc2.x = (toolMap.getWidth()-1)*Tile::TILE_SIZE;
+        if(loc2.y < 0)
+          loc2.y = 0;
+        else if(loc2.y >= toolMap.getHeight()*Tile::TILE_SIZE)
+          loc2.y = (toolMap.getHeight()-1)*Tile::TILE_SIZE;
 
         sf::Vector2f loc1_tmp(loc1);
 

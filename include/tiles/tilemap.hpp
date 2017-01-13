@@ -74,6 +74,10 @@ public:
       return this->tiles.end();
     }
 
+    //get size of map
+    inline unsigned getWidth()  const { return this->tiles[0].size(); }
+    inline unsigned getHeight() const { return this->tiles.size(); }
+
     //resize vectors
     void resize(unsigned int, unsigned int);
 
