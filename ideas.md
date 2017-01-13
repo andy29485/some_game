@@ -4,6 +4,16 @@ An overview for the main parts of the game.
 ## Game Design
 General ideas for the game, ranging from combat to the story.
 
+### Title Ideas
+Hell On Earth: Return of the Horsemen  
+Ganth are not the horsemen  
+Hell On Earth: The Horse Chronicles (Shortened: HOE: Horse)  
+Unemployment of the Gods  
+The Apocolyptic Depression  
+Revelations Realized: The Horsemen Ride  
+Revelations
+godel escher bach
+
 ### Story
 *"Fuck, I think we're unemployed?!"* - Pestilence of the Four Horsemen of the
 Apocalypse
