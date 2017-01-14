@@ -79,6 +79,10 @@ int EditorEngine::mainLoop() {
         hoverMap.setPosition((unsigned)(pos.x/Tile::TILE_SIZE),
                              (unsigned)(pos.y/Tile::TILE_SIZE));
       }
+      else if(event.type == sf::Event::MouseMoved) {
+        sf::Vector2i pos = sf::Mouse::getPosition(mainWindow);
+        this->hoverMap.setPosition(pos.x/Tile::TILE_SIZE,pos.y/Tile::TILE_SIZE);
+      }
     }
  
     //Process toolboxWindow events
@@ -190,15 +194,16 @@ void EditorEngine::draw() {
 
 void getSelection(TileMap& hover, const TileMap& map,
                   const sf::Vector2f& start, const sf::Vector2f& size) {
-  int i, j = 0;
+  int i, j = start.y/Tile::TILE_SIZE;
   hover.resize(size.x/Tile::TILE_SIZE, size.y/Tile::TILE_SIZE);
   for(auto it=hover.begin(); it!=hover.end(); ++it, ++j) {
-    i = 0;
+    i = start.x/Tile::TILE_SIZE;
     for(auto tile=it->begin(); tile!=it->end(); ++tile, ++i) {
       tile->setBottomTile(map[j][i].getBottomTile());
       //TODO?
     }
   }
+  hover.redraw();
 }
 
 inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {

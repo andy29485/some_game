@@ -20,6 +20,7 @@
 
 #include <sys/stat.h>
 #include <vector>
+#include <algorithm>
 
 #ifdef DEBUG
   #include <stdio.h>
@@ -81,16 +82,12 @@ bool TileMap::move(int x, int y) {
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   int startI, startJ, endI, endJ;
 
-  startI = this->getX() * Tile::TILE_SIZE;
-  startJ = this->getY() * Tile::TILE_SIZE;
-  endI   = (int)target.getSize().x;
-  endJ   = (int)target.getSize().y;
-
-  target.draw(sf::Sprite(renderTexture.getTexture(),
-                         sf::IntRect(startI, startJ, endI, endJ)
-              ),
-              states
+  sf::Sprite sprite(renderTexture.getTexture());
+  sprite.setPosition(this->getX()*Tile::TILE_SIZE,
+                     this->getY()*Tile::TILE_SIZE
   );
+
+  target.draw(sprite, states);
 }
 
 //find shortest path between two locations
