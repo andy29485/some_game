@@ -63,12 +63,21 @@ add_executable(${${PROJECT_NAME}_EXEC_NAME} ${${PROJECT_NAME}_SOURCES})
 # Set linked libs
 # Link the libraries
 if( WIN32 )
-  target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
-    sfml-graphics sfml-window sfml-system
+  add_definitions( -DSFML_STATIC )
+  set_target_properties(${${PROJECT_NAME}_EXEC_NAME}
+                        PROPERTIES LINK_SEARCH_START_STATIC 1
   )
-  add_definitions( -static-libgcc )
-  add_definitions( -static-libstdc++ )
-  add_definitions( -static )
+  set_target_properties(${${PROJECT_NAME}_EXEC_NAME}
+                        PROPERTIES LINK_SEARCH_END_STATIC 1
+  )
+  set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+  add_definitions(
+    -static -static-libgcc -static-libstdc++
+  )
+  target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
+    sfml-graphics-s sfml-window-s sfml-system-s
+    opengl32 winmm gdi32 freetype jpeg libgcc_s_seh-1 pthread
+  )
 else()
   target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
     sfml-graphics sfml-window sfml-system
