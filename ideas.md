@@ -100,6 +100,7 @@ Escape/Run/Flee [Name pending]
 
 #### Attacking
 TODO: Polish and add as necessary
+
 Attacking is the main way of dealing damage in [Some Game]. Every attack will
 have a charge time, recovery time, and a cooldown time.
 
