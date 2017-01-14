@@ -71,9 +71,13 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
                            const std::string& mapFileName) {
   bool mousePressed1 = false;
   bool mousePressed2 = false;
-  sf::Vector2f loc1, loc2, loc3, loc4, loc1_tmp, loc3_tmp;
+  sf::Vector2f loc1, loc2(Tile::TILE_SIZE, Tile::TILE_SIZE);
+  sf::Vector2f loc3, loc4, loc1_tmp, loc3_tmp;
 
   while (mainWindow.isOpen() && toolboxWindow.isOpen()) {
+    //TODO - Change modes: top/bottom/state
+    //TODO - Change state
+    //TODO - View current mode/state
     sf::Event event;
     //Process mainWindow events
     while (mainWindow.pollEvent(event)) {
