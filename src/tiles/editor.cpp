@@ -111,8 +111,8 @@ int EditorEngine::mainLoop() {
         }
         if(mousePressed2 && event.type == sf::Event::MouseButtonReleased) {
           //TODO put the hover thing down
-          if(std::abs(loc4.x - Tile::TILE_SIZE) < 0.001 &&
-             std::abs(loc4.x - loc4.y) < 0.001)
+          if((int)(loc4.x - Tile::TILE_SIZE) == 0 &&
+             (int)(loc4.x - loc4.y) == 0)
             copyTiles(toolMap, map,
                       loc1_tmp, loc3_tmp,
                       loc2, loc2, false);
