@@ -43,6 +43,9 @@ EditorEngine::EditorEngine(const std::string& textureFileName) :
     this->selectionRectangle.setOutlineThickness(-4);
     this->mainWindow.setFramerateLimit(30);
     this->toolboxWindow.setFramerateLimit(30);
+    getSelection(hoverMap, toolMap, sf::Vector2f(),
+                 sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE), false
+    );
 }
 
 EditorEngine::EditorEngine(const std::string& textureFileName,
@@ -59,9 +62,13 @@ map(textureFileName, mapFileName),
     this->selectionRectangle.setOutlineThickness(-4);
     this->mainWindow.setFramerateLimit(30);
     this->toolboxWindow.setFramerateLimit(30);
+    getSelection(hoverMap, toolMap, sf::Vector2f(),
+                 sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE), false
+    );
 }
 
-int EditorEngine::mainLoop() {
+int EditorEngine::mainLoop(const std::string& textureFileName,
+                           const std::string& mapFileName) {
   bool mousePressed1 = false;
   bool mousePressed2 = false;
   sf::Vector2f loc1, loc2, loc3, loc4, loc1_tmp, loc3_tmp;
@@ -79,6 +86,16 @@ int EditorEngine::mainLoop() {
         mainWindow.setView(sf::View(sf::FloatRect(0.f, 0.f,
                                                   mainWindow.getSize().x,
                                                   mainWindow.getSize().y)));
+      }
+      else if(event.type == sf::Event::KeyPressed) {
+        switch(event.key.code) {
+          case sf::Keyboard::S:
+            this->map.save(mapFileName);
+            break;
+          case sf::Keyboard::L:
+            this->map.load(mapFileName);
+            break;
+        }
       }
       else if(event.type == sf::Event::MouseButtonPressed) {
         setLoc(loc3, map, mainWindow);

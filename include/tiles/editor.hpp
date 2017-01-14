@@ -68,7 +68,7 @@ public:
   EditorEngine(const std::string&, const std::string&);
 
   // Main loop of the editor
-  int mainLoop();
+  int mainLoop(const std::string&, const std::string&);
   
   // Render the graphics on to the screen
   void draw();

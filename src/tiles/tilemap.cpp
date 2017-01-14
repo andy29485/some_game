@@ -207,6 +207,8 @@ std::streampos TileMap::load(const std::string& filename,
   std::streampos new_pos = data.tellg();
   data.close();
 
+  this->redraw();
+
   return new_pos;
 }
 

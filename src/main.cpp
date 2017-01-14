@@ -49,7 +49,7 @@ int main(const int argc, char const** argv) {
       tiles = "tiles.png";
     }
     EditorEngine ee(tiles, map);
-    return ee.mainLoop();
+    return ee.mainLoop(tiles, map);
   #else
     //TODO Regular game stuff
   #endif
