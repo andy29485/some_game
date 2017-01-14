@@ -22,8 +22,13 @@
 #include "tiles/editor.hpp"
 
 inline void setLoc(sf::Vector2f&, const TileMap&, const sf::Window&);
-void getSelection(TileMap&, const TileMap&,
-                  const sf::Vector2f&, const sf::Vector2f&);
+void getSelection(TileMap& hover, const TileMap& map,
+                  const sf::Vector2f& start, const sf::Vector2f& size,
+                  bool setTop);
+void copyTiles(const TileMap& src, TileMap& dest,
+          const sf::Vector2f& start_src, const sf::Vector2f& start_dest,
+          const sf::Vector2f& size_src, const sf::Vector2f& size_dest,
+          bool setTop);
 
 EditorEngine::EditorEngine(const std::string& textureFileName) :
   map(textureFileName),
@@ -57,8 +62,9 @@ map(textureFileName, mapFileName),
 }
 
 int EditorEngine::mainLoop() {
-  bool mousePressed = false;
-  sf::Vector2f loc1, loc2;
+  bool mousePressed1 = false;
+  bool mousePressed2 = false;
+  sf::Vector2f loc1, loc2, loc3, loc4, loc1_tmp, loc3_tmp;
 
   while (mainWindow.isOpen() && toolboxWindow.isOpen()) {
     sf::Event event;
@@ -74,14 +80,49 @@ int EditorEngine::mainLoop() {
                                                   mainWindow.getSize().x,
                                                   mainWindow.getSize().y)));
       }
-      else if (event.type == sf::Event::MouseMoved) {
-        sf::Vector2i pos = sf::Mouse::getPosition(mainWindow);
-        hoverMap.setPosition((unsigned)(pos.x/Tile::TILE_SIZE),
-                             (unsigned)(pos.y/Tile::TILE_SIZE));
+      else if(event.type == sf::Event::MouseButtonPressed) {
+        setLoc(loc3, map, mainWindow);
+        mousePressed2 = true;
       }
-      else if(event.type == sf::Event::MouseMoved) {
-        sf::Vector2i pos = sf::Mouse::getPosition(mainWindow);
-        this->hoverMap.setPosition(pos.x/Tile::TILE_SIZE,pos.y/Tile::TILE_SIZE);
+      else if (event.type == sf::Event::MouseButtonReleased ||
+               event.type == sf::Event::MouseMoved) {
+        if(mousePressed2) {
+          setLoc(loc4, map, mainWindow);
+
+          loc3_tmp = sf::Vector2f(loc3);
+
+          if(loc3_tmp.x > loc4.x) {
+            loc3_tmp.x += loc4.x;
+            loc4.x      = loc3_tmp.x - loc4.x;
+            loc3_tmp.x -= loc4.x;
+          }
+          if(loc3_tmp.y > loc4.y) {
+            loc3_tmp.y += loc4.y;
+            loc4.y      = loc3_tmp.y - loc4.y;
+            loc3_tmp.y -= loc4.y;
+          }
+          loc4.x -= loc3_tmp.x - Tile::TILE_SIZE;
+          loc4.y -= loc3_tmp.y - Tile::TILE_SIZE;
+
+          hoverMap.resize(loc4.x/Tile::TILE_SIZE, loc4.y/Tile::TILE_SIZE);
+          copyTiles(toolMap, hoverMap,
+                    loc1_tmp, sf::Vector2f(0,0),
+                    loc2, loc4, false);
+        }
+        if(mousePressed2 && event.type == sf::Event::MouseButtonReleased) {
+          //TODO put the hover thing down
+          copyTiles(hoverMap, map,
+                    sf::Vector2f(0,0), loc3_tmp,
+                    loc4, loc4, false);
+          getSelection(hoverMap, toolMap, loc1, loc2, false);
+          mousePressed2 = false;
+        }
+        if(!mousePressed2) {
+          sf::Vector2i pos = sf::Mouse::getPosition(mainWindow);
+          this->hoverMap.setPosition(pos.x/Tile::TILE_SIZE,
+                                     pos.y/Tile::TILE_SIZE
+          );
+        }
       }
     }
  
@@ -100,35 +141,17 @@ int EditorEngine::mainLoop() {
       else if (event.type == sf::Event::MouseButtonPressed) {
         setLoc(loc1, toolMap, toolboxWindow);
 
-        if(loc1.x < 0)
-          loc1.x = 0;
-        else if(loc1.x >= toolMap.getWidth()*Tile::TILE_SIZE)
-          loc1.x = (toolMap.getWidth()-1)*Tile::TILE_SIZE;
-        if(loc1.y < 0)
-          loc1.y = 0;
-        else if(loc1.y >= toolMap.getHeight()*Tile::TILE_SIZE)
-          loc1.y = (toolMap.getHeight()-1)*Tile::TILE_SIZE;
-
         #ifdef DEBUG
           printf("press: %.0f, %.0f\n", loc1.x, loc1.y);
         #endif
-        mousePressed = true;
+        mousePressed1 = true;
       }
-      else if (mousePressed &&
+      else if (mousePressed1 &&
                (event.type == sf::Event::MouseButtonReleased ||
                 event.type == sf::Event::MouseMoved)) {
         setLoc(loc2, toolMap, toolboxWindow);
 
-        if(loc2.x < 0)
-          loc2.x = 0;
-        else if(loc2.x >= toolMap.getWidth()*Tile::TILE_SIZE)
-          loc2.x = (toolMap.getWidth()-1)*Tile::TILE_SIZE;
-        if(loc2.y < 0)
-          loc2.y = 0;
-        else if(loc2.y >= toolMap.getHeight()*Tile::TILE_SIZE)
-          loc2.y = (toolMap.getHeight()-1)*Tile::TILE_SIZE;
-
-        sf::Vector2f loc1_tmp(loc1);
+        loc1_tmp = sf::Vector2f(loc1);
 
         if(loc1_tmp.x > loc2.x) {
           loc1_tmp.x += loc2.x;
@@ -141,8 +164,8 @@ int EditorEngine::mainLoop() {
           loc1_tmp.y -= loc2.y;
         }
 
-        loc2.x -= loc1.x - Tile::TILE_SIZE;
-        loc2.y -= loc1.y - Tile::TILE_SIZE;
+        loc2.x -= loc1_tmp.x - Tile::TILE_SIZE;
+        loc2.y -= loc1_tmp.y - Tile::TILE_SIZE;
 
         if(!loc2.x)
           loc2.x = Tile::TILE_SIZE;
@@ -151,15 +174,15 @@ int EditorEngine::mainLoop() {
 
         this->selectionRectangle.setPosition(loc1_tmp);
         this->selectionRectangle.setSize(loc2);
+        getSelection(hoverMap, toolMap, loc1, loc2, false);
         #ifdef DEBUG
-          getSelection(hoverMap, toolMap, loc1, loc2);
           printf("moved: (%.0f, %.0f)  -> (%.0f, %.0f)\n", loc1_tmp.x,
                                                             loc1_tmp.y,
                                                             loc2.x,
                                                             loc2.y);
         #endif
-        if(event.type == sf::Event::MouseButtonReleased) {
-          mousePressed = false;
+        if(mousePressed1 && event.type == sf::Event::MouseButtonReleased) {
+          mousePressed1 = false;
           #ifdef DEBUG
             printf("released\n");
           #endif
@@ -193,17 +216,42 @@ void EditorEngine::draw() {
 }
 
 void getSelection(TileMap& hover, const TileMap& map,
-                  const sf::Vector2f& start, const sf::Vector2f& size) {
-  int i, j = start.y/Tile::TILE_SIZE;
+                  const sf::Vector2f& start, const sf::Vector2f& size,
+                  bool setTop) {
   hover.resize(size.x/Tile::TILE_SIZE, size.y/Tile::TILE_SIZE);
-  for(auto it=hover.begin(); it!=hover.end(); ++it, ++j) {
-    i = start.x/Tile::TILE_SIZE;
-    for(auto tile=it->begin(); tile!=it->end(); ++tile, ++i) {
-      tile->setBottomTile(map[j][i].getBottomTile());
-      //TODO?
+  copyTiles(map, hover, start, sf::Vector2f(0,0), size, size, setTop);
+}
+
+void copyTiles(const TileMap& src, TileMap& dest,
+          const sf::Vector2f& start_src, const sf::Vector2f& start_dest,
+          const sf::Vector2f& size_src, const sf::Vector2f& size_dest,
+          bool setTop) {
+  int i;
+  int j = 0;
+
+  int src_max_y   = (int)(size_src.y/Tile::TILE_SIZE);
+  int src_start_y = (int)(start_src.y/Tile::TILE_SIZE);
+  int src_max_x   = (int)(size_src.x/Tile::TILE_SIZE);
+  int src_start_x = (int)(start_src.x/Tile::TILE_SIZE);
+  
+  auto it     = dest.begin()+(int)(start_dest.y/Tile::TILE_SIZE);
+  auto end_dy = it+(int)(size_dest.y/Tile::TILE_SIZE);
+
+  for(; it!=end_dy; ++it,++j) {
+    i = 0;
+
+    auto tile   = it->begin()+(int)(start_dest.x/Tile::TILE_SIZE);
+    auto end_dx = tile+(int)(size_dest.x/Tile::TILE_SIZE);
+
+    for(; tile!=end_dx; ++tile, ++i) {
+      const Tile& st = src[j%src_max_y+src_start_y][i%src_max_x+src_start_x];
+      if(setTop)
+        tile->setTopTile(st.getBottomTile());
+      else
+        tile->setBottomTile(st.getBottomTile());
     }
   }
-  hover.redraw();
+  dest.redraw();
 }
 
 inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
@@ -214,5 +262,14 @@ inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
 
   v.x = (int)(pos.x/Tile::TILE_SIZE + m.getX()) * Tile::TILE_SIZE;
   v.y = (int)(pos.y/Tile::TILE_SIZE + m.getY()) * Tile::TILE_SIZE;
+
+  if(v.x < 0)
+    v.x = 0;
+  else if(v.x >= m.getWidth()*Tile::TILE_SIZE)
+    v.x = (m.getWidth()-1)*Tile::TILE_SIZE;
+  if(v.y < 0)
+    v.y = 0;
+  else if(v.y >= m.getHeight()*Tile::TILE_SIZE)
+    v.y = (m.getHeight()-1)*Tile::TILE_SIZE;
 }
 
