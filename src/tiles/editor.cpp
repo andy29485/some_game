@@ -111,16 +111,27 @@ int EditorEngine::mainLoop() {
         }
         if(mousePressed2 && event.type == sf::Event::MouseButtonReleased) {
           //TODO put the hover thing down
-          copyTiles(hoverMap, map,
-                    sf::Vector2f(0,0), loc3_tmp,
-                    loc4, loc4, false);
+          if(std::abs(loc4.x - Tile::TILE_SIZE) < 0.001 &&
+             std::abs(loc4.x - loc4.y) < 0.001)
+            copyTiles(toolMap, map,
+                      loc1_tmp, loc3_tmp,
+                      loc2, loc2, false);
+          else
+            copyTiles(hoverMap, map,
+                      sf::Vector2f(0,0), loc3_tmp,
+                      loc4, loc4, false);
           getSelection(hoverMap, toolMap, loc1, loc2, false);
           mousePressed2 = false;
         }
         if(!mousePressed2) {
           sf::Vector2i pos = sf::Mouse::getPosition(mainWindow);
-          this->hoverMap.setPosition(pos.x/Tile::TILE_SIZE,
-                                     pos.y/Tile::TILE_SIZE
+          this->hoverMap.setPosition((int)(pos.x/Tile::TILE_SIZE),
+                                     (int)(pos.y/Tile::TILE_SIZE)
+          );
+        }
+        else {
+          this->hoverMap.setPosition((int)(loc3_tmp.x/Tile::TILE_SIZE),
+                                     (int)(loc3_tmp.y/Tile::TILE_SIZE)
           );
         }
       }

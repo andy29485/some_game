@@ -84,8 +84,8 @@ void Tile::setTopTile(unsigned short nTileNum) {
 }
 
 inline sf::IntRect rect(unsigned num, const sf::Texture& tex) {
-  return sf::IntRect((num*Tile::TILE_SIZE)/tex.getSize().x*Tile::TILE_SIZE,
-                    (num%(tex.getSize().x/Tile::TILE_SIZE))*Tile::TILE_SIZE,
+  return sf::IntRect((num%(tex.getSize().x/Tile::TILE_SIZE))*Tile::TILE_SIZE,
+                    (num*Tile::TILE_SIZE)/tex.getSize().x*Tile::TILE_SIZE,
                      Tile::TILE_SIZE,
                      Tile::TILE_SIZE);
 }
