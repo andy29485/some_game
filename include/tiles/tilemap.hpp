@@ -24,6 +24,7 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 
 #include "tiles/tile.hpp"
@@ -39,13 +40,29 @@ class TileMap : public sf::Drawable, public Location {
   //Texture containing all tiles that this map will use
   sf::Texture texTiles;
 
+  #ifdef EDITOR
+    const sf::Font& font;
+    bool            drawState;
+  #endif
+
   //RenderTexture containing image of the map, used to render map faster
   sf::RenderTexture renderTexture;
+  #ifdef EDITOR
+    //additional render texture with state for the the editor
+    sf::RenderTexture renderTextureState;
+  #endif
 
 public:
   //Constructors
-  TileMap(const std::string& texFileName, const bool& fromTexture = false );
-  TileMap(const std::string& texFileName, const std::string& mapFileName);
+  #ifdef EDITOR
+    TileMap(const std::string& texFileName, const sf::Font&,
+            const bool& fromTexture = false);
+    TileMap(const std::string& texFileName, const std::string& mapFileName,
+            const sf::Font&);
+  #else
+    TileMap(const std::string& texFileName, const bool& fromTexture = false);
+    TileMap(const std::string& texFileName, const std::string& mapFileName);
+  #endif
 
   bool move(int x, int y);
 
@@ -56,6 +73,8 @@ public:
   std::vector<char> findPath(Location a, Location b);
 
   #ifdef EDITOR
+    void setDrawState(const bool&);
+
     //return vector iterator[const]
     inline std::vector< std::vector<Tile> >::const_iterator begin() const {
       return this->tiles.begin();

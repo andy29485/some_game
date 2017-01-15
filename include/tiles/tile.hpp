@@ -21,6 +21,10 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#ifdef EDITOR
+  #include <SFML/Graphics/Text.hpp>
+  #include <SFML/Graphics/Font.hpp>
+#endif
 #include "tiles/location.hpp"
 
 #ifndef TILE_HPP
@@ -35,6 +39,8 @@ class Tile : public sf::Drawable {
   #ifdef EDITOR
     unsigned short nTextureBottom;
     unsigned short nTextureTop;
+    sf::Text       textState;
+    bool           drawState;
   #endif
   sf::Sprite spriteBottom;
   sf::Sprite spriteTop;
@@ -52,8 +58,15 @@ public:
   static const unsigned int TILE_SIZE = 30;
 
   //Constructors
-  Tile(const sf::Texture&, unsigned short, unsigned char);
-  Tile(const sf::Texture&, unsigned short, unsigned short, unsigned char);
+  #ifdef EDITOR
+    Tile(const sf::Texture&, unsigned short, unsigned char, const sf::Font&);
+    Tile(const sf::Texture&, unsigned short, unsigned short, unsigned char,
+         const sf::Font&
+    );
+  #else
+    Tile(const sf::Texture&, unsigned short, unsigned char);
+    Tile(const sf::Texture&, unsigned short, unsigned short, unsigned char);
+  #endif
   
   //Draw tile
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -64,6 +77,8 @@ public:
   void setPosition(unsigned int, unsigned int);
 
   #ifdef EDITOR
+    void setDrawState(const bool&);
+
     inline unsigned short getBottomTile() const { return this->nTextureBottom; }
     inline unsigned short getTopTile()    const { return this->nTextureTop; }
   #endif

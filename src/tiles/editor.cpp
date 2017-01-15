@@ -21,47 +21,84 @@
 // headers
 #include "tiles/editor.hpp"
 
+std::string help = \
+           "Help\n\n" \
+           "Buttons:\n" \
+           "S      - save map\n" \
+           "L      - load map\n" \
+           "+/=    - increase state\n" \
+           "-/_    - decrease state\n" \
+           "Arrows - pan map of selected window\n" \
+           "Tab    - see states of tiles(temporarly)\n" \
+           "/      - see help\n\n" \
+           "Modes:\n" \
+           "bottom - change bottom part of tiles\n" \
+           "top    - change top part of tiles\n" \
+           "state  - change the state of tiles\n\n" \
+           "Other Actions:\n" \
+           "Scroll up/down        - change mode\n" \
+           "Click on toolbox      - select tile\n" \
+           "Click on map          - stamp selected tiles/set state of tile\n" \
+           "Click+drag on toolbox - select multiple tiles\n" \
+           "Click+drag on map     - stamp selection repeatedly";
+
 inline void setLoc(sf::Vector2f&, const TileMap&, const sf::Window&);
 void getSelection(TileMap& hover, const TileMap& map,
                   const sf::Vector2f& start, const sf::Vector2f& size,
                   bool setTop);
+void copyState(TileMap&, const sf::Vector2f&, const sf::Vector2f&,
+               const unsigned char&);
 void copyTiles(const TileMap& src, TileMap& dest,
           const sf::Vector2f& start_src, const sf::Vector2f& start_dest,
           const sf::Vector2f& size_src, const sf::Vector2f& size_dest,
           bool setTop);
 
-EditorEngine::EditorEngine(const std::string& textureFileName) :
-  map(textureFileName),
-  toolMap(textureFileName, true),
-  hoverMap(textureFileName),
+EditorEngine::EditorEngine(const std::string& textureFileName,
+                           const sf::Font& font) :
+  map(textureFileName, font),
+  toolMap(textureFileName, font, true),
+  hoverMap(textureFileName, font),
+  textMode("bottom - 0", font),
+  helpText(help, font, 17),
+  mode(0),
+  state(0),
+  showHelp(false),
   mainWindow(sf::VideoMode(800, 600), "Editor"),
   toolboxWindow(sf::VideoMode(60, 70), "toolbox"),
-  selectionRectangle(sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE)),
-  listen(2) {
+  selectionRectangle(sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE)) {
     this->selectionRectangle.setOutlineColor(sf::Color::Magenta);
     this->selectionRectangle.setFillColor(sf::Color::Transparent);
     this->selectionRectangle.setOutlineThickness(-4);
     this->mainWindow.setFramerateLimit(30);
     this->toolboxWindow.setFramerateLimit(30);
+    this->textMode.setOrigin(this->textMode.getLocalBounds().width/2, 0);
+    this->textMode.setPosition(this->mainWindow.getSize().x/2, 5);
     getSelection(hoverMap, toolMap, sf::Vector2f(),
                  sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE), false
     );
 }
 
 EditorEngine::EditorEngine(const std::string& textureFileName,
-                           const std::string& mapFileName) :
-map(textureFileName, mapFileName),
-  toolMap(textureFileName, true),
-  hoverMap(textureFileName),
+                           const std::string& mapFileName,
+                           const sf::Font& font) :
+  map(textureFileName, mapFileName, font),
+  toolMap(textureFileName, font, true),
+  hoverMap(textureFileName, font),
+  textMode("bottom - 0", font),
+  helpText(help, font, 17),
+  mode(0),
+  state(0),
+  showHelp(false),
   mainWindow(sf::VideoMode(800, 600), "Editor"),
   toolboxWindow(sf::VideoMode(120, 140), "toolbox"),
-  selectionRectangle(sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE)),
-  listen(2) {
+  selectionRectangle(sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE)) {
     this->selectionRectangle.setOutlineColor(sf::Color::Magenta);
     this->selectionRectangle.setFillColor(sf::Color::Transparent);
     this->selectionRectangle.setOutlineThickness(-4);
     this->mainWindow.setFramerateLimit(30);
     this->toolboxWindow.setFramerateLimit(30);
+    this->textMode.setOrigin(this->textMode.getLocalBounds().width/2, 0);
+    this->textMode.setPosition(this->mainWindow.getSize().x/2, 5);
     getSelection(hoverMap, toolMap, sf::Vector2f(),
                  sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE), false
     );
@@ -90,6 +127,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
         mainWindow.setView(sf::View(sf::FloatRect(0.f, 0.f,
                                                   mainWindow.getSize().x,
                                                   mainWindow.getSize().y)));
+        this->textMode.setPosition(this->mainWindow.getSize().x/2, 5);
       }
       else if(event.type == sf::Event::KeyPressed) {
         switch(event.key.code) {
@@ -99,7 +137,49 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           case sf::Keyboard::L:
             this->map.load(mapFileName);
             break;
+          case sf::Keyboard::Slash:
+            this->showHelp = true;
+            break;
+          case sf::Keyboard::Equal:
+          case sf::Keyboard::Add:
+            ++this->state;
+            this->updateMode();
+            break;
+          case sf::Keyboard::Dash:
+          case sf::Keyboard::Subtract:
+            --this->state;
+            this->updateMode();
+            break;
+          case sf::Keyboard::Tab:
+            this->map.setDrawState(true);
+            break;
         }
+      }
+      else if(event.type == sf::Event::KeyReleased) {
+        switch(event.key.code) {
+          case sf::Keyboard::Tab:
+            this->map.setDrawState(this->mode == 2);
+            break;
+          case sf::Keyboard::Slash:
+            this->showHelp = false;
+            break;
+        }
+      }
+      else if(event.type == sf::Event::MouseWheelMoved) {
+        if(event.mouseWheel.y < 0) {
+          this->mode += 2;
+        }
+        else if(event.mouseWheel.y > 0) {
+          ++this->mode;
+        }
+        this->mode %= 3;
+        if(this->mode == 0)
+          this->textMode.setString("bottom - "+std::to_string(this->state));
+        else if(this->mode == 1)
+          this->textMode.setString("top - "+std::to_string(this->state));
+        else
+          this->textMode.setString("state - "+std::to_string(this->state));
+        this->map.setDrawState(this->mode == 2);
       }
       else if(event.type == sf::Event::MouseButtonPressed) {
         setLoc(loc3, map, mainWindow);
@@ -131,16 +211,20 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
                     loc2, loc4, false);
         }
         if(mousePressed2 && event.type == sf::Event::MouseButtonReleased) {
-          //TODO put the hover thing down
-          if((int)(loc4.x - Tile::TILE_SIZE) == 0 &&
-             (int)(loc4.x - loc4.y) == 0)
-            copyTiles(toolMap, map,
-                      loc1_tmp, loc3_tmp,
-                      loc2, loc2, false);
-          else
-            copyTiles(hoverMap, map,
-                      sf::Vector2f(0,0), loc3_tmp,
-                      loc4, loc4, false);
+          if(this->mode == 2) {
+            copyState(map, loc3_tmp, loc4, this->state);
+          }
+          else {
+            if((int)(loc4.x - Tile::TILE_SIZE) == 0 &&
+               (int)(loc4.x - loc4.y) == 0)
+              copyTiles(toolMap, map,
+                        loc1_tmp, loc3_tmp,
+                        loc2, loc2, this->mode == 1);
+            else
+              copyTiles(hoverMap, map,
+                        sf::Vector2f(0,0), loc3_tmp,
+                        loc4, loc4, this->mode == 1);
+          }
           getSelection(hoverMap, toolMap, loc1, loc2, false);
           mousePressed2 = false;
         }
@@ -222,13 +306,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
       }
     }
 
-    this->mainWindow.clear();
-    this->toolboxWindow.clear();
-
     this->draw();
-
-    this->mainWindow.display();
-    this->toolboxWindow.display();
   }
 
   if(mainWindow.isOpen())
@@ -241,10 +319,32 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
 }
   
 void EditorEngine::draw() {
+  this->mainWindow.clear();
+  this->toolboxWindow.clear();
+
   this->toolboxWindow.draw(this->toolMap);
   this->toolboxWindow.draw(this->selectionRectangle);
-  this->mainWindow.draw(this->map);
-  this->mainWindow.draw(this->hoverMap);
+  if(showHelp) {
+    this->mainWindow.draw(this->helpText);  
+  }
+  else {
+    this->mainWindow.draw(this->map);
+    //this->mainWindow.draw(this->hoverMap);
+    this->mainWindow.draw(this->textMode);
+  }
+
+  this->mainWindow.display();
+  this->toolboxWindow.display();
+}
+
+void EditorEngine::updateMode() {
+  if(this->mode == 0)
+    this->textMode.setString("bottom - "+std::to_string(this->state));
+  else if(this->mode == 1)
+    this->textMode.setString("top - "+std::to_string(this->state));
+  else
+    this->textMode.setString("state - "+std::to_string(this->state));
+  this->textMode.setOrigin(this->textMode.getLocalBounds().width/2, 0);
 }
 
 void getSelection(TileMap& hover, const TileMap& map,
@@ -252,6 +352,23 @@ void getSelection(TileMap& hover, const TileMap& map,
                   bool setTop) {
   hover.resize(size.x/Tile::TILE_SIZE, size.y/Tile::TILE_SIZE);
   copyTiles(map, hover, start, sf::Vector2f(0,0), size, size, setTop);
+}
+
+void copyState(TileMap& dest,
+          const sf::Vector2f& start, const sf::Vector2f& size,
+          const unsigned char& state) {
+  auto it     = dest.begin()+(int)(start.y/Tile::TILE_SIZE);
+  auto end_dy = it+(int)(size.y/Tile::TILE_SIZE);
+
+  for(; it!=end_dy; ++it) {
+    auto tile   = it->begin()+(int)(start.x/Tile::TILE_SIZE);
+    auto end_dx = tile+(int)(size.x/Tile::TILE_SIZE);
+
+    for(; tile!=end_dx; ++tile) {
+      tile->setState(state);
+    }
+  }
+  dest.redraw();
 }
 
 void copyTiles(const TileMap& src, TileMap& dest,

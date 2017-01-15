@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////
 
 #include <string>
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 #ifdef _WIN32
   #include <Windows.h>
@@ -35,6 +35,9 @@ int main(const int argc, char const** argv) {
   #endif
 
   #ifdef EDITOR
+    sf::Font font;
+    if (!font.loadFromFile("LiberationSans.ttf"))
+        return EXIT_FAILURE;
     std::string map, tiles;
     if(argc == 2) {
       map   = "map.map";
@@ -48,7 +51,7 @@ int main(const int argc, char const** argv) {
       map   = "map.map";
       tiles = "tiles.png";
     }
-    EditorEngine ee(tiles, map);
+    EditorEngine ee(tiles, map, font);
     return ee.mainLoop(tiles, map);
   #else
     //TODO Regular game stuff

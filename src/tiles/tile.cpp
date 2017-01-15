@@ -20,47 +20,82 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "tiles/tile.hpp"
-
-inline sf::IntRect rect(unsigned, const sf::Texture&);
-
-Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned char state) :
 #ifdef EDITOR
+  #include <string>
+  #include <SFML/Graphics/Rect.hpp>
+#endif
+
+inline sf::IntRect rect(const unsigned&, const sf::Texture&);
+
+#ifdef EDITOR
+  Tile::Tile(const sf::Texture& tex, unsigned short bottom,
+             unsigned char state, const sf::Font& font) :
   nTextureBottom(bottom),
   nTextureTop(0),
-#endif
-spriteBottom(tex, rect(bottom, tex)),
-spriteTop(),
-state(state) {
-  this->texTiles = &tex;
-}
+  spriteBottom(tex, rect(bottom, tex)),
+  spriteTop(   tex, sf::IntRect()),
+  textState(std::to_string((int)state), font, 14),
+  state(state) {
+    this->texTiles = &tex;
+  }
 
-Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned short top,
-           unsigned char state) :
-#ifdef EDITOR
+  Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned short top,
+             unsigned char state, const sf::Font& font) :
   nTextureBottom(bottom),
   nTextureTop(top),
+  textState(std::to_string((int)state), font, 14),
+  spriteBottom(tex, rect(bottom, tex)),
+  spriteTop(   tex, rect(top,    tex)),
+  state(state) {
+    this->texTiles = &tex;
+  }
+#else
+  Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned char state) :
+  spriteBottom(tex, rect(bottom, tex)),
+  spriteTop(   tex, sf::IntRect()),
+  state(state) {
+    this->texTiles = &tex;
+  }
+
+  Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned short top,
+             unsigned char state) :
+  spriteBottom(tex, rect(bottom, tex)),
+  spriteTop(   tex, rect(top,    tex)),
+  state(state) {
+    this->texTiles = &tex;
+  }
 #endif
-spriteBottom(tex, rect(bottom, tex)),
-spriteTop(   tex, rect(top,    tex)),
-state(state) {
-  this->texTiles = &tex;
-}
   
 //Draw tile
 void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   target.draw(this->spriteBottom, states);
-  if(this->spriteTop.getTextureRect().width != 0)
+
+  auto& rect = this->spriteTop.getTextureRect();
+  if(rect.width != 0 && rect.height != 0)
     target.draw(this->spriteTop,  states);
+
+  #ifdef EDITOR
+    if(this->drawState)
+      target.draw(this->textState, states);
+  #endif
 }
 
 void Tile::setState(unsigned char state) {
   this->state = state;
+  #ifdef EDITOR
+    this->textState.setString(std::to_string((int)state));
+    sf::FloatRect bounds = this->textState.getLocalBounds();
+    this->textState.setOrigin(bounds.width/2, bounds.height/2);
+  #endif
 }
 
 
 void Tile::setPosition(unsigned int x, unsigned int y) {
   this->spriteBottom.setPosition(x, y);
   this->spriteTop.setPosition(x, y);
+  #ifdef EDITOR
+    this->textState.setPosition(x + Tile::TILE_SIZE/2, y + Tile::TILE_SIZE/2);
+  #endif
 }
 
 
@@ -83,7 +118,13 @@ void Tile::setTopTile(unsigned short nTileNum) {
   }
 }
 
-inline sf::IntRect rect(unsigned num, const sf::Texture& tex) {
+#ifdef EDITOR
+  void Tile::setDrawState(const bool& drawState) {
+    this->drawState = drawState;
+  }
+#endif
+
+inline sf::IntRect rect(const unsigned& num, const sf::Texture& tex) {
   return sf::IntRect((num%(tex.getSize().x/Tile::TILE_SIZE))*Tile::TILE_SIZE,
                     (num*Tile::TILE_SIZE)/tex.getSize().x*Tile::TILE_SIZE,
                      Tile::TILE_SIZE,

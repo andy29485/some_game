@@ -31,37 +31,82 @@
 inline bool fileExists(const std::string& path);
 
 //Constructors
-TileMap::TileMap(const std::string& texFileName, const bool& fromTexture) {
-  this->texTiles.loadFromFile(texFileName);
-  if(fromTexture) {
-    this->resize((unsigned)(this->texTiles.getSize().x/Tile::TILE_SIZE),
-                 (unsigned)(this->texTiles.getSize().y/Tile::TILE_SIZE));
-    unsigned short i = ~0;
-    for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
-      for (auto tile = it->begin(); tile != it->end(); ++tile) {
-        tile->setBottomTile((unsigned short)(++i));
-        tile->setTopTile(0);
+#ifdef EDITOR
+  TileMap::TileMap(const std::string& texFileName, const sf::Font& font,
+                   const bool& fromTexture) :
+  drawState(false),
+  font(font) {
+    this->texTiles.loadFromFile(texFileName);
+    if(fromTexture) {
+      this->resize((unsigned)(this->texTiles.getSize().x/Tile::TILE_SIZE),
+                   (unsigned)(this->texTiles.getSize().y/Tile::TILE_SIZE));
+      unsigned short i = ~0;
+      for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
+        for (auto tile = it->begin(); tile != it->end(); ++tile) {
+          tile->setBottomTile((unsigned short)(++i));
+          tile->setTopTile(0);
+        }
       }
     }
+    else
+      this->tiles.resize(100,
+                         std::vector<Tile>(100, Tile(this->texTiles,0,0,font))
+      );
+    this->renderTexture.create(     Tile::TILE_SIZE*100, Tile::TILE_SIZE*100);
+    this->renderTextureState.create(Tile::TILE_SIZE*100, Tile::TILE_SIZE*100);
+    this->redraw();
   }
-  else
-    this->tiles.resize(100, std::vector<Tile>(100, Tile(this->texTiles, 0, 0)));
-  this->renderTexture.create(Tile::TILE_SIZE * 100, Tile::TILE_SIZE * 100);
-  this->redraw();
-}
 
-TileMap::TileMap(const std::string& texFileName,
-                 const std::string& mapFileName) {
-  this->texTiles.loadFromFile(texFileName);
-  if(fileExists(mapFileName)) {
-    this->load(mapFileName);
+  TileMap::TileMap(const std::string& texFileName,
+                   const std::string& mapFileName, const sf::Font& font) :
+  drawState(false),
+  font(font) {
+    this->texTiles.loadFromFile(texFileName);
+    if(fileExists(mapFileName)) {
+      this->load(mapFileName);
+    }
+    else {
+      this->tiles.resize(100,
+                         std::vector<Tile>(100, Tile(this->texTiles,0,0,font))
+      );
+      this->renderTexture.create(     Tile::TILE_SIZE*100, Tile::TILE_SIZE*100);
+      this->renderTextureState.create(Tile::TILE_SIZE*100, Tile::TILE_SIZE*100);
+      this->redraw();
+    }
   }
-  else {
-    this->tiles.resize(100, std::vector<Tile>(100, Tile(this->texTiles, 0, 0)));
+#else
+  TileMap::TileMap(const std::string& texFileName, const bool& fromTexture) {
+    this->texTiles.loadFromFile(texFileName);
+    if(fromTexture) {
+      this->resize((unsigned)(this->texTiles.getSize().x/Tile::TILE_SIZE),
+                   (unsigned)(this->texTiles.getSize().y/Tile::TILE_SIZE));
+      unsigned short i = ~0;
+      for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
+        for (auto tile = it->begin(); tile != it->end(); ++tile) {
+          tile->setBottomTile((unsigned short)(++i));
+          tile->setTopTile(0);
+        }
+      }
+    }
+    else
+      this->tiles.resize(100, std::vector<Tile>(100, Tile(this->texTiles,0,0)));
     this->renderTexture.create(Tile::TILE_SIZE * 100, Tile::TILE_SIZE * 100);
     this->redraw();
   }
-}
+
+  TileMap::TileMap(const std::string& texFileName,
+                   const std::string& mapFileName) {
+    this->texTiles.loadFromFile(texFileName);
+    if(fileExists(mapFileName)) {
+      this->load(mapFileName);
+    }
+    else {
+      this->tiles.resize(100, std::vector<Tile>(100, Tile(this->texTiles,0,0)));
+      this->renderTexture.create(Tile::TILE_SIZE * 100, Tile::TILE_SIZE * 100);
+      this->redraw();
+    }
+  }
+#endif
 
 bool TileMap::move(int x, int y) {
   if(   (y != 0 && this->getY() < -y)
@@ -80,9 +125,15 @@ bool TileMap::move(int x, int y) {
 
 //Draw tile
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-  int startI, startJ, endI, endJ;
+  sf::Sprite sprite;
 
-  sf::Sprite sprite(renderTexture.getTexture());
+  sprite.setTexture(renderTexture.getTexture());
+
+  #ifdef EDITOR
+    if(this->drawState)
+      sprite.setTexture(renderTextureState.getTexture());
+  #endif
+
   sprite.setPosition(this->getX()*Tile::TILE_SIZE,
                      this->getY()*Tile::TILE_SIZE
   );
@@ -96,6 +147,10 @@ std::vector<char> TileMap::findPath(Location a, Location b) {
 }
 
 #ifdef EDITOR
+  void TileMap::setDrawState(const bool& drawState) {
+    this->drawState = drawState;
+  }
+
   void TileMap::resize(unsigned int width, unsigned int height) {
     #ifdef DEBUG
       printf("resize: %d, %d\n", width, height);
@@ -112,7 +167,11 @@ std::vector<char> TileMap::findPath(Location a, Location b) {
     int j = 0;
     for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
       it->reserve(width);
-      it->resize(width, Tile(this->texTiles, 0, 0));
+      #ifdef EDITOR
+        it->resize(width, Tile(this->texTiles, 0, 0, this->font));
+      #else
+        it->resize(width, Tile(this->texTiles, 0, 0));
+      #endif
 
       int i = 0;
       for (auto tile = it->begin(); tile != it->end(); ++tile) {
@@ -122,7 +181,7 @@ std::vector<char> TileMap::findPath(Location a, Location b) {
       j += Tile::TILE_SIZE;
     }
 
-    redraw();
+    this->redraw();
   }
 
   void TileMap::save(const std::string& filename, bool append) const {
@@ -171,9 +230,19 @@ std::streampos TileMap::load(const std::string& filename,
   data.read((char*)&w, sizeof(w));
   data.read((char*)&h, sizeof(h));
 
-  this->tiles.resize(h, std::vector<Tile>(w, Tile(this->texTiles, 0, 0)));
+  #ifdef EDITOR
+    this->tiles.resize(h, std::vector<Tile>(w, Tile(this->texTiles, 
+                                                    0, 0, this->font))
+    );
+  #else
+    this->tiles.resize(h, std::vector<Tile>(w, Tile(this->texTiles, 0, 0)));
+  #endif
   this->renderTexture.create(Tile::TILE_SIZE * w, Tile::TILE_SIZE * h);
   this->renderTexture.clear();
+  #ifdef EDITOR
+    this->renderTextureState.create(Tile::TILE_SIZE * w, Tile::TILE_SIZE * h);
+    this->renderTextureState.clear();
+  #endif
 
   h = 0;
   for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
@@ -196,7 +265,13 @@ std::streampos TileMap::load(const std::string& filename,
       }
 
       tile->setPosition(w, h);
-      renderTexture.draw(*tile);
+      #ifdef EDITOR
+        tile->setDrawState(true);
+        this->renderTextureState.draw(*tile);
+
+        tile->setDrawState(false);
+      #endif
+      this->renderTexture.draw(*tile);
 
       w += Tile::TILE_SIZE;
     }
@@ -204,6 +279,9 @@ std::streampos TileMap::load(const std::string& filename,
   }
 
   this->renderTexture.display();
+  #ifndef EDITOR
+    this->renderTextureState.display();
+  #endif
   std::streampos new_pos = data.tellg();
   data.close();
 
@@ -214,6 +292,9 @@ std::streampos TileMap::load(const std::string& filename,
 
 void TileMap::redraw() {
   this->renderTexture.clear();
+  #ifndef EDITOR
+    this->renderTextureState.clear();
+  #endif
 
   unsigned int w, h;
 
@@ -222,12 +303,23 @@ void TileMap::redraw() {
     w = 0;
     for (auto tile = it->begin(); tile != it->end(); ++tile) {
       tile->setPosition(w, h);
-      renderTexture.draw(*tile);
+
+      #ifdef EDITOR
+        tile->setDrawState(true);
+        this->renderTextureState.draw(*tile);
+
+        tile->setDrawState(false);
+      #endif
+      this->renderTexture.draw(*tile);
+
       w += Tile::TILE_SIZE;
     }
     h += Tile::TILE_SIZE;
   }
   this->renderTexture.display();
+  #ifndef EDITOR
+    this->renderTextureState.display();
+  #endif
 }
 
 inline bool fileExists(const std::string& path) {
