@@ -153,6 +153,18 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           case sf::Keyboard::Tab:
             this->map.setDrawState(true);
             break;
+          case (sf::Keyboard::Up):
+            this->map.addY(1);
+            break;
+          case (sf::Keyboard::Down):
+            this->map.addY(-1);
+            break;
+          case (sf::Keyboard::Right):
+            this->map.addX(-1);
+            break;
+          case (sf::Keyboard::Left):
+            this->map.addX(1);
+            break;
         }
       }
       else if(event.type == sf::Event::KeyReleased) {
@@ -253,6 +265,22 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
         toolboxWindow.setView(sf::View(sf::FloatRect(0.f, 0.f,
                                                   toolboxWindow.getSize().x,
                                                   toolboxWindow.getSize().y)));
+      }
+      else if (event.type == sf::Event::KeyPressed) {
+        switch(event.key.code) {
+          case (sf::Keyboard::Up):
+            this->map.addY(1);
+            break;
+          case (sf::Keyboard::Down):
+            this->map.addY(-1);
+            break;
+          case (sf::Keyboard::Right):
+            this->map.addX(-1);
+            break;
+          case (sf::Keyboard::Left):
+            this->map.addX(1);
+            break;
+        }
       }
       else if (event.type == sf::Event::MouseButtonPressed) {
         setLoc(loc1, toolMap, toolboxWindow);
