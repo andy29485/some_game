@@ -23,6 +23,7 @@
 
 // headers
 #include <string>
+#include <vector>
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -53,6 +54,8 @@ private:
   // Help Text
   sf::Text helpText;
 
+  std::vector<TileMap> vec_undo, vec_redo;
+
   //mode:
   //  0 - bottom
   //  1 - top
@@ -75,14 +78,18 @@ private:
   
 public:
   // Default Constructor
-  EditorEngine(const std::string&, const sf::Font&);
-  EditorEngine(const std::string&, const std::string&, const sf::Font&);
+  EditorEngine(const std::string&, sf::Font&);
+  EditorEngine(const std::string&, const std::string&, sf::Font&);
 
   // Main loop of the editor
   int mainLoop(const std::string&, const std::string&);
   
   // Render the graphics on to the screen
   void draw();
+
+  void undo();
+
+  void redo();
 };
 
 #endif

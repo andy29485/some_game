@@ -41,8 +41,8 @@ class TileMap : public sf::Drawable, public Location {
   sf::Texture texTiles;
 
   #ifdef EDITOR
-    const sf::Font& font;
-    bool            drawState;
+    sf::Font& font;
+    bool      drawState;
   #endif
 
   //RenderTexture containing image of the map, used to render map faster
@@ -55,10 +55,9 @@ class TileMap : public sf::Drawable, public Location {
 public:
   //Constructors
   #ifdef EDITOR
-    TileMap(const std::string& texFileName, const sf::Font&,
-            const bool& fromTexture = false);
-    TileMap(const std::string& texFileName, const std::string& mapFileName,
-            const sf::Font&);
+    TileMap(const std::string&, sf::Font&, const bool& fromTexture = false);
+    TileMap(const std::string&, const std::string&, sf::Font&);
+    TileMap(const TileMap&);
   #else
     TileMap(const std::string& texFileName, const bool& fromTexture = false);
     TileMap(const std::string& texFileName, const std::string& mapFileName);
@@ -112,6 +111,8 @@ public:
     //save map to file
     void save(const std::string& filename, bool append = false) const;
   #endif
+
+  TileMap& operator=(const TileMap&);
 
   void redraw();
 

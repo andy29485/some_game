@@ -26,6 +26,8 @@ std::string help = \
            "Buttons:\n" \
            "S      - save map\n" \
            "L      - load map\n" \
+           "Z      - undo edit\n" \
+           "R      - redo edit\n" \
            "+/=    - increase state\n" \
            "-/_    - decrease state\n" \
            "Arrows - pan map of selected window\n" \
@@ -54,7 +56,7 @@ void copyTiles(const TileMap& src, TileMap& dest,
           bool setTop);
 
 EditorEngine::EditorEngine(const std::string& textureFileName,
-                           const sf::Font& font) :
+                           sf::Font& font) :
   map(textureFileName, font),
   toolMap(textureFileName, font, true),
   hoverMap(textureFileName, font),
@@ -80,7 +82,7 @@ EditorEngine::EditorEngine(const std::string& textureFileName,
 
 EditorEngine::EditorEngine(const std::string& textureFileName,
                            const std::string& mapFileName,
-                           const sf::Font& font) :
+                           sf::Font& font) :
   map(textureFileName, mapFileName, font),
   toolMap(textureFileName, font, true),
   hoverMap(textureFileName, font),
@@ -149,6 +151,12 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           case sf::Keyboard::Subtract:
             --this->state;
             this->updateMode();
+            break;
+          case sf::Keyboard::Z:
+            this->undo();
+            break;
+          case sf::Keyboard::R:
+            this->redo();
             break;
           case sf::Keyboard::Tab:
             this->map.setDrawState(true);
@@ -227,6 +235,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
             copyState(map, loc3_tmp, loc4, this->state);
           }
           else {
+            this->vec_undo.push_back(TileMap(this->map));
             if((int)(loc4.x - Tile::TILE_SIZE) == 0 &&
                (int)(loc4.x - loc4.y) == 0)
               copyTiles(toolMap, map,
@@ -373,6 +382,24 @@ void EditorEngine::updateMode() {
   else
     this->textMode.setString("state - "+std::to_string(this->state));
   this->textMode.setOrigin(this->textMode.getLocalBounds().width/2, 0);
+}
+
+void EditorEngine::undo() {
+  if(this->vec_undo.size() == 0)
+    return;
+  TileMap& m = this->vec_undo.back();
+  this->vec_redo.push_back(TileMap(this->map));
+  this->map = m;
+  this->vec_undo.pop_back();
+}
+
+void EditorEngine::redo() {
+  if(this->vec_redo.size() == 0)
+    return;
+  TileMap& m = this->vec_redo.back();
+  this->vec_undo.push_back(TileMap(this->map));
+  this->map = m;
+  this->vec_redo.pop_back();
 }
 
 void getSelection(TileMap& hover, const TileMap& map,

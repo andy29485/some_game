@@ -32,7 +32,7 @@ inline bool fileExists(const std::string& path);
 
 //Constructors
 #ifdef EDITOR
-  TileMap::TileMap(const std::string& texFileName, const sf::Font& font,
+  TileMap::TileMap(const std::string& texFileName, sf::Font& font,
                    const bool& fromTexture) :
   drawState(false),
   font(font) {
@@ -58,7 +58,7 @@ inline bool fileExists(const std::string& path);
   }
 
   TileMap::TileMap(const std::string& texFileName,
-                   const std::string& mapFileName, const sf::Font& font) :
+                   const std::string& mapFileName, sf::Font& font) :
   drawState(false),
   font(font) {
     this->texTiles.loadFromFile(texFileName);
@@ -73,6 +73,18 @@ inline bool fileExists(const std::string& path);
       this->renderTextureState.create(Tile::TILE_SIZE*100, Tile::TILE_SIZE*100);
       this->redraw();
     }
+  }
+
+  TileMap::TileMap(const TileMap& map) :
+  tiles(map.tiles),
+  texTiles(map.texTiles),
+  font(map.font),
+  drawState(map.drawState) {
+    this->renderTexture.create(     Tile::TILE_SIZE*this->getWidth(),
+                                    Tile::TILE_SIZE*this->getHeight());
+    this->renderTextureState.create(Tile::TILE_SIZE*this->getWidth(),
+                                    Tile::TILE_SIZE*this->getHeight());
+    this->redraw();
   }
 #else
   TileMap::TileMap(const std::string& texFileName, const bool& fromTexture) {
@@ -298,6 +310,26 @@ void TileMap::redraw() {
   #ifdef EDITOR
     this->renderTextureState.display();
   #endif
+}
+
+TileMap& TileMap::operator=(const TileMap& map) {
+  this->texTiles  = map.texTiles;
+  this->font      = map.font;
+  this->drawState = map.drawState;
+
+  this->resize(map.getWidth(), map.getHeight());
+
+  auto it_m = map.begin();
+  auto it_t = this->begin();
+  for (; it_m!=map.end(); ++it_m, ++it_t) {
+    auto tile_m = it_m->begin();
+    auto tile_t = it_t->begin();
+    for (; tile_m != it_m->end(); ++tile_m, ++tile_t) {
+      *tile_t = *tile_m;
+    }
+  }
+  
+  this->redraw();
 }
 
 inline bool fileExists(const std::string& path) {
