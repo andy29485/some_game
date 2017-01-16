@@ -32,9 +32,10 @@ inline sf::IntRect rect(const unsigned&, const sf::Texture&);
              unsigned char state, const sf::Font& font) :
   nTextureBottom(bottom),
   nTextureTop(0),
+  textState(std::to_string((int)state), font, 14),
+  drawState(false),
   spriteBottom(tex, rect(bottom, tex)),
   spriteTop(   tex, sf::IntRect()),
-  textState(std::to_string((int)state), font, 14),
   state(state) {
     this->texTiles = &tex;
   }
@@ -44,6 +45,7 @@ inline sf::IntRect rect(const unsigned&, const sf::Texture&);
   nTextureBottom(bottom),
   nTextureTop(top),
   textState(std::to_string((int)state), font, 14),
+  drawState(false),
   spriteBottom(tex, rect(bottom, tex)),
   spriteTop(   tex, rect(top,    tex)),
   state(state) {
