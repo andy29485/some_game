@@ -269,10 +269,18 @@ std::streampos TileMap::load(const std::string& filename,
 }
 
 void TileMap::redraw() {
+#ifdef EDITOR
+  this->needRedraw = true;
+}
+
+void TileMap::_redraw() {
+  if(!this->needRedraw)
+    return;
+
+  this->needRedraw = false;
+  this->renderTextureState.clear();
+#endif
   this->renderTexture.clear();
-  #ifdef EDITOR
-    this->renderTextureState.clear();
-  #endif
 
   unsigned int w, h;
 
