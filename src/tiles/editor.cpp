@@ -236,6 +236,8 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           }
           else {
             this->vec_undo.push_back(TileMap(this->map));
+            this->vec_redo.clear();
+
             if((int)(loc4.x - Tile::TILE_SIZE) == 0 &&
                (int)(loc4.x - loc4.y) == 0)
               copyTiles(toolMap, map,
@@ -359,6 +361,10 @@ void EditorEngine::draw() {
   this->mainWindow.clear();
   this->toolboxWindow.clear();
 
+  this->toolMap._redraw();
+  this->hoverMap._redraw();
+  this->map._redraw();
+
   this->toolboxWindow.draw(this->toolMap);
   this->toolboxWindow.draw(this->selectionRectangle);
   if(showHelp) {
@@ -366,7 +372,7 @@ void EditorEngine::draw() {
   }
   else {
     this->mainWindow.draw(this->map);
-    //this->mainWindow.draw(this->hoverMap);
+    this->mainWindow.draw(this->hoverMap);
     this->mainWindow.draw(this->textMode);
   }
 
@@ -385,7 +391,7 @@ void EditorEngine::updateMode() {
 }
 
 void EditorEngine::undo() {
-  if(this->vec_undo.size() == 0)
+  if(this->vec_undo.empty())
     return;
   TileMap& m = this->vec_undo.back();
   this->vec_redo.push_back(TileMap(this->map));
@@ -394,7 +400,7 @@ void EditorEngine::undo() {
 }
 
 void EditorEngine::redo() {
-  if(this->vec_redo.size() == 0)
+  if(this->vec_redo.empty())
     return;
   TileMap& m = this->vec_redo.back();
   this->vec_undo.push_back(TileMap(this->map));

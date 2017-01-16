@@ -43,6 +43,7 @@ class TileMap : public sf::Drawable, public Location {
   #ifdef EDITOR
     sf::Font& font;
     bool      drawState;
+    bool      needRedraw;
   #endif
 
   //RenderTexture containing image of the map, used to render map faster
@@ -115,6 +116,7 @@ public:
   TileMap& operator=(const TileMap&);
 
   void redraw();
+  void _redraw();
 
   //load map from file
   std::streampos load(const std::string&    filename,
