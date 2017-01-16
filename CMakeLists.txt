@@ -35,12 +35,12 @@ else ()
 endif()
 
 #add preprocessor definitions
-if (DEFINED DEBUG)
- add_definitions( -DDEBUG)
+if (DEFINED DEBUG AND DEBUG)
+ add_definitions( -DDEBUG )
  add_definitions( -g )
 endif ()
 
-if (DEFINED EDITOR)
+if (DEFINED EDITOR AND EDITOR)
  add_definitions( -DEDITOR )
 endif ()
 
