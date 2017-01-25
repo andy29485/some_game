@@ -3,7 +3,7 @@
 // This file is part of Return of the Horsemen: A Tale of Calamity in a Perfect
 // World
 //
-// Copyright (C) 2017 - GroupName
+// Copyright (C) 2017 - Revelations Gaming
 //
 // Return of the Horsemen: A Tale of Calamity in a Perfect World is free
 // software; you can redistribute it and/or modify
