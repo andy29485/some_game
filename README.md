@@ -1,6 +1,7 @@
-# Some Game
-##### [ name subject to change ]
-TODO - come up with name
+# Return of the Horsemen: A Tale of Calamity in a Perfect World
+TODO:
+  - [x] come up with name
+  - [ ] come up with group name
 
 ## Contibutors
 - Andy29485
