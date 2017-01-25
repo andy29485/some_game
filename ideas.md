@@ -11,6 +11,7 @@ Hell On Earth: The Horse Chronicles (Shortened: HOE: Horse)
 Unemployment of the Gods
 The Apocolyptic Depression
 Revelations Realized: The Horsemen Ride
+Return of the Horsemen: A Tale of Calamity in a Perfect World
 
 ### Story
 *"Fuck, I think we're unemployed?!"* - Pestilence of the Four Horsemen of the
@@ -84,11 +85,10 @@ TODO: Polish and add as necessary
 N.B. For the combat section, unless otherwise specified, (parentheses) will
 indicate a submenu, and [square brackets] will indicate extra information.
 
-Combat in [Return of the Horsemen: A Tale of Calamity in a Perfect World]
-will be semi-turn based. All battle actions will take time to perform, which
-means each combatant will not necessarily have the same number of turns in
-a battle. However, when a character is ready to perform an action, time
-will freeze until the action is chosen.
+Combat in [Some Game] will be semi-turn based. All battle actions will take time
+to perform, which means each combatant will not necessarily have the same number
+of turns in a battle. However, when a character is ready to perform an action,
+time will freeze until the action is chosen.
 
 Options in combat:
 Attack (Physical ([List of physical attacks]), Magical ([List of magic attacks]),
@@ -102,9 +102,8 @@ Escape/Run/Flee [Name pending]
 #### Attacking
 TODO: Polish and add as necessary
 
-Attacking is the main way of dealing damage in
-[Return of the Horsemen: A Tale of Calamity in a Perfect World]. Every attack
-will have a charge time, recovery time, and a cooldown time.
+Attacking is the main way of dealing damage in [Some Game]. Every attack will
+have a charge time, recovery time, and a cooldown time.
 
 Charge time determines how long the character will need to wait to perform an
 action after selecting it. Each action will have a specific charge time that
