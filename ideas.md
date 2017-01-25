@@ -11,6 +11,7 @@ Hell On Earth: The Horse Chronicles (Shortened: HOE: Horse)
 Unemployment of the Gods  
 The Apocolyptic Depression  
 Revelations Realized: The Horsemen Ride
+Return of the Horsemen: A Tale of Calamity in a Perfect World
 
 ### Story
 *"Fuck, I think we're unemployed?!"* - Pestilence of the Four Horsemen of the
