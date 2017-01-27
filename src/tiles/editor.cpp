@@ -276,8 +276,10 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           );
         }
         else {
-          this->hoverMap.setPosition((int)(loc3_tmp.x/Tile::TILE_SIZE),
-                                     (int)(loc3_tmp.y/Tile::TILE_SIZE)
+          this->hoverMap.setPosition((int)(loc3_tmp.x/Tile::TILE_SIZE +
+                                           this->map.getX()),
+                                     (int)(loc3_tmp.y/Tile::TILE_SIZE +
+                                           this->map.getY())
           );
         }
       }
@@ -312,7 +314,15 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
         }
         #ifdef DEBUG
           printf("toolMap pos: (%d, %d)\n", toolMap.getX(), toolMap.getY());
+          printf("selection rect pos: (%.0f, %.0f)\n",
+                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.getX(),
+                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.getY()
+          );
         #endif
+        this->selectionRectangle.setPosition(
+                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.getX(),
+                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.getY()
+        );
       }
       else if (event.type == sf::Event::MouseButtonPressed) {
         setLoc(loc1, toolMap, toolboxWindow);
@@ -348,7 +358,16 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
         if(!loc2.y)
           loc2.y = Tile::TILE_SIZE;
 
-        this->selectionRectangle.setPosition(loc1_tmp);
+        #ifdef DEBUG
+          printf("selection rect pos: (%.0f, %.0f)\n",
+                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.getX(),
+                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.getY()
+          );
+        #endif
+        this->selectionRectangle.setPosition(
+                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.getX(),
+                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.getY()
+        );
         this->selectionRectangle.setSize(loc2);
         getSelection(hoverMap, toolMap, loc1_tmp, loc2, false);
         #ifdef DEBUG
@@ -491,8 +510,8 @@ inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
     printf("(%d, %d)\n", pos.x/Tile::TILE_SIZE, pos.y/Tile::TILE_SIZE);
   #endif
 
-  v.x = (int)(pos.x/Tile::TILE_SIZE + m.getX()) * Tile::TILE_SIZE;
-  v.y = (int)(pos.y/Tile::TILE_SIZE + m.getY()) * Tile::TILE_SIZE;
+  v.x = (int)(pos.x/Tile::TILE_SIZE + std::abs(m.getX())) * Tile::TILE_SIZE;
+  v.y = (int)(pos.y/Tile::TILE_SIZE + std::abs(m.getY())) * Tile::TILE_SIZE;
 
   if(v.x < 0)
     v.x = 0;
