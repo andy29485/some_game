@@ -4,6 +4,7 @@ This top section will be used for ideas that have not been thought out (but shou
 be forgotten).
 
 - Variable damage
+- Different spell trees, for subtly different playstyles (think Borderlands 2)
 - Stats based on perks?
 - Instant recovery time, but a non-negligible charge time - possible setup for combos?
    E.G. a damage amp spell with 6 sec charge and 0 recovery leads immediately into damage spells)
