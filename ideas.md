@@ -1,17 +1,25 @@
 # Ideas Scratchpad
-An overview for the main parts of the game.
+An overview for the main parts of the game.  
+This top section will be used for ideas that have not been thought out (but shouldn't
+be forgotten).
+
+- Variable damage
+- Different spell trees, for subtly different playstyles (think Borderlands 2)
+- Stats based on perks?
+- Instant recovery time, but a non-negligible charge time - possible setup for combos?
+   E.G. a damage amp spell with 6 sec charge and 0 recovery leads immediately into damage spells)
 
 ## Game Design
 General ideas for the game, ranging from combat to the story.
 
 ### Title Ideas
-Hell On Earth: Return of the Horsemen
-Ganth are not the horsemen
-Hell On Earth: The Horse Chronicles (Shortened: HOE: Horse)
-Unemployment of the Gods
-The Apocolyptic Depression
-Revelations Realized: The Horsemen Ride
-Return of the Horsemen: A Tale of Calamity in a Perfect World
+Hell On Earth: Return of the Horsemen  
+Ganth are not the horsemen  
+Hell On Earth: The Horse Chronicles (Shortened: HOE: Horse)  
+Unemployment of the Gods  
+The Apocolyptic Depression  
+Revelations Realized: The Horsemen Ride  
+**Return of the Horsemen: A Tale of Calamity in a Perfect World** (Current Choice)
 
 ### Story
 *"Fuck, I think we're unemployed?!"* - Pestilence of the Four Horsemen of the
@@ -85,7 +93,7 @@ TODO: Polish and add as necessary
 N.B. For the combat section, unless otherwise specified, (parentheses) will
 indicate a submenu, and [square brackets] will indicate extra information.
 
-Combat in [Some Game] will be semi-turn based. All battle actions will take time
+Combat in Return of the Horsemen [RotH] will be semi-turn based. All battle actions will take time
 to perform, which means each combatant will not necessarily have the same number
 of turns in a battle. However, when a character is ready to perform an action,
 time will freeze until the action is chosen.
@@ -102,7 +110,7 @@ Escape/Run/Flee [Name pending]
 #### Attacking
 TODO: Polish and add as necessary
 
-Attacking is the main way of dealing damage in [Some Game]. Every attack will
+Attacking is the main way of dealing damage in RotH. Every attack will
 have a charge time, recovery time, and a cooldown time.
 
 Charge time determines how long the character will need to wait to perform an
@@ -119,8 +127,7 @@ These descriptions correspond to the following time ranges:
 Recovery time determines how long the character will need to wait after an
 action is completed to perform a new action. Recovery time is measured in
 essentially the same way as charge time [specific when viewed from overworld,
-simplified when displayed in battle], with the only exception being that there
-is no instantaneous speed for recovery. [Bill Note: It may be interesting to have skills that posses an instant recovery time, but a non-negligible charge time - possible setup for combos? E.G. a damage amp spell with 6 sec charge and 0 recovery leads immediately into damage spells) The recovery times are as follows:
+simplified when displayed in battle]. The recovery times are as follows:
 - **Short**: 0-2 seconds
 - **Medium**: 2-4 seconds
 - **Long**: 4-6 seconds
@@ -147,6 +154,27 @@ however])
 Stamina gradually replenishes, but attacks can be used without enough stamina,
 with an additional hp cost based on missing stamina (might be % based, or based
 on stamina values directly, not sure yet)
+
+#### Characters
+The four main party members each have different combat specialties, and must be
+played to their strengths in order to succeed.
+
+##### Steven J. Pestilence
+A magic attacker, through and through.
+
+##### Angelica F. Conquest
+The most physically able of the party. Strong in physical attacking and
+defending alike, Conquest rips through her foes with whatever's around, even her
+hands if she has to. In addition to her immense bodily strength, she also has a
+sharp mind, often making the most rational decisions of the group members. She
+does, however, have a strong desire to battle powerful opponents, and may end up
+putting herself in danger as a result. Despite her quick mind, she could never
+be bothered to learn the art of magic, outside of simple spells she could use
+on the battlefield.
+
+##### Bobby Famine
+The most unique fighter of the gang, Famine relies on his special abilities
+rather than strong stats in battle. He is relatively average in all stats, and
 
 ### Overworld
 TODO
