@@ -243,11 +243,12 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           }
         }
         if(mousePressed2 && event.type == sf::Event::MouseButtonReleased) {
+          this->vec_redo.clear();
+          this->vec_undo.push_back(this->map.backup());
           if(this->mode == 2) {
             copyState(map, loc3_tmp, loc4, this->state);
           }
           else {
-            this->vec_undo.push_back(this->map.backup());
             if((int)(loc4.x - Tile::TILE_SIZE) == 0 &&
                (int)(loc4.x - loc4.y) == 0) {
               if(loc1_tmp != loc1_bac || loc2 != loc2_bac
