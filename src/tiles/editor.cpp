@@ -157,6 +157,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
             this->updateMode();
             break;
           case sf::Keyboard::Z:
+          case sf::Keyboard::U:
             this->undo();
             break;
           case sf::Keyboard::R:
@@ -239,7 +240,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
             copyState(map, loc3_tmp, loc4, this->state);
           }
           else {
-            this->vec_undo.push_back(TileMap(this->map));
+            this->vec_undo.push_back(this->map.backup());
             if((int)(loc4.x - Tile::TILE_SIZE) == 0 &&
                (int)(loc4.x - loc4.y) == 0)
               copyTiles(toolMap, map,
@@ -370,7 +371,7 @@ void EditorEngine::draw() {
   }
   else {
     this->mainWindow.draw(this->map);
-    //this->mainWindow.draw(this->hoverMap);
+    this->mainWindow.draw(this->hoverMap);
     this->mainWindow.draw(this->textMode);
   }
 
@@ -391,8 +392,8 @@ void EditorEngine::updateMode() {
 void EditorEngine::undo() {
   if(this->vec_undo.size() == 0)
     return;
-  TileMap& m = this->vec_undo.back();
-  this->vec_redo.push_back(TileMap(this->map));
+  TileMapBack& m = this->vec_undo.back();
+  this->vec_redo.push_back(map.backup());
   this->map = m;
   this->vec_undo.pop_back();
 }
@@ -400,8 +401,8 @@ void EditorEngine::undo() {
 void EditorEngine::redo() {
   if(this->vec_redo.size() == 0)
     return;
-  TileMap& m = this->vec_redo.back();
-  this->vec_undo.push_back(TileMap(this->map));
+  TileMapBack& m = this->vec_redo.back();
+  this->vec_undo.push_back(map.backup());
   this->map = m;
   this->vec_redo.pop_back();
 }

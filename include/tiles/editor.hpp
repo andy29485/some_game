@@ -58,7 +58,7 @@ private:
   // Help Text
   sf::Text helpText;
 
-  std::vector<TileMap> vec_undo, vec_redo;
+  std::vector<TileMapBack> vec_undo, vec_redo;
 
   //mode:
   //  0 - bottom

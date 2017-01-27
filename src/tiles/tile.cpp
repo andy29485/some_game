@@ -126,6 +126,18 @@ void Tile::setTopTile(unsigned short nTileNum) {
 }
 
 #ifdef EDITOR
+  Tile& Tile::operator=(const TileBack& backup_tile) {
+    this->setBottomTile(std::get<0>(backup_tile));
+    this->setTopTile(std::get<1>(backup_tile));
+    this->setState(std::get<2>(backup_tile));
+
+    return *this;
+  }
+
+  TileBack Tile::backup() const {
+    return std::make_tuple(this->nTextureBottom, this->nTextureTop, this->state);
+  }
+
   void Tile::setDrawState(const bool& drawState) {
     this->drawState = drawState;
   }

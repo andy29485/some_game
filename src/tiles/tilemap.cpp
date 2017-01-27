@@ -316,16 +316,13 @@ void TileMap::redraw() {
   #endif
 }
 
-TileMap& TileMap::operator=(const TileMap& map) {
-  this->texTiles  = map.texTiles;
-  this->font      = map.font;
-  this->drawState = map.drawState;
+#ifdef EDITOR
+TileMap& TileMap::operator=(const TileMapBack& backup_map) {
+  this->resize(backup_map[0].size(), backup_map.size());
 
-  this->resize(map.getWidth(), map.getHeight());
-
-  auto it_m = map.begin();
+  auto it_m = backup_map.begin();
   auto it_t = this->begin();
-  for (; it_m!=map.end(); ++it_m, ++it_t) {
+  for (; it_m!=backup_map.end(); ++it_m, ++it_t) {
     auto tile_m = it_m->begin();
     auto tile_t = it_t->begin();
     for (; tile_m != it_m->end(); ++tile_m, ++tile_t) {
@@ -334,7 +331,28 @@ TileMap& TileMap::operator=(const TileMap& map) {
   }
   
   this->redraw();
+
+  return *this;
 }
+
+TileMapBack TileMap::backup() const {
+  TileMapBack backup_map(this->getHeight(),
+                 std::vector<TileBack>(this->getWidth(), TileBack(0,0,0))
+  );
+
+  auto it_m = backup_map.begin();
+  auto it_t = this->begin();
+  for (; it_m!=backup_map.end(); ++it_m, ++it_t) {
+    auto tile_m = it_m->begin();
+    auto tile_t = it_t->begin();
+    for (; tile_m != it_m->end(); ++tile_m, ++tile_t) {
+      *tile_m = tile_t->backup();
+    }
+  }
+
+  return backup_map;
+}
+#endif
 
 inline bool fileExists(const std::string& path) {
   struct stat fileStat; 

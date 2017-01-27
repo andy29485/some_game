@@ -31,6 +31,11 @@
 #endif
 #include "tiles/location.hpp"
 
+#ifdef EDITOR
+  #include <tuple>
+  typedef std::tuple<unsigned short, unsigned short, unsigned char> TileBack;
+#endif
+
 #ifndef TILE_HPP
 #define TILE_HPP
 
@@ -82,6 +87,9 @@ public:
 
   #ifdef EDITOR
     void setDrawState(const bool&);
+
+    Tile& operator=(const TileBack&);
+    TileBack backup() const;
 
     inline unsigned short getBottomTile() const { return this->nTextureBottom;}
     inline unsigned short getTopTile()    const { return this->nTextureTop; }

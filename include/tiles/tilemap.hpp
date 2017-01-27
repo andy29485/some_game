@@ -37,6 +37,10 @@
 #ifndef TILE_MAP_HPP
 #define TILE_MAP_HPP
 
+#ifdef EDITOR
+  typedef std::vector< std::vector<TileBack> > TileMapBack;
+#endif
+
 class TileMap : public sf::Drawable, public Location {
   //2D vector of tiles
   std::vector< std::vector<Tile> > tiles;
@@ -114,9 +118,11 @@ public:
 
     //save map to file
     void save(const std::string& filename, bool append = false) const;
-  #endif
 
-  TileMap& operator=(const TileMap&);
+    TileMap& operator=(const TileMapBack&);
+
+    TileMapBack backup() const;
+  #endif
 
   void redraw();
 
