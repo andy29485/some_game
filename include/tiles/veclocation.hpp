@@ -46,8 +46,8 @@ public:
 
   VecLocation();
   VecLocation(unsigned char);
-  VecLocation(unsigned int, unsigned int);
-  VecLocation(unsigned int, unsigned int, unsigned char);
+  VecLocation(int, int);
+  VecLocation(int, int, unsigned char);
 
   //move/turn in direction
   //  same as move(dir, false)

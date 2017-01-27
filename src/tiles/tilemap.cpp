@@ -125,13 +125,14 @@ inline bool fileExists(const std::string& path);
 #endif
 
 bool TileMap::move(int x, int y) {
-  if(   (y != 0 && this->getY() < -y)
-     || (x != 0 && this->getX() < -x)
-     || (y != 0 && this->getY() + y > tiles.size())
-     || (x != 0 && this->getX() + x > tiles[0].size())
+  if(   (-y < (int)this->getY())
+     || (-x < (int)this->getX())
+     || (y != 0 && (int)this->getY() + y - 1 < -tiles.size())
+     || (x != 0 && (int)this->getX() + x - 1 < -tiles[0].size())
     ) {
     return false;
   }
+
 
   this->addX(x);
   this->addY(y);
@@ -143,18 +144,38 @@ bool TileMap::move(int x, int y) {
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   sf::Sprite sprite;
   sprite.setTexture(this->renderTexture.getTexture());
-  sprite.setPosition(this->getX()*Tile::TILE_SIZE,
-                     this->getY()*Tile::TILE_SIZE
-  );
+  if(this->getX() >= 0 && this->getY() >= 0) {
+    sprite.setPosition(this->getX()*Tile::TILE_SIZE,
+                       this->getY()*Tile::TILE_SIZE
+    );
+  }
+  else {
+    sprite.setPosition(0, 0);
+    sprite.setTextureRect(sf::IntRect(-this->getX()*Tile::TILE_SIZE,
+                                      -this->getY()*Tile::TILE_SIZE,
+                                      sprite.getLocalBounds().width,
+                                      sprite.getLocalBounds().height)
+    );
+  }
   target.draw(sprite, states);
 
   #ifdef EDITOR
     if(this->drawState) {
       sf::Sprite sprite2;
       sprite2.setTexture(this->renderTextureState.getTexture());
-      sprite2.setPosition(this->getX()*Tile::TILE_SIZE,
-                          this->getY()*Tile::TILE_SIZE
-      );
+      if(this->getX() >= 0 && this->getY() >= 0) {
+        sprite2.setPosition(this->getX()*Tile::TILE_SIZE,
+                            this->getY()*Tile::TILE_SIZE
+        );
+      }
+      else {
+        sprite2.setPosition(0, 0);
+        sprite2.setTextureRect(sf::IntRect(-this->getX()*Tile::TILE_SIZE,
+                                           -this->getY()*Tile::TILE_SIZE,
+                                           sprite2.getLocalBounds().width,
+                                           sprite2.getLocalBounds().height)
+        );
+      }
       target.draw(sprite2, states);
     }
   #endif

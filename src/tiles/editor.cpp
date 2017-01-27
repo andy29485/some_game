@@ -168,16 +168,16 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
             this->map.setDrawState(true);
             break;
           case (sf::Keyboard::Up):
-            this->map.addY(1);
+            this->map.move(0, 1);
             break;
           case (sf::Keyboard::Down):
-            this->map.addY(-1);
+            this->map.move(0, -1);
             break;
           case (sf::Keyboard::Right):
-            this->map.addX(-1);
+            this->map.move(-1, 0);
             break;
           case (sf::Keyboard::Left):
-            this->map.addX(1);
+            this->map.move(1, 0);
             break;
         }
       }
@@ -301,18 +301,21 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
       else if (event.type == sf::Event::KeyPressed) {
         switch(event.key.code) {
           case (sf::Keyboard::Up):
-            this->map.addY(1);
+            this->toolMap.move(0, 1);
             break;
           case (sf::Keyboard::Down):
-            this->map.addY(-1);
+            this->toolMap.move(0, -1);
             break;
           case (sf::Keyboard::Right):
-            this->map.addX(-1);
+            this->toolMap.move(-1, 0);
             break;
           case (sf::Keyboard::Left):
-            this->map.addX(1);
+            this->toolMap.move(1, 0);
             break;
         }
+        #ifdef DEBUG
+          printf("toolMap pos: (%d, %d)\n", toolMap.getX(), toolMap.getY());
+        #endif
       }
       else if (event.type == sf::Event::MouseButtonPressed) {
         setLoc(loc1, toolMap, toolboxWindow);

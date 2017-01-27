@@ -28,31 +28,31 @@
 class Location {
 protected:
   // x and y positions on the map
-  unsigned int x, y;
+  int x, y;
   
 public:
   Location();
   Location(int, int);
 
   //get X position
-  inline unsigned int getX() const { return this->x; }
+  inline int getX() const { return this->x; }
   
   //get Y position
-  inline unsigned int getY() const { return this->y; }
+  inline int getY() const { return this->y; }
 
   //set X position
-  void setX(unsigned int);
+  void setX(int);
   
   //set Y position
-  void setY(unsigned int);
+  void setY(int);
   
   //add to X position
-  inline void addX(unsigned int x) { this->x += x; }
+  inline void addX(int x) { this->x += x; }
 
   //add to Y position
-  inline void addY(unsigned int y) { this->y += y; }
+  inline void addY(int y) { this->y += y; }
 
-  void setPosition(unsigned int, unsigned int);
+  void setPosition(int, int);
 };
 
 #endif /* LOCATION_H */

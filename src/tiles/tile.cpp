@@ -77,9 +77,10 @@ state) :
 void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
   #ifdef EDITOR
-  if(this->drawState)
+  if(this->drawState) {
     target.draw(this->textState, states);
-  else {
+    return;
+  }
   #endif
   
   target.draw(this->spriteBottom, states);
@@ -88,9 +89,6 @@ void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   if(rect.width != 0 && rect.height != 0)
     target.draw(this->spriteTop,  states);
 
-  #ifdef EDITOR
-  }
-  #endif
 }
 
 void Tile::setState(unsigned char state) {

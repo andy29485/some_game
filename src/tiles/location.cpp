@@ -29,17 +29,17 @@ Location::Location() : x(0), y(0) {}
 Location::Location(int x, int y) : x(x), y(y) {}
   
 //set X position
-void Location::setX(unsigned int x) {
+void Location::setX(int x) {
   this->x = x;
 }
 
 //set Y position
-void Location::setY(unsigned int y) {
+void Location::setY(int y) {
   this->y = y;
 }
 
 //set the x/y position
-void Location::setPosition(unsigned int x, unsigned int y) {
+void Location::setPosition(int x, int y) {
   this->x = x;
   this->y = y;
 }

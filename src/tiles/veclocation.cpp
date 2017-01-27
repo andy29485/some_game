@@ -30,10 +30,10 @@ VecLocation::VecLocation()
 VecLocation::VecLocation(unsigned char state) 
   : state(state), Location() {}
 
-VecLocation::VecLocation(unsigned int x, unsigned int y)
+VecLocation::VecLocation(int x, int y)
   : state(0), Location(x, y) {}
 
-VecLocation::VecLocation(unsigned int x, unsigned int y, unsigned char state)
+VecLocation::VecLocation(int x, int y, unsigned char state)
   : state(state), Location(x, y) {}
 
 //move/turn in direction
