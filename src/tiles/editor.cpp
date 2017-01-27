@@ -116,6 +116,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
   bool mousePressed2 = false;
   sf::Vector2f loc1, loc2(Tile::TILE_SIZE, Tile::TILE_SIZE);
   sf::Vector2f loc3, loc4, loc1_tmp, loc3_tmp;
+  sf::Vector2f loc1_bac, loc2_bac, loc3_bac, loc4_bac;
 
   while (mainWindow.isOpen() && toolboxWindow.isOpen()) {
     //TODO - Change modes: top/bottom/state
@@ -230,10 +231,16 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           loc4.x -= loc3_tmp.x - Tile::TILE_SIZE;
           loc4.y -= loc3_tmp.y - Tile::TILE_SIZE;
 
-          hoverMap.resize(loc4.x/Tile::TILE_SIZE, loc4.y/Tile::TILE_SIZE);
-          copyTiles(toolMap, hoverMap,
-                    loc1_tmp, sf::Vector2f(0,0),
-                    loc2, loc4, false);
+          if(loc1_tmp != loc1_bac || loc2 != loc2_bac || loc4 != loc4_bac) {
+            loc1_bac = loc1_tmp;
+            loc2_bac = loc2;
+            loc4_bac = loc4;
+
+            hoverMap.resize(loc4.x/Tile::TILE_SIZE, loc4.y/Tile::TILE_SIZE);
+            copyTiles(toolMap, hoverMap,
+                      loc1_tmp, sf::Vector2f(0,0),
+                      loc2, loc4, false);
+          }
         }
         if(mousePressed2 && event.type == sf::Event::MouseButtonReleased) {
           if(this->mode == 2) {
@@ -242,14 +249,25 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           else {
             this->vec_undo.push_back(this->map.backup());
             if((int)(loc4.x - Tile::TILE_SIZE) == 0 &&
-               (int)(loc4.x - loc4.y) == 0)
-              copyTiles(toolMap, map,
-                        loc1_tmp, loc3_tmp,
-                        loc2, loc2, this->mode == 1);
-            else
-              copyTiles(hoverMap, map,
-                        sf::Vector2f(0,0), loc3_tmp,
-                        loc4, loc4, this->mode == 1);
+               (int)(loc4.x - loc4.y) == 0) {
+              if(loc1_tmp != loc1_bac || loc2 != loc2_bac
+                                      || loc3_tmp != loc3_bac) {
+                loc1_bac = loc1_tmp;
+                loc2_bac = loc2;
+                loc3_bac = loc3_tmp;
+                copyTiles(toolMap, map,
+                          loc1_tmp, loc3_tmp,
+                          loc2, loc2, this->mode == 1);
+              }
+            }
+            else {if(loc3_tmp != loc3_bac || loc4 != loc4_bac) {
+                loc3_bac = loc3_tmp;
+                loc4_bac = loc4;
+                copyTiles(hoverMap, map,
+                          sf::Vector2f(0,0), loc3_tmp,
+                          loc4, loc4, this->mode == 1);
+              }
+            }
           }
           getSelection(hoverMap, toolMap, loc1_tmp, loc2, false);
           mousePressed2 = false;

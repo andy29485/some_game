@@ -54,6 +54,9 @@ class TileMap : public sf::Drawable, public Location {
     bool            needRedraw;
   #endif
 
+#ifdef EDITOR
+public:
+#endif
   //RenderTexture containing image of the map, used to render map faster
   sf::RenderTexture renderTexture;
   #ifdef EDITOR
