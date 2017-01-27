@@ -260,13 +260,10 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
                           loc2, loc2, this->mode == 1);
               }
             }
-            else {if(loc3_tmp != loc3_bac || loc4 != loc4_bac) {
-                loc3_bac = loc3_tmp;
-                loc4_bac = loc4;
-                copyTiles(hoverMap, map,
-                          sf::Vector2f(0,0), loc3_tmp,
-                          loc4, loc4, this->mode == 1);
-              }
+            else {
+              copyTiles(hoverMap, map,
+                        sf::Vector2f(0,0), loc3_tmp,
+                        loc4, loc4, this->mode == 1);
             }
           }
           getSelection(hoverMap, toolMap, loc1_tmp, loc2, false);
