@@ -251,7 +251,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
                         sf::Vector2f(0,0), loc3_tmp,
                         loc4, loc4, this->mode == 1);
           }
-          getSelection(hoverMap, toolMap, loc1, loc2, false);
+          getSelection(hoverMap, toolMap, loc1_tmp, loc2, false);
           mousePressed2 = false;
         }
         if(!mousePressed2) {
@@ -332,7 +332,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
 
         this->selectionRectangle.setPosition(loc1_tmp);
         this->selectionRectangle.setSize(loc2);
-        getSelection(hoverMap, toolMap, loc1, loc2, false);
+        getSelection(hoverMap, toolMap, loc1_tmp, loc2, false);
         #ifdef DEBUG
           printf("moved: (%.0f, %.0f)  -> (%.0f, %.0f)\n", loc1_tmp.x,
                                                             loc1_tmp.y,
