@@ -364,6 +364,10 @@ void EditorEngine::draw() {
   this->mainWindow.clear();
   this->toolboxWindow.clear();
 
+  this->toolMap._redraw();
+  this->hoverMap._redraw();
+  this->map._redraw();
+
   this->toolboxWindow.draw(this->toolMap);
   this->toolboxWindow.draw(this->selectionRectangle);
   if(showHelp) {
