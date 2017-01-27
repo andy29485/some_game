@@ -142,21 +142,22 @@ bool TileMap::move(int x, int y) {
 //Draw tile
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   sf::Sprite sprite;
-
-  #ifdef EDITOR
-    if(this->drawState)
-      sprite.setTexture(this->renderTextureState.getTexture());
-    else
-      sprite.setTexture(this->renderTexture.getTexture());
-  #else
-    sprite.setTexture(this->renderTexture.getTexture());
-  #endif
-
+  sprite.setTexture(this->renderTexture.getTexture());
   sprite.setPosition(this->getX()*Tile::TILE_SIZE,
                      this->getY()*Tile::TILE_SIZE
   );
-
   target.draw(sprite, states);
+
+  #ifdef EDITOR
+    if(this->drawState) {
+      sf::Sprite sprite2;
+      sprite2.setTexture(this->renderTextureState.getTexture());
+      sprite2.setPosition(this->getX()*Tile::TILE_SIZE,
+                          this->getY()*Tile::TILE_SIZE
+      );
+      target.draw(sprite2, states);
+    }
+  #endif
 }
 
 //find shortest path between two locations
@@ -294,7 +295,7 @@ void TileMap::_redraw() {
     return;
 
   this->needRedraw = false;
-  this->renderTextureState.clear();
+  this->renderTextureState.clear(sf::Color::Transparent);
 #endif
   this->renderTexture.clear();
 

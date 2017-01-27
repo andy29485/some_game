@@ -75,6 +75,13 @@ state) :
   
 //Draw tile
 void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+
+  #ifdef EDITOR
+  if(this->drawState)
+    target.draw(this->textState, states);
+  else {
+  #endif
+  
   target.draw(this->spriteBottom, states);
 
   auto& rect = this->spriteTop.getTextureRect();
@@ -82,8 +89,7 @@ void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(this->spriteTop,  states);
 
   #ifdef EDITOR
-    if(this->drawState)
-      target.draw(this->textState, states);
+  }
   #endif
 }
 
