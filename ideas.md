@@ -1,13 +1,14 @@
 # Ideas Scratchpad
 An overview for the main parts of the game.  
-This top section will be used for ideas that have not been thought out (but shouldn't
-be forgotten).
+This top section will be used for ideas that have not been thought out (but
+shouldn't be forgotten).
 
 - Variable damage
 - Different spell trees, for subtly different playstyles (think Borderlands 2)
 - Stats based on perks?
-- Instant recovery time, but a non-negligible charge time - possible setup for combos?
-   E.G. a damage amp spell with 6 sec charge and 0 recovery leads immediately into damage spells)
+- Instant recovery time, but a non-negligible charge time - possible setup for
+	combos? E.G. a damage amp spell with 6 sec charge and 0 recovery leads
+  immediately into damage spells)
 
 ## Game Design
 General ideas for the game, ranging from combat to the story.
@@ -19,7 +20,8 @@ Hell On Earth: The Horse Chronicles (Shortened: HOE: Horse)
 Unemployment of the Gods  
 The Apocolyptic Depression  
 Revelations Realized: The Horsemen Ride  
-**Return of the Horsemen: A Tale of Calamity in a Perfect World** (Current Choice)
+**Return of the Horsemen: A Tale of Calamity in a Perfect World**
+(Current Choice)
 
 ### Story
 *"Fuck, I think we're unemployed?!"* - Pestilence of the Four Horsemen of the
@@ -93,18 +95,18 @@ TODO: Polish and add as necessary
 N.B. For the combat section, unless otherwise specified, (parentheses) will
 indicate a submenu, and [square brackets] will indicate extra information.
 
-Combat in Return of the Horsemen [RotH] will be semi-turn based. All battle actions will take time
-to perform, which means each combatant will not necessarily have the same number
-of turns in a battle. However, when a character is ready to perform an action,
-time will freeze until the action is chosen.
+Combat in Return of the Horsemen [RotH] will be semi-turn based. All battle
+actions will take time to perform, which means each combatant will not
+necessarily have the same number of turns in a battle. However, when a character
+is ready to perform an action, time will freeze until the action is chosen.
 
 Options in combat:
-Attack (Physical ([List of physical attacks]), Magical ([List of magic attacks]),
-   Special [Displays as Speical: SpecialName])
+Attack (Physical ([List of physical attacks]), Magical ([List of magic
+  attacks]), Special [Displays as Speical: SpecialName])
 Defend (Defend [Basic defense], [List of defense skills])
 Item ([List of combat items])
 Misc/Other [Name pending] (Wait [Character does nothing until a button is
-   pushed [increased stamina regen]], [Other misc skills])
+  pushed [increased stamina regen]], [Other misc skills])
 Escape/Run/Flee [Name pending]
 
 #### Attacking
@@ -199,13 +201,13 @@ The program will have 5 threads in total:
 1. Heavy backend work 1 (Shares with thread 2)
 2. Heavy backend work 2 (Shares with thread 1)
 3. Main interface
-   - Handles displaying stuff/getting input from user
+  - Handles displaying stuff/getting input from user
 4. Broadcast
-   - Will send player info to ally(s)
-   - If 1 ally only - use TCP protocol [subject to change]
-   - ~~if multiple are possible - use UDP~~
+  - Will send player info to ally(s)
+  - If 1 ally only - use TCP protocol [subject to change]
+  - ~~if multiple are possible - use UDP~~
 5. Receive
-   - Will get ally(s) info and update their local info
+  - Will get ally(s) info and update their local info
 
 ### Intrenal Representation
 sf::Image with all tiles will be stored in the map object
