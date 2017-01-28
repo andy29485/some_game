@@ -36,7 +36,7 @@ inline bool fileExists(const std::string& path);
 
 //Constructors
 #ifdef EDITOR
-  TileMap::TileMap(const std::string& texFileName, sf::Font& font,
+  TileMap::TileMap(const std::string& texFileName, const sf::Font& font,
                    const bool& fromTexture) :
   drawState(false),
   font(font) {
@@ -62,7 +62,7 @@ inline bool fileExists(const std::string& path);
   }
 
   TileMap::TileMap(const std::string& texFileName,
-                   const std::string& mapFileName, sf::Font& font) :
+                   const std::string& mapFileName, const sf::Font& font) :
   drawState(false),
   font(font) {
     this->texTiles.loadFromFile(texFileName);

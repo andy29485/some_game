@@ -60,7 +60,7 @@ void copyTiles(const TileMap& src, TileMap& dest,
           bool setTop);
 
 EditorEngine::EditorEngine(const std::string& textureFileName,
-                           sf::Font& font) :
+                           const sf::Font& font) :
   map(textureFileName, font),
   toolMap(textureFileName, font, true),
   hoverMap(textureFileName, font),
@@ -86,7 +86,7 @@ EditorEngine::EditorEngine(const std::string& textureFileName,
 
 EditorEngine::EditorEngine(const std::string& textureFileName,
                            const std::string& mapFileName,
-                           sf::Font& font) :
+                           const sf::Font& font) :
   map(textureFileName, mapFileName, font),
   toolMap(textureFileName, font, true),
   hoverMap(textureFileName, font),
