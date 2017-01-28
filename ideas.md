@@ -109,7 +109,7 @@ Options in combat:
  - Special [Displays as Speical: SpecialName])
  - Defend (Defend [Basic defense], [List of defense skills])
  - Item ([List of combat items])
- - Misc/Other [Name pending] (Wait [Character does nothing until a button is
+ - Misc/Other [Name pending] - (Wait [Character does nothing until a button is
    pushed [increased stamina regen]], [Other misc skills])
  - Escape/Run/Flee [Name pending]
 
