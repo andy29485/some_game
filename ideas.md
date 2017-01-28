@@ -205,13 +205,13 @@ The program will have 5 threads in total:
 1. Heavy backend work 1 (Shares with thread 2)
 2. Heavy backend work 2 (Shares with thread 1)
 3. Main interface
-   - Handles displaying stuff/getting input from user
+  - Handles displaying stuff/getting input from user
 4. Broadcast
-   - Will send player info to ally(s)
-   - If 1 ally only - use TCP protocol [subject to change]
-   - ~~if multiple are possible - use UDP~~
+  - Will send player info to ally(s)
+  - If 1 ally only - use TCP protocol [subject to change]
+  - ~~if multiple are possible - use UDP~~
 5. Receive
-   - Will get ally(s) info and update their local info
+  - Will get ally(s) info and update their local info
 
 ### Intrenal Representation
 sf::Image with all tiles will be stored in the map object
