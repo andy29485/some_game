@@ -233,7 +233,9 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           loc4.x -= loc3_tmp.x - Tile::TILE_SIZE;
           loc4.y -= loc3_tmp.y - Tile::TILE_SIZE;
 
-          if(loc1_tmp != loc1_bac || loc2 != loc2_bac || loc4 != loc4_bac) {
+          if(((int)(loc4.x - Tile::TILE_SIZE) != 0 ||
+              (int)(loc4.x - loc4.y) != 0)
+           && (loc1_tmp != loc1_bac || loc2 != loc2_bac || loc4 != loc4_bac)) {
             loc1_bac = loc1_tmp;
             loc2_bac = loc2;
             loc4_bac = loc4;
@@ -253,15 +255,12 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           else {
             if((int)(loc4.x - Tile::TILE_SIZE) == 0 &&
                (int)(loc4.x - loc4.y) == 0) {
-              if(loc1_tmp != loc1_bac || loc2 != loc2_bac
-                                      || loc3_tmp != loc3_bac) {
-                loc1_bac = loc1_tmp;
-                loc2_bac = loc2;
-                loc3_bac = loc3_tmp;
-                copyTiles(toolMap, map,
-                          loc1_tmp, loc3_tmp,
-                          loc2, loc2, this->mode == 1);
-              }
+              loc1_bac = loc1_tmp;
+              loc2_bac = loc2;
+              loc3_bac = loc3_tmp;
+              copyTiles(toolMap, map,
+                        loc1_tmp, loc3_tmp,
+                        loc2, loc2, this->mode == 1);
             }
             else {
               copyTiles(hoverMap, map,
@@ -372,7 +371,11 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
                   loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.y
         );
         this->selectionRectangle.setSize(loc2);
-        getSelection(hoverMap, toolMap, loc1_tmp, loc2, false);
+        if(loc1_tmp != loc1_bac || loc2 !=loc1_bac) {
+          loc1_bac = loc1_tmp;
+          loc2_bac = loc2;
+          getSelection(hoverMap, toolMap, loc1_tmp, loc2, false);
+        }
 
         #ifdef DEBUG
         printf("moved: (%.0f, %.0f)  -> (%.0f, %.0f)\n", loc1_tmp.x,
@@ -482,6 +485,10 @@ void copyTiles(const TileMap& src, TileMap& dest,
           const sf::Vector2f& start_src, const sf::Vector2f& start_dest,
           const sf::Vector2f& size_src, const sf::Vector2f& size_dest,
           bool setTop) {
+  #ifdef DEBUG
+  printf("copying\n");
+  #endif /* DEBUG */
+
   int i;
   int j = 0;
 

@@ -89,7 +89,7 @@ void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   target.draw(this->spriteBottom, states);
 
   auto& rect = this->spriteTop.getTextureRect();
-  if(rect.width != 0 && rect.height != 0)
+  if(rect.width)
     target.draw(this->spriteTop,  states);
 
 }
@@ -155,7 +155,7 @@ void Tile::setDrawState(const bool& drawState) {
 #endif
 
 inline sf::IntRect rect(const unsigned& num, const sf::Texture& tex) {
-  return sf::IntRect((num%(tex.getSize().x/Tile::TILE_SIZE))*Tile::TILE_SIZE,
+  return sf::IntRect((num*Tile::TILE_SIZE)%tex.getSize().x,
                     (num*Tile::TILE_SIZE)/tex.getSize().x*Tile::TILE_SIZE,
                      Tile::TILE_SIZE,
                      Tile::TILE_SIZE);

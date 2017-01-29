@@ -48,21 +48,18 @@ class TileMap : public sf::Drawable, public sf::Vector2i {
   //Texture containing all tiles that this map will use
   sf::Texture texTiles;
 
-  #ifdef EDITOR
-    const sf::Font& font;
-    bool            drawState;
-    bool            needRedraw;
-  #endif
-
 #ifdef EDITOR
+  const sf::Font& font;
+  bool            drawState;
+  bool            needRedraw;
+
 public:
+  //additional render texture with state for the the editor
+  sf::RenderTexture renderTextureState;
 #endif
+
   //RenderTexture containing image of the map, used to render map faster
   sf::RenderTexture renderTexture;
-  #ifdef EDITOR
-    //additional render texture with state for the the editor
-    sf::RenderTexture renderTextureState;
-  #endif
 
 public:
   //Constructors
@@ -74,7 +71,7 @@ public:
   #else
     TileMap(const std::string& texFileName, const bool& fromTexture = false);
     TileMap(const std::string& texFileName, const std::string& mapFileName);
-  #endif
+  #endif /* EDITOR */
 
   bool move(int x, int y);
 
@@ -85,52 +82,56 @@ public:
   std::vector<char> findPath(sf::Vector2i a, sf::Vector2i b);
 
   #ifdef EDITOR
-    void setDrawState(const bool&);
+  void setDrawState(const bool&);
 
-    //return vector iterator[const]
-    inline std::vector< std::vector<Tile> >::const_iterator begin() const {
-      return this->tiles.begin();
-    }
-    //return vector iterator
-    inline std::vector< std::vector<Tile> >::iterator begin() {
-      return this->tiles.begin();
-    }
+  //return vector iterator[const]
+  inline std::vector< std::vector<Tile> >::const_iterator begin() const {
+    return this->tiles.begin();
+  }
+  //return vector iterator
+  inline std::vector< std::vector<Tile> >::iterator begin() {
+    return this->tiles.begin();
+  }
 
-    //return vector iterator end[const]
-    inline std::vector< std::vector<Tile> >::const_iterator end() const {
-      return this->tiles.end();
-    }
-    //return vector iterator end
-    inline std::vector< std::vector<Tile> >::iterator end() {
-      return this->tiles.end();
-    }
+  //return vector iterator end[const]
+  inline std::vector< std::vector<Tile> >::const_iterator end() const {
+    return this->tiles.end();
+  }
+  //return vector iterator end
+  inline std::vector< std::vector<Tile> >::iterator end() {
+    return this->tiles.end();
+  }
 
-    //resize vectors
-    void resize(unsigned int, unsigned int);
+  //resize vectors
+  void resize(unsigned int, unsigned int);
 
-    //access vector[const
-    inline const std::vector<Tile>& operator[](std::size_t i) const {
-      return this->tiles[i];
-    }
-    //access vector
-    inline std::vector<Tile>& operator[](std::size_t i) {
-      return this->tiles[i];
-    }
+  //access vector[const
+  inline const std::vector<Tile>& operator[](std::size_t i) const {
+    return this->tiles[i];
+  }
+  //access vector
+  inline std::vector<Tile>& operator[](std::size_t i) {
+    return this->tiles[i];
+  }
 
-    //save map to file
-    void save(const std::string& filename, bool append = false) const;
+  //save map to file
+  void save(const std::string& filename, bool append = false) const;
 
-    TileMap& operator=(const TileMapBack&);
+  TileMap& operator=(const TileMapBack&);
 
-    TileMapBack backup() const;
-  #endif
+  TileMapBack backup() const;
+  #endif /* EDITOR */
 
   //get size of map
   inline unsigned getWidth()  const { return this->tiles[0].size(); }
   inline unsigned getHeight() const { return this->tiles.size(); }
+  inline unsigned getState(unsigned a, unsigned b) const
+    { return this->tiles[a][b].getState(); }
 
   void redraw();
+  #ifdef EDITOR
   void _redraw();
+  #endif /* EDITOR */
 
   //load map from file
   std::streampos load(const std::string&    filename,

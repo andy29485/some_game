@@ -28,12 +28,10 @@
 #ifdef EDITOR
   #include <SFML/Graphics/Text.hpp>
   #include <SFML/Graphics/Font.hpp>
-#endif
 
-#ifdef EDITOR
   #include <tuple>
   typedef std::tuple<unsigned short, unsigned short, unsigned char> TileBack;
-#endif
+#endif /* EDITOR */
 
 #ifndef TILE_HPP
 #define TILE_HPP
@@ -45,11 +43,12 @@ class Tile : public sf::Drawable {
   //       - thus we get a bridge on grass, but that exact same bridge can
   //         also appear on dirt 
   #ifdef EDITOR
-    unsigned short nTextureBottom;
-    unsigned short nTextureTop;
-    sf::Text       textState;
-    bool           drawState;
-  #endif
+  unsigned short nTextureBottom;
+  unsigned short nTextureTop;
+  sf::Text       textState;
+  bool           drawState;
+  #endif /* EDITOR */
+
   sf::Sprite spriteBottom;
   sf::Sprite spriteTop;
 
@@ -74,7 +73,7 @@ public:
   #else
     Tile(const sf::Texture&, unsigned short, unsigned char);
     Tile(const sf::Texture&, unsigned short, unsigned short, unsigned char);
-  #endif
+  #endif  /* EDITOR */
   
   //Draw tile
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -85,15 +84,15 @@ public:
   void setPosition(unsigned int, unsigned int);
 
   #ifdef EDITOR
-    void setDrawState(const bool&);
+  void setDrawState(const bool&);
 
-    Tile& operator=(const TileBack&);
-    TileBack backup() const;
+  Tile& operator=(const TileBack&);
+  TileBack backup() const;
 
-    inline unsigned short getBottomTile() const { return this->nTextureBottom;}
-    inline unsigned short getTopTile()    const { return this->nTextureTop; }
-  #endif
-  inline   unsigned char  getState()      const { return this->state; }
+  inline unsigned short getBottomTile() const { return this->nTextureBottom;}
+  inline unsigned short getTopTile()    const { return this->nTextureTop; }
+  #endif /* EDITOR */
+  inline unsigned char  getState()      const { return this->state; }
 };
 
 #endif /* TILE_HPP */
