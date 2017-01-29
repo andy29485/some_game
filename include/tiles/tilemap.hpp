@@ -26,7 +26,6 @@
 #define TILE_MAP_HPP
 
 #include <vector>
-#include <string>
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Texture.hpp>

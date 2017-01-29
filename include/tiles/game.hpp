@@ -25,10 +25,29 @@
 #ifndef GAME_ENGINE_HPP
 #define GAME_ENGINE_HPP
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include "tilemap.hpp"
 
+namespace sf {
+  class Event;
+}
+
 class GameEngine {
-  //TODO
+
+public:
+  //update contents of the window
+  void draw();
+
+  //update objects and their properies
+  void update();
+
+  //process window events
+  void processEvent(sf::Event);
+
+private:
+  // The window where the game will be played out
+  sf::RenderWindow mainWindow;
 
 }
 

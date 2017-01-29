@@ -32,12 +32,8 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Window/Mouse.hpp>
-#include <SFML/Window/Event.hpp>
 
 #include "tiles/tilemap.hpp"
-#include "tiles/tile.hpp"
 
 class EditorEngine {
   

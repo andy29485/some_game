@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////
 
 // headers
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Mouse.hpp>
+#include <SFML/System/Vector2.hpp>
+
 #include "tiles/editor.hpp"
 
 std::string help = \
