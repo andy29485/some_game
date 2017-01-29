@@ -60,8 +60,8 @@ void copyTiles(const TileMap& src, TileMap& dest,
           bool setTop);
 
 EditorEngine::EditorEngine(const std::string& textureFileName,
-                           const sf::Font& font) :
-  map(textureFileName, font),
+                           const sf::Font& font)
+: map(textureFileName, font),
   toolMap(textureFileName, font, true),
   hoverMap(textureFileName, font),
   textMode("bottom - 0", font),
@@ -71,23 +71,24 @@ EditorEngine::EditorEngine(const std::string& textureFileName,
   showHelp(false),
   mainWindow(sf::VideoMode(800, 600), "Editor"),
   toolboxWindow(sf::VideoMode(60, 70), "toolbox"),
-  selectionRectangle(sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE)) {
-    this->selectionRectangle.setOutlineColor(sf::Color::Magenta);
-    this->selectionRectangle.setFillColor(sf::Color::Transparent);
-    this->selectionRectangle.setOutlineThickness(-4);
-    this->mainWindow.setFramerateLimit(30);
-    this->toolboxWindow.setFramerateLimit(30);
-    this->textMode.setOrigin(this->textMode.getLocalBounds().width/2, 0);
-    this->textMode.setPosition(this->mainWindow.getSize().x/2, 5);
-    getSelection(hoverMap, toolMap, sf::Vector2f(),
-                 sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE), false
-    );
+  selectionRectangle(sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE))
+{
+  this->selectionRectangle.setOutlineColor(sf::Color::Magenta);
+  this->selectionRectangle.setFillColor(sf::Color::Transparent);
+  this->selectionRectangle.setOutlineThickness(-4);
+  this->mainWindow.setFramerateLimit(30);
+  this->toolboxWindow.setFramerateLimit(30);
+  this->textMode.setOrigin(this->textMode.getLocalBounds().width/2, 0);
+  this->textMode.setPosition(this->mainWindow.getSize().x/2, 5);
+  getSelection(hoverMap, toolMap, sf::Vector2f(),
+               sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE), false
+  );
 }
 
 EditorEngine::EditorEngine(const std::string& textureFileName,
                            const std::string& mapFileName,
-                           const sf::Font& font) :
-  map(textureFileName, mapFileName, font),
+                           const sf::Font& font)
+: map(textureFileName, mapFileName, font),
   toolMap(textureFileName, font, true),
   hoverMap(textureFileName, font),
   textMode("bottom - 0", font),
@@ -97,17 +98,18 @@ EditorEngine::EditorEngine(const std::string& textureFileName,
   showHelp(false),
   mainWindow(sf::VideoMode(800, 600), "Editor"),
   toolboxWindow(sf::VideoMode(120, 140), "toolbox"),
-  selectionRectangle(sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE)) {
-    this->selectionRectangle.setOutlineColor(sf::Color::Magenta);
-    this->selectionRectangle.setFillColor(sf::Color::Transparent);
-    this->selectionRectangle.setOutlineThickness(-4);
-    this->mainWindow.setFramerateLimit(30);
-    this->toolboxWindow.setFramerateLimit(30);
-    this->textMode.setOrigin(this->textMode.getLocalBounds().width/2, 0);
-    this->textMode.setPosition(this->mainWindow.getSize().x/2, 5);
-    getSelection(hoverMap, toolMap, sf::Vector2f(),
-                 sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE), false
-    );
+  selectionRectangle(sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE))
+{
+  this->selectionRectangle.setOutlineColor(sf::Color::Magenta);
+  this->selectionRectangle.setFillColor(sf::Color::Transparent);
+  this->selectionRectangle.setOutlineThickness(-4);
+  this->mainWindow.setFramerateLimit(30);
+  this->toolboxWindow.setFramerateLimit(30);
+  this->textMode.setOrigin(this->textMode.getLocalBounds().width/2, 0);
+  this->textMode.setPosition(this->mainWindow.getSize().x/2, 5);
+  getSelection(hoverMap, toolMap, sf::Vector2f(),
+               sf::Vector2f(Tile::TILE_SIZE, Tile::TILE_SIZE), false
+  );
 }
 
 int EditorEngine::mainLoop(const std::string& textureFileName,
@@ -272,16 +274,12 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
         }
         if(!mousePressed2) {
           sf::Vector2i pos = sf::Mouse::getPosition(mainWindow);
-          this->hoverMap.setPosition((int)(pos.x/Tile::TILE_SIZE),
-                                     (int)(pos.y/Tile::TILE_SIZE)
-          );
+          this->hoverMap.x = (int)(pos.x/Tile::TILE_SIZE);
+          this->hoverMap.y = (int)(pos.y/Tile::TILE_SIZE);
         }
         else {
-          this->hoverMap.setPosition((int)(loc3_tmp.x/Tile::TILE_SIZE +
-                                           this->map.getX()),
-                                     (int)(loc3_tmp.y/Tile::TILE_SIZE +
-                                           this->map.getY())
-          );
+          this->hoverMap.x = (int)(loc3_tmp.x/Tile::TILE_SIZE + this->map.x);
+          this->hoverMap.y = (int)(loc3_tmp.y/Tile::TILE_SIZE + this->map.y);
         }
       }
     }
@@ -313,24 +311,27 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
             this->toolMap.move(1, 0);
             break;
         }
+
         #ifdef DEBUG
-          printf("toolMap pos: (%d, %d)\n", toolMap.getX(), toolMap.getY());
-          printf("selection rect pos: (%.0f, %.0f)\n",
-                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.getX(),
-                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.getY()
-          );
+        printf("toolMap pos: (%d, %d)\n", toolMap.x, toolMap.y);
+        printf("selection rect pos: (%.0f, %.0f)\n",
+                loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.x,
+                loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.y
+        );
         #endif
+
         this->selectionRectangle.setPosition(
-                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.getX(),
-                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.getY()
+                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.x,
+                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.y
         );
       }
       else if (event.type == sf::Event::MouseButtonPressed) {
         setLoc(loc1, toolMap, toolboxWindow);
 
         #ifdef DEBUG
-          printf("press: %.0f, %.0f\n", loc1.x, loc1.y);
+        printf("press: %.0f, %.0f\n", loc1.x, loc1.y);
         #endif
+
         mousePressed1 = true;
       }
       else if (mousePressed1 &&
@@ -360,27 +361,31 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
           loc2.y = Tile::TILE_SIZE;
 
         #ifdef DEBUG
-          printf("selection rect pos: (%.0f, %.0f)\n",
-                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.getX(),
-                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.getY()
-          );
+        printf("selection rect pos: (%.0f, %.0f)\n",
+                loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.x,
+                loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.y
+        );
         #endif
+
         this->selectionRectangle.setPosition(
-                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.getX(),
-                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.getY()
+                  loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.x,
+                  loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.y
         );
         this->selectionRectangle.setSize(loc2);
         getSelection(hoverMap, toolMap, loc1_tmp, loc2, false);
+
         #ifdef DEBUG
-          printf("moved: (%.0f, %.0f)  -> (%.0f, %.0f)\n", loc1_tmp.x,
-                                                            loc1_tmp.y,
-                                                            loc2.x,
-                                                            loc2.y);
+        printf("moved: (%.0f, %.0f)  -> (%.0f, %.0f)\n", loc1_tmp.x,
+                                                          loc1_tmp.y,
+                                                          loc2.x,
+                                                          loc2.y);
         #endif
+
         if(mousePressed1 && event.type == sf::Event::MouseButtonReleased) {
           mousePressed1 = false;
+
           #ifdef DEBUG
-            printf("released\n");
+          printf("released\n");
           #endif
         }
       }
@@ -507,12 +512,13 @@ void copyTiles(const TileMap& src, TileMap& dest,
 
 inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
   sf::Vector2i pos = sf::Mouse::getPosition(w);
+
   #ifdef DEBUG
-    printf("(%d, %d)\n", pos.x/Tile::TILE_SIZE, pos.y/Tile::TILE_SIZE);
+  printf("(%d, %d)\n", pos.x/Tile::TILE_SIZE, pos.y/Tile::TILE_SIZE);
   #endif
 
-  v.x = (int)(pos.x/Tile::TILE_SIZE + std::abs(m.getX())) * Tile::TILE_SIZE;
-  v.y = (int)(pos.y/Tile::TILE_SIZE + std::abs(m.getY())) * Tile::TILE_SIZE;
+  v.x = (int)(pos.x/Tile::TILE_SIZE + std::abs(m.x)) * Tile::TILE_SIZE;
+  v.y = (int)(pos.y/Tile::TILE_SIZE + std::abs(m.y)) * Tile::TILE_SIZE;
 
   if(v.x < 0)
     v.x = 0;

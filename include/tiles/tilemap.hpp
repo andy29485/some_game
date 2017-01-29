@@ -30,9 +30,9 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include "tiles/tile.hpp"
-#include "tiles/location.hpp"
 
 #ifndef TILE_MAP_HPP
 #define TILE_MAP_HPP
@@ -41,7 +41,7 @@
   typedef std::vector< std::vector<TileBack> > TileMapBack;
 #endif
 
-class TileMap : public sf::Drawable, public Location {
+class TileMap : public sf::Drawable, public sf::Vector2i {
   //2D vector of tiles
   std::vector< std::vector<Tile> > tiles;
 
@@ -82,7 +82,7 @@ public:
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
   //find shortest path between two locations
-  std::vector<char> findPath(Location a, Location b);
+  std::vector<char> findPath(sf::Vector2i a, sf::Vector2i b);
 
   #ifdef EDITOR
     void setDrawState(const bool&);
@@ -105,10 +105,6 @@ public:
       return this->tiles.end();
     }
 
-    //get size of map
-    inline unsigned getWidth()  const { return this->tiles[0].size(); }
-    inline unsigned getHeight() const { return this->tiles.size(); }
-
     //resize vectors
     void resize(unsigned int, unsigned int);
 
@@ -128,6 +124,10 @@ public:
 
     TileMapBack backup() const;
   #endif
+
+  //get size of map
+  inline unsigned getWidth()  const { return this->tiles[0].size(); }
+  inline unsigned getHeight() const { return this->tiles.size(); }
 
   void redraw();
   void _redraw();

@@ -29,7 +29,6 @@
   #include <SFML/Graphics/Text.hpp>
   #include <SFML/Graphics/Font.hpp>
 #endif
-#include "tiles/location.hpp"
 
 #ifdef EDITOR
   #include <tuple>

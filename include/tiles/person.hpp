@@ -25,15 +25,54 @@
 #ifndef PERSON_HPP
 #define PERSON_HPP
 
-#include "tiles/veclocation.hpp"
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
 
-class Person : public sf::Drawable, public VecLocation {
+class Person : public sf::Drawable, sf::Vector2i {
+  sf::Sprite sprite;
+
+    //state of player (includes direction)
+  unsigned char state;
 
 public:
+  static const char LEFT  = 0;
+  static const char EAST  = 0;
+
+  static const char UP    = 1;
+  static const char NORTH = 1;
+
+  static const char RIGHT = 2;
+  static const char WEST  = 2;
+
+  static const char DOWN  = 3;
+  static const char SOUTH = 3;
+
+  Person(const sf::Texture&, unsigned char state = 0);
+  Person(const sf::Texture&, int, int, unsigned char state = 0);
+
   //Draw tile
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-}
+  //move/turn in direction,
+  //  if bool is true move without turning
+  virtual bool move(char, bool turn = false);
+
+  //set the state
+  void setState(unsigned char);
+
+  //set the direction w/o affecting other parts of the state
+  void setDirection(unsigned char);
+
+  //get the state
+  inline unsigned char getState() const { return this->state; }
+
+  //get the direction w/o the other parts of the state
+  inline unsigned char getDirection() const { return this->state & 3; }
+
+};
 
 #endif
+
 
