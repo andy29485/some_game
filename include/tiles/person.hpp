@@ -27,11 +27,13 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
-//#include <SFML/System/Vector2.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace sf {
   class Texture;
 }
+
+class TileMap;
 
 class Person : public sf::Drawable, sf::Vector2i {
 
@@ -56,7 +58,8 @@ public:
 
   //move/turn in direction,
   //  if bool is true move without turning
-  virtual bool move(const unsigned char&, const bool& turn = false);
+  virtual bool move(const unsigned char&, const TileMap& map,
+                    const bool& turn = false);
 
   //set the state
   void setState(const unsigned char&);

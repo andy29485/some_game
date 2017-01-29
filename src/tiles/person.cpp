@@ -25,6 +25,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "tiles/person.hpp"
+#include "tiles/tilemap.hpp"
 
 Person::Person(const sf::Texture& texture, unsigned char state)
 : sprite(texture),
@@ -45,26 +46,45 @@ void Person::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 //move/turn in direction,
 //  if bool is true move without turning
 //  return true if movement did not go into the negatives
-bool Person::move(const unsigned char& dir, const bool& turn) {
-  if(dir == this->getDirection() || turn) {
-    if(dir == Person::UP) {
-      return this->y && (--this->y || true);
-    }
-    else if(dir == Person::DOWN) {
-      return ++this->y;
-    }
-    else if(dir == Person::LEFT) {
-      return this->x && (--this->x || true);
-    }
-    else if(dir == Person::RIGHT) {
-      return ++this->x;
-    }
-  }
-  else {
+bool Person::move(const unsigned char& dir, const TileMap& map, 
+                  const bool& turn) {
+  //face direction of movement
+  if(dir != this->getDirection() && !turn) {
     this->setDirection(dir);
     return true;
   }
-  return false;
+
+  int x, y;
+
+  switch(dir&3) {
+    case UP:
+      x = 0;
+      y = -1;
+      break;
+
+    case DOWN:
+      x = 0;
+      y = 1;
+      break;
+
+    case LEFT:
+      x = -1;
+      y = 0;
+      break;
+
+    case RIGHT:
+      x = 1;
+      y = 0;
+  }
+
+  if(this->y + y < 0 || this->y + y >= map.getHeight()) {return false;}
+  if(this->x + x < 0 || this->x + x >= map.getWidth()) {return false;}
+
+  if(!map[this->y + y][this->x + x].getState()) {return false;}
+
+  this->x += x;
+  this->y += y;
+  return true;
 }
 
 //set the state
