@@ -23,12 +23,12 @@
 ///////////////////////////////////////////////////////////////////////
 
 #include <sys/stat.h>
-#include <vector>
+#include <fstream>
 #include <algorithm>
 
 #ifdef DEBUG
   #include <stdio.h>
-#endif
+#endif /* DEBUG */
 
 #include "tiles/tilemap.hpp"
 
@@ -125,9 +125,9 @@ TileMap::TileMap(const std::string& texFileName,
     this->redraw();
   }
 }
-#endif
+#endif /* EDITOR */
 
-bool TileMap::move(int x, int y) {
+bool TileMap::move(const int& x, const int& y) {
   //TODO - figure out why this was here
   //if(   (-y < this->y)
   //   || (-x < this->x)
@@ -181,11 +181,12 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     }
     target.draw(sprite2, states);
   }
-  #endif
+  #endif /* EDITOR */
 }
 
 //find shortest path between two locations
-std::vector<char> TileMap::findPath(sf::Vector2i a, sf::Vector2i b) {
+std::vector<char> TileMap::findPath(const sf::Vector2i& start_loc,
+                                    const sf::Vector2i& end_loc) {
   //TODO - findpath
 }
 
@@ -194,10 +195,10 @@ void TileMap::setDrawState(const bool& drawState) {
   this->drawState = drawState;
 }
 
-void TileMap::resize(unsigned int width, unsigned int height) {
+void TileMap::resize(const unsigned& width, const unsigned& height) {
   #ifdef DEBUG
   printf("resize: %d, %d\n", width, height);
-  #endif
+  #endif /* DEBUG */
 
   if (width == 0 || height == 0) {
     return;
@@ -226,7 +227,7 @@ void TileMap::resize(unsigned int width, unsigned int height) {
   this->redraw();
 }
 
-void TileMap::save(const std::string& filename, bool append) const {
+void TileMap::save(const std::string& filename, const bool& append) const {
   unsigned int width  = this->tiles.size();
   unsigned int height = this->tiles[0].size();
   unsigned short tmps;
@@ -258,7 +259,7 @@ void TileMap::save(const std::string& filename, bool append) const {
   }
   data.close();
 }
-#endif
+#endif /* EDITOR */
 
 std::streampos TileMap::load(const std::string& filename,
                              const std::streampos& pos) {
@@ -279,7 +280,7 @@ std::streampos TileMap::load(const std::string& filename,
   this->renderTextureState.create(Tile::TILE_SIZE * w, Tile::TILE_SIZE * h);
   #else
   this->tiles.resize(h, std::vector<Tile>(w, Tile(this->texTiles, 0, 0)));
-  #endif
+  #endif /* EDITOR */
 
   this->renderTexture.create(Tile::TILE_SIZE * w, Tile::TILE_SIZE * h);
 
@@ -321,7 +322,7 @@ void TileMap::_redraw() {
 
   this->needRedraw = false;
   this->renderTextureState.clear(sf::Color::Transparent);
-#endif
+#endif /* EDITOR */
   this->renderTexture.clear();
 
   unsigned int w, h;
@@ -337,7 +338,7 @@ void TileMap::_redraw() {
       this->renderTextureState.draw(*tile);
 
       tile->setDrawState(false);
-      #endif
+      #endif /* EDITOR */
       this->renderTexture.draw(*tile);
 
       w += Tile::TILE_SIZE;
@@ -348,7 +349,7 @@ void TileMap::_redraw() {
 
   #ifdef EDITOR
   this->renderTextureState.display();
-  #endif
+  #endif /* EDITOR */
 }
 
 #ifdef EDITOR
@@ -387,7 +388,7 @@ TileMapBack TileMap::backup() const {
 
   return backup_map;
 }
-#endif
+#endif /* EDITOR */
 
 inline bool fileExists(const std::string& path) {
   struct stat fileStat; 

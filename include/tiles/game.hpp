@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-// main.cpp
+// game.hpp
 // This file is part of Return of the Horsemen: A Tale of Calamity in a Perfect
 // World
 //
@@ -22,45 +22,15 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#include <string>
-#include <SFML/Graphics/Font.hpp>
+#ifndef GAME_ENGINE_HPP
+#define GAME_ENGINE_HPP
 
-#ifdef _WIN32
-  #include <Windows.h>
-#endif /* _WIN32 */
+#include "tilemap.hpp"
 
-#ifdef EDITOR
-  #include "tiles/editor.hpp"
-#endif /* EDITOR */
+class GameEngine {
+  //TODO
 
-int main(const int argc, char const** argv) {
-  #if defined (_WIN32) && !defined (DEBUG)
-    FreeConsole();
-  #endif /* WIN && !DEBUG */
-
-  #ifdef EDITOR
-    sf::Font font;
-    if (!font.loadFromFile("LiberationSans.ttf"))
-        return EXIT_FAILURE;
-    std::string map, tiles;
-    if(argc == 2) {
-      map   = "map.map";
-      tiles = argv[1];
-    }
-    else if(argc == 3) {
-      map   = argv[2];
-      tiles = argv[1];
-    }
-    else {
-      map   = "map.map";
-      tiles = "tiles.png";
-    }
-    EditorEngine ee(tiles, map, font);
-    return ee.mainLoop(tiles, map);
-  #else
-    //TODO Regular game stuff
-  #endif /* EDITOR */
-
-  return 0;
 }
+
+#endif /* GAME_ENGINE_HPP */
 

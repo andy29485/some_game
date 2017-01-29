@@ -28,13 +28,9 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
-#include <SFML/System/Vector2.hpp>
+//#include <SFML/System/Vector2.hpp>
 
 class Person : public sf::Drawable, sf::Vector2i {
-  sf::Sprite sprite;
-
-    //state of player (includes direction)
-  unsigned char state;
 
 public:
   static const char LEFT  = 0;
@@ -52,18 +48,18 @@ public:
   Person(const sf::Texture&, unsigned char state = 0);
   Person(const sf::Texture&, int, int, unsigned char state = 0);
 
-  //Draw tile
+  //Draw the person
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
   //move/turn in direction,
   //  if bool is true move without turning
-  virtual bool move(char, bool turn = false);
+  virtual bool move(const unsigned char&, const bool& turn = false);
 
   //set the state
-  void setState(unsigned char);
+  void setState(const unsigned char&);
 
   //set the direction w/o affecting other parts of the state
-  void setDirection(unsigned char);
+  void setDirection(const unsigned char&);
 
   //get the state
   inline unsigned char getState() const { return this->state; }
@@ -71,8 +67,13 @@ public:
   //get the direction w/o the other parts of the state
   inline unsigned char getDirection() const { return this->state & 3; }
 
+private:
+  //sprite that will be used to represent the person
+  sf::Sprite sprite;
+
+  //state of player (includes direction)
+  unsigned char state;
 };
 
-#endif
-
+#endif /* PERSON_HPP */
 

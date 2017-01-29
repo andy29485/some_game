@@ -45,7 +45,7 @@ void Person::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 //move/turn in direction,
 //  if bool is true move without turning
 //  return true if movement did not go into the negatives
-bool Person::move(char dir, bool turn) {
+bool Person::move(const unsigned char& dir, const bool& turn) {
   if(dir == this->getDirection() || turn) {
     if(dir == Person::UP) {
       return this->y && (--this->y || true);
@@ -68,12 +68,12 @@ bool Person::move(char dir, bool turn) {
 }
 
 //set the state
-void Person::setState(unsigned char state) {
+void Person::setState(const unsigned char& state) {
   this->state = state;
 }
 
 //set the direction w/o affecting other parts of the state
-void Person::setDirection(unsigned char dir) {
+void Person::setDirection(const unsigned char& dir) {
   this->state = (this->state & ~3) | (dir & 3); 
 }
 

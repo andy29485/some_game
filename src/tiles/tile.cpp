@@ -22,12 +22,14 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#include <SFML/Graphics/RenderTarget.hpp>
-#include "tiles/tile.hpp"
 #ifdef EDITOR
   #include <string>
   #include <SFML/Graphics/Rect.hpp>
-#endif
+#endif /* EDITOR */
+
+#include <SFML/Graphics/RenderTarget.hpp>
+
+#include "tiles/tile.hpp"
 
 inline sf::IntRect rect(const unsigned&, const sf::Texture&);
 
@@ -74,7 +76,7 @@ Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned short top,
 {
   this->texTiles = &tex;
 }
-#endif
+#endif /* EDITOR */
   
 //Draw tile
 void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -84,7 +86,7 @@ void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(this->textState, states);
     return;
   }
-  #endif
+  #endif /* EDITOR */
   
   target.draw(this->spriteBottom, states);
 
@@ -94,39 +96,39 @@ void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 }
 
-void Tile::setState(unsigned char state) {
+void Tile::setState(const unsigned char& state) {
   this->state = state;
 
   #ifdef EDITOR
   this->textState.setString(std::to_string((int)state));
   sf::FloatRect bounds = this->textState.getLocalBounds();
   this->textState.setOrigin(bounds.width/2, bounds.height/2);
-  #endif
+  #endif /* EDITOR */
 }
 
 
-void Tile::setPosition(unsigned int x, unsigned int y) {
+void Tile::setPosition(const unsigned& x, const unsigned& y) {
   this->spriteBottom.setPosition(x, y);
   this->spriteTop.setPosition(x, y);
 
   #ifdef EDITOR
   this->textState.setPosition(x + Tile::TILE_SIZE/2, y + Tile::TILE_SIZE/2);
-  #endif
+  #endif /* EDITOR */
 }
 
 
-void Tile::setBottomTile(unsigned short nTileNum) {
+void Tile::setBottomTile(const unsigned short& nTileNum) {
   #ifdef EDITOR
   this->nTextureBottom = nTileNum;
-  #endif
+  #endif /* EDITOR */
 
   this->spriteBottom.setTextureRect(rect(nTileNum, *this->texTiles));
 }
 
-void Tile::setTopTile(unsigned short nTileNum) {
+void Tile::setTopTile(const unsigned short& nTileNum) {
   #ifdef EDITOR
   this->nTextureTop = nTileNum;
-  #endif
+  #endif /* EDITOR */
 
   if(nTileNum) {
     this->spriteTop.setTextureRect(rect(nTileNum, *this->texTiles));
@@ -152,7 +154,7 @@ TileBack Tile::backup() const {
 void Tile::setDrawState(const bool& drawState) {
   this->drawState = drawState;
 }
-#endif
+#endif /* EDITOR */
 
 inline sf::IntRect rect(const unsigned& num, const sf::Texture& tex) {
   return sf::IntRect((num*Tile::TILE_SIZE)%tex.getSize().x,

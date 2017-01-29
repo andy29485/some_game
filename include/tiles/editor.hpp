@@ -40,6 +40,22 @@
 #include "tiles/tile.hpp"
 
 class EditorEngine {
+  
+public:
+  // Default Constructor
+  EditorEngine(const std::string&, const sf::Font&);
+  EditorEngine(const std::string&, const std::string&, const sf::Font&);
+
+  // Main loop of the editor
+  int mainLoop(const std::string&, const std::string&);
+  
+  // Render the graphics on to the screen
+  void draw();
+
+  void undo();
+
+  void redo();
+
 private:
   // Map that will be saved
   // apears in mainWindow
@@ -79,21 +95,6 @@ private:
 
   // change mode string
   void updateMode();
-  
-public:
-  // Default Constructor
-  EditorEngine(const std::string&, const sf::Font&);
-  EditorEngine(const std::string&, const std::string&, const sf::Font&);
-
-  // Main loop of the editor
-  int mainLoop(const std::string&, const std::string&);
-  
-  // Render the graphics on to the screen
-  void draw();
-
-  void undo();
-
-  void redo();
 };
 
 #endif

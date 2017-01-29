@@ -317,7 +317,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
                 loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.x,
                 loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.y
         );
-        #endif
+        #endif /* DEBUG */
 
         this->selectionRectangle.setPosition(
                   loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.x,
@@ -329,7 +329,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
 
         #ifdef DEBUG
         printf("press: %.0f, %.0f\n", loc1.x, loc1.y);
-        #endif
+        #endif /* DEBUG */
 
         mousePressed1 = true;
       }
@@ -364,7 +364,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
                 loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.x,
                 loc1_tmp.y+(int)Tile::TILE_SIZE*this->toolMap.y
         );
-        #endif
+        #endif /* DEBUG */
 
         this->selectionRectangle.setPosition(
                   loc1_tmp.x+(int)Tile::TILE_SIZE*this->toolMap.x,
@@ -382,7 +382,7 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
                                                           loc1_tmp.y,
                                                           loc2.x,
                                                           loc2.y);
-        #endif
+        #endif /* DEBUG */
 
         if(mousePressed1 && event.type == sf::Event::MouseButtonReleased) {
           mousePressed1 = false;
@@ -522,7 +522,7 @@ inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
 
   #ifdef DEBUG
   printf("(%d, %d)\n", pos.x/Tile::TILE_SIZE, pos.y/Tile::TILE_SIZE);
-  #endif
+  #endif /* DEBUG */
 
   v.x = (int)(pos.x/Tile::TILE_SIZE + std::abs(m.x)) * Tile::TILE_SIZE;
   v.y = (int)(pos.y/Tile::TILE_SIZE + std::abs(m.y)) * Tile::TILE_SIZE;
