@@ -284,7 +284,9 @@ std::streampos TileMap::load(const std::string& filename,
 
   this->renderTexture.create(Tile::TILE_SIZE * w, Tile::TILE_SIZE * h);
 
+  int i, j=0;
   for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
+    i = 0;
     for (auto tile = it->begin(); tile != it->end(); ++tile) {
       data.read((char*)&tmps, sizeof(tmps));
       if(tmps) {
@@ -301,7 +303,10 @@ std::streampos TileMap::load(const std::string& filename,
         tile->setTopTile(0);
         tile->setState(0);
       }
+      tile->setPosition(i, j);
+      i += Tile::TILE_SIZE;
     }
+    j += Tile::TILE_SIZE;
   }
   std::streampos new_pos = data.tellg();
   data.close();
