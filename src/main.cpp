@@ -31,6 +31,8 @@
 
 #ifdef EDITOR
   #include "tiles/editor.hpp"
+#else
+  #include "tiles/game.hpp"
 #endif /* EDITOR */
 
 int main(const int argc, char const** argv) {
@@ -38,10 +40,11 @@ int main(const int argc, char const** argv) {
     FreeConsole();
   #endif /* WIN && !DEBUG */
 
+  sf::Font font;
+  if (!font.loadFromFile("LiberationSans.ttf"))
+      return EXIT_FAILURE;
+
   #ifdef EDITOR
-    sf::Font font;
-    if (!font.loadFromFile("LiberationSans.ttf"))
-        return EXIT_FAILURE;
     std::string map, tiles;
     if(argc == 2) {
       map   = "map.map";
@@ -58,7 +61,8 @@ int main(const int argc, char const** argv) {
     EditorEngine ee(tiles, map, font);
     return ee.mainLoop(tiles, map);
   #else
-    //TODO Regular game stuff
+    GameEngine game;
+    return game.mainLoop();
   #endif /* EDITOR */
 
   return 0;

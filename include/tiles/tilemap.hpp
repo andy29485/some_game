@@ -67,36 +67,6 @@ public:
   //[editor only] specify if tile states should be drawn when draw() is called 
   void setDrawState(const bool&);
 
-  //[editor only] return vector iterator[const]
-  inline std::vector< std::vector<Tile> >::const_iterator begin() const {
-    return this->tiles.begin();
-  }
-  //[editor only] return vector iterator
-  inline std::vector< std::vector<Tile> >::iterator begin() {
-    return this->tiles.begin();
-  }
-
-  //[editor only] return vector iterator end[const]
-  inline std::vector< std::vector<Tile> >::const_iterator end() const {
-    return this->tiles.end();
-  }
-  //[editor only] return vector iterator end
-  inline std::vector< std::vector<Tile> >::iterator end() {
-    return this->tiles.end();
-  }
-
-  //[editor only] resize vectors
-  void resize(const unsigned&, const unsigned&);
-
-  //access vector[const
-  inline const std::vector<Tile>& operator[](const std::size_t& i) const {
-    return this->tiles[i];
-  }
-  //[editor only] access vector
-  inline std::vector<Tile>& operator[](const std::size_t& i) {
-    return this->tiles[i];
-  }
-
   //[editor only] save map to file
   void save(const std::string& filename, const bool& append = false) const;
 
@@ -106,6 +76,36 @@ public:
   //[editor only] create backup of tiles 
   TileMapBack backup() const;
   #endif /* EDITOR */
+
+  //return vector iterator[const]
+  inline std::vector< std::vector<Tile> >::const_iterator begin() const {
+    return this->tiles.begin();
+  }
+  //return vector iterator
+  inline std::vector< std::vector<Tile> >::iterator begin() {
+    return this->tiles.begin();
+  }
+
+  //return vector iterator end[const]
+  inline std::vector< std::vector<Tile> >::const_iterator end() const {
+    return this->tiles.end();
+  }
+  //return vector iterator end
+  inline std::vector< std::vector<Tile> >::iterator end() {
+    return this->tiles.end();
+  }
+
+  //resize vectors
+  void resize(const unsigned&, const unsigned&);
+
+  //access vector[const]
+  inline const std::vector<Tile>& operator[](const std::size_t& i) const {
+    return this->tiles[i];
+  }
+  //access vector
+  inline std::vector<Tile>& operator[](const std::size_t& i) {
+    return this->tiles[i];
+  }
 
   //get aspects of the map
   inline unsigned getWidth()  const { return this->tiles[0].size(); }

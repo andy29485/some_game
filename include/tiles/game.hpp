@@ -28,6 +28,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "tilemap.hpp"
+#include "player.hpp"
 
 namespace sf {
   class Event;
@@ -38,6 +39,9 @@ class GameEngine {
 public:
   //constructors
   GameEngine();
+
+  //run game
+  int mainLoop();
 
   //update contents of the window
   void draw();
@@ -56,8 +60,8 @@ private:
   TileMap map;
 
   //player 1
-  sf::Player player1;
-}
+  Player player1;
+};
 
 #endif /* GAME_ENGINE_HPP */
 

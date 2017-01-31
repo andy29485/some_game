@@ -28,7 +28,7 @@
 #include "tiles/person.hpp"
 #include <cstdint>
 
-class Player {
+class Player : public Person {
 public:
   //Constructors
   Player(const std::string&, unsigned char state = 0);
@@ -36,9 +36,9 @@ public:
 
   //TODO figure out what else this class should do
 
-  inline void clearFlag (unsigned flag) { this->flag |=  (1 << flag); }
-  inline void setFlag   (unsigned flag) { this->flag &= ~(1 << flag); }
-  inline void toggleFlag(unsigned flag) { this->flag ^=  (1 << flag); }
+  inline void clearFlag (unsigned flag) { this->flags |=  (1 << flag); }
+  inline void setFlag   (unsigned flag) { this->flags &= ~(1 << flag); }
+  inline void toggleFlag(unsigned flag) { this->flags ^=  (1 << flag); }
   inline bool checkFlag (unsigned flag) const
     { return this->flags & (1 << flag); }
 

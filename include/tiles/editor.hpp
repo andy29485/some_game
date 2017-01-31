@@ -22,6 +22,8 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
+#ifdef EDITOR
+
 #ifndef EDITOR_HPP
 #define EDITOR_HPP
 
@@ -93,5 +95,7 @@ private:
   void updateMode();
 };
 
-#endif
+#endif /* EDITOR_HPP */
+
+#endif /* EDITOR */
 

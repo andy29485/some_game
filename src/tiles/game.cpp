@@ -22,6 +22,11 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
+#include <thread>
+#include <SFML/Window/Event.hpp>
+
+#include "tiles/game.hpp"
+
 GameEngine::GameEngine() 
 : mainWindow(sf::VideoMode(800, 600), "Editor"),
   map("tiles.png", "map.map"),
@@ -30,12 +35,30 @@ GameEngine::GameEngine()
   //TODO
 }
 
+int GameEngine::mainLoop() {
+  sf::Event event;
+  std::thread updater(this->update);
+
+  while(this->mainWindow.isOpen()) {
+    while(mainWindow.pollEvent(event)) {
+      this->processEvent(event);
+    }
+
+    this->update();
+  }
+
+  updater.join();
+
+}
+
 void GameEngine::draw() {
   //TODO
 }
 
 void GameEngine::update() {
-  //TODO
+  while(this->mainWindow.isOpen()) {
+    this->player1.update();
+  }
 }
 
 void GameEngine::processEvent(sf::Event event) {

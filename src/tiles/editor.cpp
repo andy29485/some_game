@@ -22,6 +22,8 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
+#ifdef EDITOR
+
 // headers
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
@@ -540,4 +542,6 @@ inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
   else if(v.y >= m.getHeight()*Tile::TILE_SIZE)
     v.y = (m.getHeight()-1)*Tile::TILE_SIZE;
 }
+
+#endif /* EDITOR */
 
