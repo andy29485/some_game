@@ -30,17 +30,23 @@
 
 void _move(unsigned char&, sf::Sprite&, int);
 
-Person::Person(const sf::Texture& texture, unsigned char state)
-: sprite(texture),
-  sf::Vector2i(),
+Person::Person(const std::string& filename, unsigned char state)
+: sf::Vector2i(),
   state(state)
-{}
+{
+  sf::Texture texture;
+  texture.loadFromFile(filename);
+  sprite.setTexture(texture);
+}
 
-Person::Person(const sf::Texture& texture, int x, int y, unsigned char state)
-: sprite(texture),
-  sf::Vector2i(x, y),
+Person::Person(const std::string& filename, int x, int y, unsigned char state)
+: sf::Vector2i(x, y),
   state(state)
-{}
+{
+  sf::Texture texture;
+  texture.loadFromFile(filename);
+  sprite.setTexture(texture);
+}
 
 void Person::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   target.draw(this->sprite);

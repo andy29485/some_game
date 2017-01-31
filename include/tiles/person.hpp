@@ -51,8 +51,8 @@ public:
   static const unsigned char DOWN  = 3;
   static const unsigned char SOUTH = 3;
 
-  Person(const sf::Texture&, unsigned char state = 0);
-  Person(const sf::Texture&, int, int, unsigned char state = 0);
+  Person(const std::string&, unsigned char state = 0);
+  Person(const std::string&, int, int, unsigned char state = 0);
 
   //Draw the person
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

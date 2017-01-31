@@ -36,6 +36,9 @@ namespace sf {
 class GameEngine {
 
 public:
+  //constructors
+  GameEngine();
+
   //update contents of the window
   void draw();
 
@@ -49,6 +52,11 @@ private:
   // The window where the game will be played out
   sf::RenderWindow mainWindow;
 
+  //game map
+  TileMap map;
+
+  //player 1
+  sf::Player player1;
 }
 
 #endif /* GAME_ENGINE_HPP */

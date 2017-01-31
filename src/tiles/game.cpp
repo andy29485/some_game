@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-// player.cpp
+// game.hpp
 // This file is part of Return of the Horsemen: A Tale of Calamity in a Perfect
 // World
 //
@@ -22,14 +22,23 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#include "tiles/player.hpp"
+GameEngine::GameEngine() 
+: mainWindow(sf::VideoMode(800, 600), "Editor"),
+  map("tiles.png", "map.map"),
+  player1("player1.png", 5, 5)
+{
+  //TODO
+}
 
+void GameEngine::draw() {
+  //TODO
+}
 
-Player::Player(const std::string& filename, unsigned char state)
-: Person(filename, state)
-{}
+void GameEngine::update() {
+  //TODO
+}
 
-Player::Player(const std::string& filename, int x, int y, unsigned char state)
-: Person(filename, x, y, state)
-{}
+void GameEngine::processEvent(sf::Event event) {
+  //TODO
+}
 

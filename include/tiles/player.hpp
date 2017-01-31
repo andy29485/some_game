@@ -30,12 +30,16 @@
 
 class Player {
 public:
-  //TODO what else does
+  //Constructors
+  Player(const std::string&, unsigned char state = 0);
+  Player(const std::string&, int, int, unsigned char state = 0);
 
-  inline void clearFlag(unsigned flag)  { this->flag |=  (1 << flag); }
-  inline void setFlag(unsigned flag)    { this->flag &= ~(1 << flag); }
+  //TODO figure out what else this class should do
+
+  inline void clearFlag (unsigned flag) { this->flag |=  (1 << flag); }
+  inline void setFlag   (unsigned flag) { this->flag &= ~(1 << flag); }
   inline void toggleFlag(unsigned flag) { this->flag ^=  (1 << flag); }
-  inline bool checkFlag(unsigned flag) const
+  inline bool checkFlag (unsigned flag) const
     { return this->flags & (1 << flag); }
 
 private:
