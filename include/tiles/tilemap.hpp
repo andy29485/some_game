@@ -38,6 +38,8 @@
   typedef std::vector< std::vector<TileBack> > TileMapBack;
 #endif
 
+typedef std::vector<char> Path;
+
 class TileMap : public sf::Drawable, public sf::Vector2i {
 
 public:
@@ -59,7 +61,7 @@ public:
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
   //find shortest path between two locations
-  std::vector<char> findPath(const sf::Vector2i&, const sf::Vector2i&);
+  Path findPath(const sf::Vector2i&, const sf::Vector2i&);
 
   #ifdef EDITOR
   //[editor only] specify if tile states should be drawn when draw() is called 

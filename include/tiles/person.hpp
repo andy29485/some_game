@@ -29,26 +29,27 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 
+typedef std::vector<char> Path;
+
 namespace sf {
   class Texture;
 }
-
 class TileMap;
 
 class Person : public sf::Drawable, sf::Vector2i {
 
 public:
-  static const char LEFT  = 0;
-  static const char EAST  = 0;
+  static const unsigned char LEFT  = 0;
+  static const unsigned char EAST  = 0;
 
-  static const char UP    = 1;
-  static const char NORTH = 1;
+  static const unsigned char UP    = 1;
+  static const unsigned char NORTH = 1;
 
-  static const char RIGHT = 2;
-  static const char WEST  = 2;
+  static const unsigned char RIGHT = 2;
+  static const unsigned char WEST  = 2;
 
-  static const char DOWN  = 3;
-  static const char SOUTH = 3;
+  static const unsigned char DOWN  = 3;
+  static const unsigned char SOUTH = 3;
 
   Person(const sf::Texture&, unsigned char state = 0);
   Person(const sf::Texture&, int, int, unsigned char state = 0);
@@ -67,17 +68,31 @@ public:
   //set the direction w/o affecting other parts of the state
   void setDirection(const unsigned char&);
 
+  //update player, responsible for actual movement as well as other
+  // heavy calculations
+  void update();
+
+  //sequence of pregiven moves is given to the character
+  void follow_path(TileMap, Path);
+
   //get the state
   inline unsigned char getState() const { return this->state; }
 
   //get the direction w/o the other parts of the state
-  inline unsigned char getDirection() const { return this->state & 3; }
+  inline unsigned char getDirection() const { return this->state & 0x3; }
 
 private:
   //sprite that will be used to represent the person
   sf::Sprite sprite;
 
-  //state of player (includes direction)
+  /*state of player (includes direction)
+   * 0 0 0 0 0 0 0 0
+   *     +-+ | | +-+ --- direction [0-3] - direction that person is facing
+   *      |  | + ------- in motion [true/false]
+   *      |  + --------- half step [t/f] - if true, person is *currently*
+   *      |                                 between two tiles
+   *      + ------------ direction [0-3] - direction person is moving in
+   */
   unsigned char state;
 };
 
