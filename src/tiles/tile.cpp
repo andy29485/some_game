@@ -119,6 +119,7 @@ void Tile::setPosition(const unsigned& x, const unsigned& y) {
 
 void Tile::setBottomTile(const unsigned short& nTileNum) {
   #ifdef EDITOR
+  if(this->nTextureBottom == nTileNum) { return; }
   this->nTextureBottom = nTileNum;
   #endif /* EDITOR */
 
@@ -127,6 +128,7 @@ void Tile::setBottomTile(const unsigned short& nTileNum) {
 
 void Tile::setTopTile(const unsigned short& nTileNum) {
   #ifdef EDITOR
+  if(this->nTextureTop == nTileNum) { return; }
   this->nTextureTop = nTileNum;
   #endif /* EDITOR */
 

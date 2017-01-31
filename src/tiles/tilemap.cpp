@@ -325,14 +325,9 @@ void TileMap::_redraw() {
 #endif /* EDITOR */
   this->renderTexture.clear();
 
-  unsigned int w, h;
 
-  h = 0;
   for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
-    w = 0;
     for (auto tile = it->begin(); tile != it->end(); ++tile) {
-      tile->setPosition(w, h);
-
       #ifdef EDITOR
       tile->setDrawState(true);
       this->renderTextureState.draw(*tile);
@@ -340,10 +335,7 @@ void TileMap::_redraw() {
       tile->setDrawState(false);
       #endif /* EDITOR */
       this->renderTexture.draw(*tile);
-
-      w += Tile::TILE_SIZE;
     }
-    h += Tile::TILE_SIZE;
   }
   this->renderTexture.display();
 
