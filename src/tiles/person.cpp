@@ -36,13 +36,13 @@ void _move(unsigned char&, sf::Sprite&, int);
 
 
 const unsigned char Person::LEFT  = 0;
-const unsigned char Person::EAST  = 0;
+const unsigned char Person::WEST  = 0;
 
 const unsigned char Person::UP    = 1;
 const unsigned char Person::NORTH = 1;
 
 const unsigned char Person::RIGHT = 2;
-const unsigned char Person::WEST  = 2;
+const unsigned char Person::EAST  = 2;
 
 const unsigned char Person::DOWN  = 3;
 const unsigned char Person::SOUTH = 3;
@@ -51,18 +51,29 @@ Person::Person(const std::string& filename, unsigned char state)
 : sf::Vector2i(),
   state(state)
 {
-  sf::Texture texture;
   texture.loadFromFile(filename);
   sprite.setTexture(texture);
+  sprite.setTextureRect( sf::IntRect(
+    0,
+    Tile::TILE_SIZE * (state & 0x3),
+    Tile::TILE_SIZE,
+    Tile::TILE_SIZE
+  ));
 }
 
 Person::Person(const std::string& filename, int x, int y, unsigned char state)
 : sf::Vector2i(x, y),
   state(state)
 {
-  sf::Texture texture;
   texture.loadFromFile(filename);
   sprite.setTexture(texture);
+  sprite.setPosition(x * Tile::TILE_SIZE, y * Tile::TILE_SIZE);
+  sprite.setTextureRect( sf::IntRect(
+    0,
+    Tile::TILE_SIZE * (state & 0x3),
+    Tile::TILE_SIZE,
+    Tile::TILE_SIZE
+  ));
 }
 
 void Person::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -106,13 +117,18 @@ bool Person::move(const unsigned char& dir, const TileMap& map,
       y = 0;
   }
 
-  this->state &=      ~0x30;
-  this->state |= dir & 0x30;
-
   if(this->y + y < 0 || this->y + y >= map.getHeight()) { return false; }
   if(this->x + x < 0 || this->x + x >= map.getWidth())  { return false; }
 
+  #ifdef DEBUG
+  printf("next map state: %d\n", map[this->y + y][this->x + x].getState());
+  #endif /* DEBUG */
+
   if(!map[this->y + y][this->x + x].getState()) { return false; }
+
+  this->state &=     ~0x30;
+  this->state |= dir << 4;
+  this->state |=      0xC;
 
   this->x += x;
   this->y += y;
@@ -146,27 +162,56 @@ void Person::setDirection(const unsigned char& dir) {
 void _move(unsigned char& state, sf::Sprite& sprite, int left_side) {
   //not in motion, nothing to be done 
   if(!(state & 0x4)) {
+    #ifdef DEBUG
+    printf("player text rect: (%d, %d - %dx%d)\n", 
+      0,
+      Tile::TILE_SIZE * (state & 0x3),
+      Tile::TILE_SIZE,
+      Tile::TILE_SIZE
+    );
+    #endif /* DEBUG */
+
+    sprite.setTextureRect( sf::IntRect(
+      0,
+      Tile::TILE_SIZE * (state & 0x3),
+      Tile::TILE_SIZE,
+      Tile::TILE_SIZE
+    ));
     return;
   }
 
   switch((state >> 4) & 0x3) {
     case Person::UP:
-      sprite.move(0, -Tile::TILE_SIZE/2);
+      sprite.move(0, -(int)Tile::TILE_SIZE/2);
       break;
 
     case Person::DOWN:
-      sprite.move(0, Tile::TILE_SIZE/2);
+      sprite.move(0, (int)Tile::TILE_SIZE/2);
       break;
 
     case Person::LEFT:
-      sprite.move(-Tile::TILE_SIZE/2, 0);
+      sprite.move(-(int)Tile::TILE_SIZE/2, 0);
       break;
 
     case Person::RIGHT:
-      sprite.move(Tile::TILE_SIZE/2, 0);
+      sprite.move((int)Tile::TILE_SIZE/2, 0);
   }
   
   unsigned char half_step = state & 0x8;
+
+  #ifdef DEBUG
+  printf("player moved: (%.0f, %.0f) - %x\n", 
+    sprite.getPosition().x, 
+    sprite.getPosition().y,
+    state & 0xC
+  );
+  printf("player text rect: (%d, %d - %dx%d)\n",
+    Tile::TILE_SIZE * (half_step ? 1 : 0) * (1 + left_side),
+    Tile::TILE_SIZE * (state & 0x3),
+    Tile::TILE_SIZE,
+    Tile::TILE_SIZE
+  );
+  #endif /* DEBUG */
 
   sprite.setTextureRect( sf::IntRect(
     Tile::TILE_SIZE * (half_step ? 1 : 0) * (1 + left_side),
@@ -176,6 +221,6 @@ void _move(unsigned char& state, sf::Sprite& sprite, int left_side) {
   ));
 
   state &= ~0xC;
-  state |= half_step << 1;
+  state |= half_step >> 1;
 }
 

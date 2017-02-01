@@ -27,26 +27,24 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 
 typedef std::vector<char> Path;
 
-namespace sf {
-  class Texture;
-}
 class TileMap;
 
 class Person : public sf::Drawable, sf::Vector2i {
 
 public:
   static const unsigned char LEFT;
-  static const unsigned char EAST;
+  static const unsigned char WEST;
 
   static const unsigned char UP;
   static const unsigned char NORTH;
 
   static const unsigned char RIGHT;
-  static const unsigned char WEST;
+  static const unsigned char EAST;
 
   static const unsigned char DOWN;
   static const unsigned char SOUTH;
@@ -84,6 +82,7 @@ public:
 private:
   //sprite that will be used to represent the person
   sf::Sprite sprite;
+  sf::Texture texture;
 
   /*state of player (includes direction)
    * 0 0 0 0 0 0 0 0

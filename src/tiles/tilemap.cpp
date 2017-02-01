@@ -95,25 +95,6 @@ TileMap::TileMap(const TileMap& map)
 }
 */
 #else
-TileMap::TileMap(const std::string& texFileName, const bool& fromTexture) {
-  this->texTiles.loadFromFile(texFileName);
-  if(fromTexture) {
-    this->resize((unsigned)(this->texTiles.getSize().x/Tile::TILE_SIZE),
-                 (unsigned)(this->texTiles.getSize().y/Tile::TILE_SIZE));
-    unsigned short i = ~0;
-    for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
-      for (auto tile = it->begin(); tile != it->end(); ++tile) {
-        tile->setBottomTile((unsigned short)(++i));
-        tile->setTopTile(0);
-      }
-    }
-  }
-  else
-    this->tiles.resize(100, std::vector<Tile>(100, Tile(this->texTiles,0,0)));
-  this->renderTexture.create(Tile::TILE_SIZE * 100, Tile::TILE_SIZE * 100);
-  this->redraw();
-}
-
 TileMap::TileMap(const std::string& texFileName,
                  const std::string& mapFileName) {
   this->texTiles.loadFromFile(texFileName);
