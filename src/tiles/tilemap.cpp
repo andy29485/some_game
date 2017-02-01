@@ -80,7 +80,7 @@ TileMap::TileMap(const std::string& texFileName,
     this->redraw();
   }
 }
-
+/*
 TileMap::TileMap(const TileMap& map)
 : tiles(map.tiles),
   texTiles(map.texTiles),
@@ -93,6 +93,7 @@ TileMap::TileMap(const TileMap& map)
                                   Tile::TILE_SIZE*this->getHeight());
   this->redraw();
 }
+*/
 #else
 TileMap::TileMap(const std::string& texFileName, const bool& fromTexture) {
   this->texTiles.loadFromFile(texFileName);
@@ -193,38 +194,6 @@ std::vector<char> TileMap::findPath(const sf::Vector2i& start_loc,
 #ifdef EDITOR
 void TileMap::setDrawState(const bool& drawState) {
   this->drawState = drawState;
-}
-
-void TileMap::resize(const unsigned& width, const unsigned& height) {
-  #ifdef DEBUG
-  printf("resize: %d, %d\n", width, height);
-  #endif /* DEBUG */
-
-  if (width == 0 || height == 0) {
-    return;
-  }
-
-  this->renderTextureState.create(Tile::TILE_SIZE*width,
-                                  Tile::TILE_SIZE*height);
-  this->renderTexture.create(Tile::TILE_SIZE*width, Tile::TILE_SIZE*height);
-
-  this->tiles.reserve(height);
-  this->tiles.resize(height);
-
-  int j = 0;
-  for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
-    it->reserve(width);
-    it->resize(width, Tile(this->texTiles, 0, 0, this->font));
-
-    int i = 0;
-    for (auto tile = it->begin(); tile != it->end(); ++tile) {
-      tile->setPosition(i, j);
-      i += Tile::TILE_SIZE;
-    }
-    j += Tile::TILE_SIZE;
-  }
-
-  this->redraw();
 }
 
 void TileMap::save(const std::string& filename, const bool& append) const {
@@ -347,6 +316,44 @@ void TileMap::_redraw() {
   #ifdef EDITOR
   this->renderTextureState.display();
   #endif /* EDITOR */
+}
+
+void TileMap::resize(const unsigned& width, const unsigned& height) {
+  #ifdef DEBUG
+  printf("resize: %d, %d\n", width, height);
+  #endif /* DEBUG */
+
+  if (width == 0 || height == 0) {
+    return;
+  }
+  #ifdef EDITOR
+  this->renderTextureState.create(Tile::TILE_SIZE*width,
+                                  Tile::TILE_SIZE*height);
+  #endif /* EDITOR */
+
+  this->renderTexture.create(Tile::TILE_SIZE*width, Tile::TILE_SIZE*height);
+
+  this->tiles.reserve(height);
+  this->tiles.resize(height);
+
+  int j = 0;
+  for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
+    it->reserve(width);
+    #ifdef EDITOR
+    it->resize(width, Tile(this->texTiles, 0, 0, this->font));
+    #else
+    it->resize(width, Tile(this->texTiles, 0, 0));
+    #endif /* EDITOR */
+
+    int i = 0;
+    for (auto tile = it->begin(); tile != it->end(); ++tile) {
+      tile->setPosition(i, j);
+      i += Tile::TILE_SIZE;
+    }
+    j += Tile::TILE_SIZE;
+  }
+
+  this->redraw();
 }
 
 #ifdef EDITOR

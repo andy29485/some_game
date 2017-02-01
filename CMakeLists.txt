@@ -80,6 +80,6 @@ if( WIN32 )
   )
 else()
   target_link_libraries(${${PROJECT_NAME}_EXEC_NAME}
-    sfml-graphics sfml-window sfml-system
+    sfml-graphics sfml-window sfml-system pthread
   )
 endif()

@@ -22,6 +22,10 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
+#ifdef DEBUG
+  #include <stdio.h>
+#endif /* DEBUG */
+
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "tiles/person.hpp"
@@ -29,6 +33,19 @@
 #include "tiles/tilemap.hpp"
 
 void _move(unsigned char&, sf::Sprite&, int);
+
+
+const unsigned char Person::LEFT  = 0;
+const unsigned char Person::EAST  = 0;
+
+const unsigned char Person::UP    = 1;
+const unsigned char Person::NORTH = 1;
+
+const unsigned char Person::RIGHT = 2;
+const unsigned char Person::WEST  = 2;
+
+const unsigned char Person::DOWN  = 3;
+const unsigned char Person::SOUTH = 3;
 
 Person::Person(const std::string& filename, unsigned char state)
 : sf::Vector2i(),
@@ -69,22 +86,22 @@ bool Person::move(const unsigned char& dir, const TileMap& map,
   int x, y;
 
   switch(dir & 0x3) {
-    case UP:
+    case Person::UP:
       x = 0;
       y = -1;
       break;
 
-    case DOWN:
+    case Person::DOWN:
       x = 0;
       y = 1;
       break;
 
-    case LEFT:
+    case Person::LEFT:
       x = -1;
       y = 0;
       break;
 
-    case RIGHT:
+    case Person::RIGHT:
       x = 1;
       y = 0;
   }
@@ -107,6 +124,9 @@ bool Person::move(const unsigned char& dir, const TileMap& map,
 void Person::update() {
   //move player over one half step
   _move(this->state, this->sprite, (this->x + this->y)%2);
+  #ifdef DEBUG
+  printf("player updating\n");
+  #endif /* DEBUG */
 }
 
 void follow_path(TileMap map, Path path) {

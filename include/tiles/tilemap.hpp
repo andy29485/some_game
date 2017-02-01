@@ -48,7 +48,7 @@ public:
     TileMap(const std::string&, const sf::Font&,
                                 const bool& fromTexture = false);
     TileMap(const std::string&, const std::string&, const sf::Font&);
-    TileMap(const TileMap&);
+    //TileMap(const TileMap&);
   #else
     TileMap(const std::string& texFileName, const bool& fromTexture = false);
     TileMap(const std::string& texFileName, const std::string& mapFileName);

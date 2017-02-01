@@ -52,6 +52,9 @@ public:
   //process window events
   void processEvent(sf::Event);
 
+  //return if game is still going
+  inline bool running() const { return this->mainWindow.isOpen(); }
+
 private:
   // The window where the game will be played out
   sf::RenderWindow mainWindow;

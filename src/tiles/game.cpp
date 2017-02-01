@@ -22,13 +22,25 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
+#define _GLIBCXX_USE_NANOSLEEP 1
+
 #include <thread>
+#include <chrono>
+#ifdef DEBUG
+  #include <stdio.h>
+#endif /* DEBUG */
+
 #include <SFML/Window/Event.hpp>
 
 #include "tiles/game.hpp"
+#include "tiles/person.hpp"
+
+void update_game(GameEngine*);
 
 GameEngine::GameEngine() 
-: mainWindow(sf::VideoMode(800, 600), "Editor"),
+: mainWindow(sf::VideoMode(800, 600),
+             "Return of the Horsemen: A Tale of Calamity in a Perfect World"
+  ),
   map("tiles.png", "map.map"),
   player1("player1.png", 5, 5)
 {
@@ -37,14 +49,14 @@ GameEngine::GameEngine()
 
 int GameEngine::mainLoop() {
   sf::Event event;
-  std::thread updater(this->update);
+  std::thread updater(update_game, this);
 
   while(this->mainWindow.isOpen()) {
     while(mainWindow.pollEvent(event)) {
       this->processEvent(event);
     }
 
-    this->update();
+    this->draw();
   }
 
   updater.join();
@@ -52,16 +64,49 @@ int GameEngine::mainLoop() {
 }
 
 void GameEngine::draw() {
-  //TODO
+  this->mainWindow.clear();
+
+  this->mainWindow.draw(this->map);
+  this->mainWindow.draw(this->player1);
+
+  this->mainWindow.display();
 }
 
 void GameEngine::update() {
-  while(this->mainWindow.isOpen()) {
-    this->player1.update();
-  }
+  this->player1.update();
+
+  //TODO - other things
 }
 
 void GameEngine::processEvent(sf::Event event) {
-  //TODO
+  switch(event.type) {
+    case sf::Event::Closed:
+      this->mainWindow.close();
+      break;
+    case (sf::Keyboard::Up):
+      this->player1.move(Person::UP, this->map);
+      break;
+    case (sf::Keyboard::Down):
+      this->player1.move(Person::DOWN, this->map);
+      break;
+    case (sf::Keyboard::Right):
+      this->player1.move(Person::RIGHT, this->map);
+      break;
+    case (sf::Keyboard::Left):
+      this->player1.move(Person::LEFT, this->map);
+      break;
+  }
+}
+
+void update_game(GameEngine* game) {
+  #ifdef DEBUG
+  printf("updater started\n");
+  #endif /* DEBUG */
+
+  while(game->running()) {
+    game->update();
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+  }
 }
 

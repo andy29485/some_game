@@ -39,17 +39,17 @@ class TileMap;
 class Person : public sf::Drawable, sf::Vector2i {
 
 public:
-  static const unsigned char LEFT  = 0;
-  static const unsigned char EAST  = 0;
+  static const unsigned char LEFT;
+  static const unsigned char EAST;
 
-  static const unsigned char UP    = 1;
-  static const unsigned char NORTH = 1;
+  static const unsigned char UP;
+  static const unsigned char NORTH;
 
-  static const unsigned char RIGHT = 2;
-  static const unsigned char WEST  = 2;
+  static const unsigned char RIGHT;
+  static const unsigned char WEST;
 
-  static const unsigned char DOWN  = 3;
-  static const unsigned char SOUTH = 3;
+  static const unsigned char DOWN;
+  static const unsigned char SOUTH;
 
   Person(const std::string&, unsigned char state = 0);
   Person(const std::string&, int, int, unsigned char state = 0);
