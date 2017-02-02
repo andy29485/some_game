@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-// player.cpp
+// gameobject.hpp
 // This file is part of Return of the Horsemen: A Tale of Calamity in a Perfect
 // World
 //
@@ -22,41 +22,20 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#include "tiles/player.hpp"
-#include <SFML/Window/Event.hpp>
+#ifndef GAME_OBJECT_HPP
+#define GAME_OBJECT_HPP
 
+#include <SFML/Graphics/Drawable.hpp>
 
-Player::Player(const std::string& filename, TileMap* map,
-               const unsigned char& state)
-: Person(filename, map, state)
-{}
-
-Player::Player(const std::string& filename, TileMap* map,
-               const int& x, const int& y, const unsigned char& state)
-: Person(filename, map, x, y, state)
-{}
-
-void Player::processEvent(sf::Event event) {
-  switch(event.type) {
-    case sf::Event::Closed:
-      this->mainWindow.close();
-      break;
-    case (sf::Event::KeyPressed):
-      switch (event.key.code) {
-        case (sf::Keyboard::Up):
-          this->move(Person::UP, this->map);
-          break;
-        case (sf::Keyboard::Down):
-          this->move(Person::DOWN, this->map);
-          break;
-        case (sf::Keyboard::Right):
-          this->move(Person::RIGHT, this->map);
-          break;
-        case (sf::Keyboard::Left):
-          this->move(Person::LEFT, this->map);
-          break;
-      }
-      break;
-  }
+namespace sf {
+  class Event;
 }
+
+class GameObject : public sf::Drawable {
+  //virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
+  virtual void update() = 0;
+  virtual void processEvent(sf::Event event) = 0;
+};
+
+#endif
 

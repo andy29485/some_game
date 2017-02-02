@@ -47,10 +47,12 @@ const unsigned char Person::EAST  = 2;
 const unsigned char Person::DOWN  = 3;
 const unsigned char Person::SOUTH = 3;
 
-Person::Person(const std::string& filename, unsigned char state)
+Person::Person(const std::string& filename, TileMap* map,
+               const unsigned char& state)
 : sf::Vector2i(),
   state(state)
 {
+  this->map = map;
   texture.loadFromFile(filename);
   sprite.setTexture(texture);
   sprite.setTextureRect( sf::IntRect(
@@ -61,10 +63,12 @@ Person::Person(const std::string& filename, unsigned char state)
   ));
 }
 
-Person::Person(const std::string& filename, int x, int y, unsigned char state)
+Person::Person(const std::string& filename, TileMap* map,
+               const int& x, const int& y, const unsigned char& state)
 : sf::Vector2i(x, y),
   state(state)
 {
+  this->map = map;
   texture.loadFromFile(filename);
   sprite.setTexture(texture);
   sprite.setPosition(x * Tile::TILE_SIZE, y * Tile::TILE_SIZE);
@@ -145,7 +149,7 @@ void Person::update() {
   #endif /* DEBUG */
 }
 
-void follow_path(TileMap map, Path path) {
+void follow_path(Path path) {
   //TODO
 }
 

@@ -85,23 +85,8 @@ void GameEngine::processEvent(sf::Event event) {
     case sf::Event::Closed:
       this->mainWindow.close();
       break;
-    case (sf::Event::KeyPressed):
-      switch (event.key.code) {
-        case (sf::Keyboard::Up):
-          this->player1.move(Person::UP, this->map);
-          break;
-        case (sf::Keyboard::Down):
-          this->player1.move(Person::DOWN, this->map);
-          break;
-        case (sf::Keyboard::Right):
-          this->player1.move(Person::RIGHT, this->map);
-          break;
-        case (sf::Keyboard::Left):
-          this->player1.move(Person::LEFT, this->map);
-          break;
-      }
-      break;
   }
+  this->player1.processEvent(event);
 }
 
 void update_game(GameEngine* game) {

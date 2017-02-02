@@ -31,16 +31,19 @@
 class Player : public Person {
 public:
   //Constructors
-  Player(const std::string&, unsigned char state = 0);
-  Player(const std::string&, int, int, unsigned char state = 0);
+  Player(const std::string&, TileMap*, const unsigned char& state = 0);
+  Player(const std::string&, TileMap*, const int&, const int&,
+         const unsigned char& state = 0);
 
   //TODO figure out what else this class should do
 
-  inline void clearFlag (unsigned flag) { this->flags |=  (1 << flag); }
-  inline void setFlag   (unsigned flag) { this->flags &= ~(1 << flag); }
+  inline void setFlag   (unsigned flag) { this->flags |=  (1 << flag); }
+  inline void clearFlag (unsigned flag) { this->flags &= ~(1 << flag); }
   inline void toggleFlag(unsigned flag) { this->flags ^=  (1 << flag); }
   inline bool checkFlag (unsigned flag) const
     { return this->flags & (1 << flag); }
+
+  virtual void processEvent(sf::Event event) override;
 
 private:
   //flags that can be checked later

@@ -25,16 +25,17 @@
 #ifndef PERSON_HPP
 #define PERSON_HPP
 
-#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
+
+#include "gameobject.hpp"
 
 typedef std::vector<char> Path;
 
 class TileMap;
 
-class Person : public sf::Drawable, sf::Vector2i {
+class Person : public GameObject, public sf::Vector2i {
 
 public:
   static const unsigned char LEFT;
@@ -49,8 +50,9 @@ public:
   static const unsigned char DOWN;
   static const unsigned char SOUTH;
 
-  Person(const std::string&, unsigned char state = 0);
-  Person(const std::string&, int, int, unsigned char state = 0);
+  Person(const std::string&, TileMap*, const unsigned char& state = 0);
+  Person(const std::string&, TileMap*, const int&, const int&,
+         const unsigned char& state = 0);
 
   //Draw the person
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -93,6 +95,9 @@ private:
    *      + ------------ direction [0-3] - direction person is moving in
    */
   unsigned char state;
+
+  // The map that the person resides on
+  TileMap* map;
 };
 
 #endif /* PERSON_HPP */
