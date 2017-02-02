@@ -59,8 +59,7 @@ public:
 
   //move/turn in direction,
   //  if bool is true move without turning
-  virtual bool move(const unsigned char&, const TileMap& map,
-                    const bool& turn = false);
+  virtual bool move(const unsigned char&, const bool& turn = false);
 
   //set the state
   void setState(const unsigned char&);
@@ -73,7 +72,7 @@ public:
   void update();
 
   //sequence of pregiven moves is given to the character
-  void follow_path(TileMap, Path);
+  void follow_path(Path);
 
   //get the state
   inline unsigned char getState() const { return this->state; }
@@ -81,7 +80,7 @@ public:
   //get the direction w/o the other parts of the state
   inline unsigned char getDirection() const { return this->state & 0x3; }
 
-private:
+protected:
   //sprite that will be used to represent the person
   sf::Sprite sprite;
   sf::Texture texture;

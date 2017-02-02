@@ -38,22 +38,19 @@ Player::Player(const std::string& filename, TileMap* map,
 
 void Player::processEvent(sf::Event event) {
   switch(event.type) {
-    case sf::Event::Closed:
-      this->mainWindow.close();
-      break;
     case (sf::Event::KeyPressed):
       switch (event.key.code) {
         case (sf::Keyboard::Up):
-          this->move(Person::UP, this->map);
+          this->move(Person::UP);
           break;
         case (sf::Keyboard::Down):
-          this->move(Person::DOWN, this->map);
+          this->move(Person::DOWN);
           break;
         case (sf::Keyboard::Right):
-          this->move(Person::RIGHT, this->map);
+          this->move(Person::RIGHT);
           break;
         case (sf::Keyboard::Left):
-          this->move(Person::LEFT, this->map);
+          this->move(Person::LEFT);
           break;
       }
       break;

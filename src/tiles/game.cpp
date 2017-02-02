@@ -42,7 +42,7 @@ GameEngine::GameEngine()
              "Return of the Horsemen: A Tale of Calamity in a Perfect World"
   ),
   map("tiles.png", "map.map"),
-  player1("player1.png", 5, 5)
+  player1("player1.png", &map, 5, 5)
 {
   mainWindow.setVerticalSyncEnabled(true);
   mainWindow.setMouseCursorVisible(true);

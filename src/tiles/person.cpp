@@ -87,8 +87,7 @@ void Person::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 //move/turn in direction,
 //  if bool is true move without turning
 //  return true if movement did not go into the negatives
-bool Person::move(const unsigned char& dir, const TileMap& map, 
-                  const bool& turn) {
+bool Person::move(const unsigned char& dir,const bool& turn) {
   //face direction of movement
   if(dir != this->getDirection() && !turn) {
     this->setDirection(dir);
@@ -121,19 +120,22 @@ bool Person::move(const unsigned char& dir, const TileMap& map,
       y = 0;
   }
 
-  if(this->y + y < 0 || this->y + y >= map.getHeight()) { return false; }
-  if(this->x + x < 0 || this->x + x >= map.getWidth())  { return false; }
+  if(this->y + y < 0 || this->y + y >= this->map->getHeight()) { return false; }
+  if(this->x + x < 0 || this->x + x >= this->map->getWidth())  { return false; }
 
   #ifdef DEBUG
-  printf("next map state: %d\n", map[this->y + y][this->x + x].getState());
+  printf("next map state: %d\n", 
+         (*this->map)[this->y + y][this->x + x].getState()
+  );
   #endif /* DEBUG */
 
-  if(!map[this->y + y][this->x + x].getState()) { return false; }
+  if(!(*this->map)[this->y + y][this->x + x].getState()) { return false; }
 
-  this->state &=     ~0x30;
-  this->state |= dir << 4;
-  this->state |=      0xC;
+  this->state &=     ~0x30; //clear old direction flag
+  this->state |= dir << 4;  //set direction of current movement
+  this->state |=      0xC;  //set current half-step and movement flags
 
+  //increment location of player (but not the sprite location)
   this->x += x;
   this->y += y;
   return true;
@@ -175,9 +177,12 @@ void _move(unsigned char& state, sf::Sprite& sprite, int left_side) {
     );
     #endif /* DEBUG */
 
+    //TODO - this may not be needed as it is taken care of when stepping
+    //       fully onto the tile
+
     sprite.setTextureRect( sf::IntRect(
-      0,
-      Tile::TILE_SIZE * (state & 0x3),
+      0,                                //Not in the middle of a step
+      Tile::TILE_SIZE * (state & 0x3),  //direction facing
       Tile::TILE_SIZE,
       Tile::TILE_SIZE
     ));
@@ -217,6 +222,11 @@ void _move(unsigned char& state, sf::Sprite& sprite, int left_side) {
   );
   #endif /* DEBUG */
 
+  /*set what the player looks like,
+   * fisrt arg    - determines if in halfstep - on left or right foot - (0 both)
+   * second       - direction facing
+   * third/fourth - constant b/c players do not get fatter nor do they duplicate
+   */
   sprite.setTextureRect( sf::IntRect(
     Tile::TILE_SIZE * (half_step ? 1 : 0) * (1 + left_side),
     Tile::TILE_SIZE * (state & 0x3),
@@ -224,7 +234,8 @@ void _move(unsigned char& state, sf::Sprite& sprite, int left_side) {
     Tile::TILE_SIZE
   ));
 
+  //clear movement/half step flags
   state &= ~0xC;
-  state |= half_step >> 1;
+  state |= half_step >> 1; // but if player *was* in half step, keep moving
 }
 
