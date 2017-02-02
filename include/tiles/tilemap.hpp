@@ -32,15 +32,20 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/System/Vector2.hpp>
 
+#include "gameobject.hpp"
 #include "tiles/tile.hpp"
 
 #ifdef EDITOR
   typedef std::vector< std::vector<TileBack> > TileMapBack;
 #endif
 
+namespace sf {
+  class Event;
+}
+
 typedef std::vector<char> Path;
 
-class TileMap : public sf::Drawable, public sf::Vector2i {
+class TileMap : public GameObject, public sf::Vector2i {
 
 public:
   //Constructors
@@ -58,6 +63,12 @@ public:
 
   //Draw map
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+  //TODO - write description
+  virtual void processEvent(sf::Event event);
+
+  //TODO - write description
+  virtual void update();
 
   //find shortest path between two locations
   Path findPath(const sf::Vector2i&, const sf::Vector2i&);

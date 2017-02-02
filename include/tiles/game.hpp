@@ -25,10 +25,12 @@
 #ifndef GAME_ENGINE_HPP
 #define GAME_ENGINE_HPP
 
+#include <vector>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "tilemap.hpp"
-#include "player.hpp"
+#include "gameobject.hpp"
+#include "tiles/tilemap.hpp"
+#include "tiles/player.hpp"
 
 namespace sf {
   class Event;
@@ -64,6 +66,8 @@ private:
 
   //player 1
   Player player1;
+
+  std::vector<GameObject> game_objects;
 };
 
 #endif /* GAME_ENGINE_HPP */

@@ -26,6 +26,8 @@
 #include <fstream>
 #include <algorithm>
 
+#include <SFML/Window/Event.hpp>
+
 #ifdef DEBUG
   #include <stdio.h>
 #endif /* DEBUG */
@@ -164,6 +166,14 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite2, states);
   }
   #endif /* EDITOR */
+}
+
+void TileMap::processEvent(sf::Event event) {
+  //TODO - do something?
+}
+
+void TileMap::update() {
+  //TODO - do something?
 }
 
 //find shortest path between two locations
