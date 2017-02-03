@@ -32,10 +32,10 @@ namespace sf {
 }
 
 class GameObject : public sf::Drawable {
-  //virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
+public:
   virtual void update() = 0;
   virtual void processEvent(sf::Event event) = 0;
 };
 
-#endif
+#endif /* GAME_OBJECT_HPP */
 

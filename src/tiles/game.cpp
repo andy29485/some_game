@@ -49,7 +49,10 @@ GameEngine::GameEngine()
   mainWindow.setFramerateLimit(20);
 }
 
-int GameEngine::mainLoop() {
+
+
+int
+GameEngine::mainLoop() {
   sf::Event event;
   std::thread updater(update_game, this);
 
@@ -65,7 +68,10 @@ int GameEngine::mainLoop() {
 
 }
 
-void GameEngine::draw() {
+
+
+void
+GameEngine::draw() {
   this->mainWindow.clear();
 
   this->mainWindow.draw(this->map);
@@ -74,13 +80,19 @@ void GameEngine::draw() {
   this->mainWindow.display();
 }
 
-void GameEngine::update() {
+
+
+void
+GameEngine::update() {
   this->player1.update();
 
   //TODO - other things
 }
 
-void GameEngine::processEvent(sf::Event event) {
+
+
+void
+GameEngine::processEvent(sf::Event event) {
   switch(event.type) {
     case sf::Event::Closed:
       this->mainWindow.close();
@@ -89,7 +101,10 @@ void GameEngine::processEvent(sf::Event event) {
   this->player1.processEvent(event);
 }
 
-void update_game(GameEngine* game) {
+
+
+void
+update_game(GameEngine* game) {
   #ifdef DEBUG
   printf("updater started\n");
   #endif /* DEBUG */

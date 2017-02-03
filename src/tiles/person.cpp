@@ -47,6 +47,8 @@ const unsigned char Person::EAST  = 2;
 const unsigned char Person::DOWN  = 3;
 const unsigned char Person::SOUTH = 3;
 
+
+
 Person::Person(const std::string& filename, TileMap* map,
                const unsigned char& state)
 : sf::Vector2i(),
@@ -62,6 +64,8 @@ Person::Person(const std::string& filename, TileMap* map,
     Tile::TILE_SIZE
   ));
 }
+
+
 
 Person::Person(const std::string& filename, TileMap* map,
                const int& x, const int& y, const unsigned char& state)
@@ -80,14 +84,20 @@ Person::Person(const std::string& filename, TileMap* map,
   ));
 }
 
-void Person::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+
+
+void
+Person::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   target.draw(this->sprite);
 }
+
+
 
 //move/turn in direction,
 //  if bool is true move without turning
 //  return true if movement did not go into the negatives
-bool Person::move(const unsigned char& dir,const bool& turn) {
+bool
+Person::move(const unsigned char& dir,const bool& turn) {
   //face direction of movement
   if(dir != this->getDirection() && !turn) {
     this->setDirection(dir);
@@ -141,9 +151,12 @@ bool Person::move(const unsigned char& dir,const bool& turn) {
   return true;
 }
 
+
+
 //update player, responsible for actual movement as well as other
 // heavy calculations
-void Person::update() {
+void
+Person::update() {
   //move player over one half step
   _move(this->state, this->sprite, (this->x + this->y)%2);
   #ifdef DEBUG
@@ -151,21 +164,33 @@ void Person::update() {
   #endif /* DEBUG */
 }
 
-void follow_path(Path path) {
+
+
+void
+follow_path(Path path) {
   //TODO
 }
 
+
+
 //set the state
-void Person::setState(const unsigned char& state) {
+void
+Person::setState(const unsigned char& state) {
   this->state = state;
 }
 
+
+
 //set the direction w/o affecting other parts of the state
-void Person::setDirection(const unsigned char& dir) {
+void
+Person::setDirection(const unsigned char& dir) {
   this->state = (this->state & ~0x3) | (dir & 0x3); 
 }
 
-void _move(unsigned char& state, sf::Sprite& sprite, int left_side) {
+
+
+void
+_move(unsigned char& state, sf::Sprite& sprite, int left_side) {
   //not in motion, nothing to be done 
   if(!(state & 0x4)) {
     #ifdef DEBUG

@@ -36,6 +36,8 @@
 
 inline bool fileExists(const std::string& path);
 
+
+
 //Constructors
 #ifdef EDITOR
 TileMap::TileMap(const std::string& texFileName, const sf::Font& font,
@@ -64,6 +66,8 @@ TileMap::TileMap(const std::string& texFileName, const sf::Font& font,
   this->redraw();
 }
 
+
+
 TileMap::TileMap(const std::string& texFileName,
                  const std::string& mapFileName, const sf::Font& font)
 : drawState(false),
@@ -82,20 +86,8 @@ TileMap::TileMap(const std::string& texFileName,
     this->redraw();
   }
 }
-/*
-TileMap::TileMap(const TileMap& map)
-: tiles(map.tiles),
-  texTiles(map.texTiles),
-  font(map.font),
-  drawState(map.drawState)
-{
-  this->renderTexture.create(     Tile::TILE_SIZE*this->getWidth(),
-                                  Tile::TILE_SIZE*this->getHeight());
-  this->renderTextureState.create(Tile::TILE_SIZE*this->getWidth(),
-                                  Tile::TILE_SIZE*this->getHeight());
-  this->redraw();
-}
-*/
+
+
 #else
 TileMap::TileMap(const std::string& texFileName,
                  const std::string& mapFileName) {
@@ -111,7 +103,10 @@ TileMap::TileMap(const std::string& texFileName,
 }
 #endif /* EDITOR */
 
-bool TileMap::move(const int& x, const int& y) {
+
+
+bool
+TileMap::move(const int& x, const int& y) {
   //TODO - figure out why this was here
   //if(   (-y < this->y)
   //   || (-x < this->x)
@@ -127,8 +122,11 @@ bool TileMap::move(const int& x, const int& y) {
   return true;
 }
 
+
+
 //Draw tile
-void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void
+TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   sf::Sprite sprite;
   sprite.setTexture(this->renderTexture.getTexture());
   if(this->x >= 0 && this->y >= 0) {
@@ -168,26 +166,39 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   #endif /* EDITOR */
 }
 
-void TileMap::processEvent(sf::Event event) {
+
+
+void
+TileMap::processEvent(sf::Event event) {
   //TODO - do something?
 }
 
-void TileMap::update() {
+
+
+void
+TileMap::update() {
   //TODO - do something?
 }
 
 //find shortest path between two locations
-std::vector<char> TileMap::findPath(const sf::Vector2i& start_loc,
-                                    const sf::Vector2i& end_loc) {
+std::vector<char>
+TileMap::findPath(const sf::Vector2i& start_loc, const sf::Vector2i& end_loc) {
   //TODO - findpath
 }
 
+
+
 #ifdef EDITOR
-void TileMap::setDrawState(const bool& drawState) {
+
+void
+TileMap::setDrawState(const bool& drawState) {
   this->drawState = drawState;
 }
 
-void TileMap::save(const std::string& filename, const bool& append) const {
+
+
+void
+TileMap::save(const std::string& filename, const bool& append) const {
   unsigned int width  = this->tiles.size();
   unsigned int height = this->tiles[0].size();
   unsigned short tmps;
@@ -221,8 +232,10 @@ void TileMap::save(const std::string& filename, const bool& append) const {
 }
 #endif /* EDITOR */
 
-std::streampos TileMap::load(const std::string& filename,
-                             const std::streampos& pos) {
+
+
+std::streampos
+TileMap::load(const std::string& filename, const std::streampos& pos) {
   std::ifstream data(filename.c_str(), std::ios::in | std::ios::binary);
   data.seekg(pos);
 
@@ -276,12 +289,18 @@ std::streampos TileMap::load(const std::string& filename,
   return new_pos;
 }
 
-void TileMap::redraw() {
+
+
+void
+TileMap::redraw() {
 #ifdef EDITOR
   this->needRedraw = true;
 }
 
-void TileMap::_redraw() {
+
+
+void
+TileMap::_redraw() {
   if(!this->needRedraw)
     return;
 
@@ -309,7 +328,10 @@ void TileMap::_redraw() {
   #endif /* EDITOR */
 }
 
-void TileMap::resize(const unsigned& width, const unsigned& height) {
+
+
+void
+TileMap::resize(const unsigned& width, const unsigned& height) {
   #ifdef DEBUG
   printf("resize: %d, %d\n", width, height);
   #endif /* DEBUG */
@@ -347,8 +369,11 @@ void TileMap::resize(const unsigned& width, const unsigned& height) {
   this->redraw();
 }
 
+
+
 #ifdef EDITOR
-TileMap& TileMap::operator=(const TileMapBack& backup_map) {
+TileMap&
+TileMap::operator=(const TileMapBack& backup_map) {
   this->resize(backup_map[0].size(), backup_map.size());
 
   auto it_m = backup_map.begin();
@@ -366,7 +391,10 @@ TileMap& TileMap::operator=(const TileMapBack& backup_map) {
   return *this;
 }
 
-TileMapBack TileMap::backup() const {
+
+
+TileMapBack
+TileMap::backup() const {
   TileMapBack backup_map(this->getHeight(),
                  std::vector<TileBack>(this->getWidth(), TileBack(0,0,0))
   );
@@ -385,7 +413,10 @@ TileMapBack TileMap::backup() const {
 }
 #endif /* EDITOR */
 
-inline bool fileExists(const std::string& path) {
+
+
+inline bool
+fileExists(const std::string& path) {
   struct stat fileStat; 
   return (stat (path.c_str(), &fileStat) == 0);
 }

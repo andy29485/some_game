@@ -91,6 +91,8 @@ EditorEngine::EditorEngine(const std::string& textureFileName,
   );
 }
 
+
+
 EditorEngine::EditorEngine(const std::string& textureFileName,
                            const std::string& mapFileName,
                            const sf::Font& font)
@@ -118,7 +120,10 @@ EditorEngine::EditorEngine(const std::string& textureFileName,
   );
 }
 
-int EditorEngine::mainLoop(const std::string& textureFileName,
+
+
+int
+EditorEngine::mainLoop(const std::string& textureFileName,
                            const std::string& mapFileName) {
   bool mousePressed1 = false;
   bool mousePressed2 = false;
@@ -412,7 +417,10 @@ int EditorEngine::mainLoop(const std::string& textureFileName,
   return 0;
 }
   
-void EditorEngine::draw() {
+
+
+void
+EditorEngine::draw() {
   this->mainWindow.clear();
   this->toolboxWindow.clear();
 
@@ -435,7 +443,10 @@ void EditorEngine::draw() {
   this->toolboxWindow.display();
 }
 
-void EditorEngine::updateMode() {
+
+
+void
+EditorEngine::updateMode() {
   if(this->mode == 0)
     this->textMode.setString("bottom - "+std::to_string(this->state));
   else if(this->mode == 1)
@@ -445,7 +456,10 @@ void EditorEngine::updateMode() {
   this->textMode.setOrigin(this->textMode.getLocalBounds().width/2, 0);
 }
 
-void EditorEngine::undo() {
+
+
+void
+EditorEngine::undo() {
   if(this->vec_undo.size() == 0)
     return;
   TileMapBack& m = this->vec_undo.back();
@@ -454,7 +468,10 @@ void EditorEngine::undo() {
   this->vec_undo.pop_back();
 }
 
-void EditorEngine::redo() {
+
+
+void
+EditorEngine::redo() {
   if(this->vec_redo.size() == 0)
     return;
   TileMapBack& m = this->vec_redo.back();
@@ -463,14 +480,20 @@ void EditorEngine::redo() {
   this->vec_redo.pop_back();
 }
 
-void getSelection(TileMap& hover, const TileMap& map,
+
+
+void
+getSelection(TileMap& hover, const TileMap& map,
                   const sf::Vector2f& start, const sf::Vector2f& size,
                   bool setTop) {
   hover.resize(size.x/Tile::TILE_SIZE, size.y/Tile::TILE_SIZE);
   copyTiles(map, hover, start, sf::Vector2f(0,0), size, size, setTop);
 }
 
-void copyState(TileMap& dest,
+
+
+void
+copyState(TileMap& dest,
           const sf::Vector2f& start, const sf::Vector2f& size,
           const unsigned char& state) {
   auto it     = dest.begin()+(int)(start.y/Tile::TILE_SIZE);
@@ -487,7 +510,10 @@ void copyState(TileMap& dest,
   dest.redraw();
 }
 
-void copyTiles(const TileMap& src, TileMap& dest,
+
+
+void
+copyTiles(const TileMap& src, TileMap& dest,
           const sf::Vector2f& start_src, const sf::Vector2f& start_dest,
           const sf::Vector2f& size_src, const sf::Vector2f& size_dest,
           bool setTop) {
@@ -523,7 +549,10 @@ void copyTiles(const TileMap& src, TileMap& dest,
   dest.redraw();
 }
 
-inline void setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
+
+
+inline void
+setLoc(sf::Vector2f& v, const TileMap& m, const sf::Window& w) {
   sf::Vector2i pos = sf::Mouse::getPosition(w);
 
   #ifdef DEBUG

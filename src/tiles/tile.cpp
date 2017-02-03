@@ -33,6 +33,8 @@
 
 inline sf::IntRect rect(const unsigned&, const sf::Texture&);
 
+
+
 #ifdef EDITOR
 Tile::Tile(const sf::Texture& tex, unsigned short bottom,
            unsigned char state, const sf::Font& font)
@@ -47,6 +49,8 @@ Tile::Tile(const sf::Texture& tex, unsigned short bottom,
   this->texTiles = &tex;
 }
 
+
+
 Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned short top,
            unsigned char state, const sf::Font& font)
 : nTextureBottom(bottom),
@@ -59,6 +63,8 @@ Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned short top,
 {
   this->texTiles = &tex;
 }
+
+
 #else
 Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned char state)
 : spriteBottom(tex, rect(bottom, tex)),
@@ -78,8 +84,11 @@ Tile::Tile(const sf::Texture& tex, unsigned short bottom, unsigned short top,
 }
 #endif /* EDITOR */
   
+
+
 //Draw tile
-void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void
+Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
   #ifdef EDITOR
   if(this->drawState) {
@@ -96,7 +105,10 @@ void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 }
 
-void Tile::setState(const unsigned char& state) {
+
+
+void
+Tile::setState(const unsigned char& state) {
   this->state = state;
 
   #ifdef EDITOR
@@ -107,7 +119,10 @@ void Tile::setState(const unsigned char& state) {
 }
 
 
-void Tile::setPosition(const unsigned& x, const unsigned& y) {
+
+
+void
+Tile::setPosition(const unsigned& x, const unsigned& y) {
   this->spriteBottom.setPosition(x, y);
   this->spriteTop.setPosition(x, y);
 
@@ -117,7 +132,10 @@ void Tile::setPosition(const unsigned& x, const unsigned& y) {
 }
 
 
-void Tile::setBottomTile(const unsigned short& nTileNum) {
+
+
+void
+Tile::setBottomTile(const unsigned short& nTileNum) {
   #ifdef EDITOR
   if(this->nTextureBottom == nTileNum) { return; }
   this->nTextureBottom = nTileNum;
@@ -126,7 +144,10 @@ void Tile::setBottomTile(const unsigned short& nTileNum) {
   this->spriteBottom.setTextureRect(rect(nTileNum, *this->texTiles));
 }
 
-void Tile::setTopTile(const unsigned short& nTileNum) {
+
+
+void
+Tile::setTopTile(const unsigned short& nTileNum) {
   #ifdef EDITOR
   if(this->nTextureTop == nTileNum) { return; }
   this->nTextureTop = nTileNum;
@@ -140,8 +161,11 @@ void Tile::setTopTile(const unsigned short& nTileNum) {
   }
 }
 
+
+
 #ifdef EDITOR
-Tile& Tile::operator=(const TileBack& backup_tile) {
+Tile&
+Tile::operator=(const TileBack& backup_tile) {
   this->setBottomTile(std::get<0>(backup_tile));
   this->setTopTile(std::get<1>(backup_tile));
   this->setState(std::get<2>(backup_tile));
@@ -149,16 +173,24 @@ Tile& Tile::operator=(const TileBack& backup_tile) {
   return *this;
 }
 
-TileBack Tile::backup() const {
+
+
+TileBack
+Tile::backup() const {
   return std::make_tuple(this->nTextureBottom, this->nTextureTop, this->state);
 }
 
-void Tile::setDrawState(const bool& drawState) {
+
+
+void
+Tile::setDrawState(const bool& drawState) {
   this->drawState = drawState;
 }
 #endif /* EDITOR */
 
-inline sf::IntRect rect(const unsigned& num, const sf::Texture& tex) {
+
+inline sf::IntRect
+rect(const unsigned& num, const sf::Texture& tex) {
   return sf::IntRect((num*Tile::TILE_SIZE)%tex.getSize().x,
                     (num*Tile::TILE_SIZE)/tex.getSize().x*Tile::TILE_SIZE,
                      Tile::TILE_SIZE,

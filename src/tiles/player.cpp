@@ -36,7 +36,10 @@ Player::Player(const std::string& filename, TileMap* map,
 : Person(filename, map, x, y, state)
 {}
 
-void Player::processEvent(sf::Event event) {
+
+
+void
+Player::processEvent(sf::Event event) {
   switch(event.type) {
     case (sf::Event::KeyPressed):
       switch (event.key.code) {
