@@ -199,8 +199,10 @@ TileMap::setDrawState(const bool& drawState) {
 
 void
 TileMap::save(const std::string& filename, const bool& append) const {
-  unsigned int width  = this->tiles.size();
-  unsigned int height = this->tiles[0].size();
+  TileMapBack temp_map = this->backup(true);
+ 
+  unsigned int height = temp_map.size();
+  unsigned int width = temp_map[0].size();
   unsigned short tmps;
   unsigned char  tmpc;
   std::ofstream data;
@@ -213,23 +215,25 @@ TileMap::save(const std::string& filename, const bool& append) const {
     data.open(filename.c_str(), std::ios::out | std::ios::binary);
   }
 
-  data.write((char*)&width,  sizeof(width));
-  data.write((char*)&height, sizeof(height));
+  data.write((char*)&width, sizeof(width));
+  data.write((char*)&height,  sizeof(height));
 
-  for (auto it = this->tiles.begin(); it!=this->tiles.end(); ++it) {
+  for (auto it = temp_map.begin(); it != temp_map.end(); ++it) {
     for (auto tile = it->begin(); tile!=it->end(); ++tile) {
-      tmps = tile->getBottomTile();
+      tmps = std::get<0>(*tile);
       data.write((char*)&tmps, sizeof(tmps));
       if(tmps) {
-        tmps = tile->getTopTile();
+        tmps = std::get<1>(*tile);
         data.write((char*)&tmps, sizeof(tmps));
-        tmpc = tile->getState();
+        tmpc = std::get<2>(*tile);
         data.write((char*)&tmpc, sizeof(tmpc));
       }
     }
   }
   data.close();
 }
+
+
 #endif /* EDITOR */
 
 
@@ -394,17 +398,49 @@ TileMap::operator=(const TileMapBack& backup_map) {
 
 
 TileMapBack
-TileMap::backup() const {
-  TileMapBack backup_map(this->getHeight(),
-                 std::vector<TileBack>(this->getWidth(), TileBack(0,0,0))
+TileMap::backup(bool optimize) const {
+  int start_y = this->getHeight() - 1;
+  int end_y   = 0;
+  int start_x = this->getWidth() - 1;
+  int end_x   = 0;
+
+  auto it_t = this->begin();
+  int i, j;
+
+  if(optimize) {
+    for (j = 0; it_t != this->end(); ++it_t, ++j) {
+      auto tile_t = it_t->begin();
+
+      for (i = 0; tile_t != it_t->end(); ++tile_t, ++i) {
+        if(tile_t->getBottomTile()) {
+          start_y = std::min(j, start_y);
+          end_y   = std::max(j+1, end_y);
+          start_x = std::min(i, start_x);
+          end_x   = std::max(i+1, end_x);
+        }
+      }
+    }
+    it_t = this->begin() + start_y;
+  }
+
+  if(start_y == this->getHeight() - 1) {
+    start_y = 0;
+    end_y   = this->getHeight();
+    start_x = 0;
+    end_x   = this->getWidth();
+  }
+  
+  TileMapBack backup_map(end_y-start_y,
+                 std::vector<TileBack>(end_x-start_x, TileBack(0,0,0))
   );
 
   auto it_m = backup_map.begin();
-  auto it_t = this->begin();
-  for (; it_m!=backup_map.end(); ++it_m, ++it_t) {
+
+  for (j = start_y; j < end_y; ++it_m, ++it_t, ++j) {
+    auto tile_t = it_t->begin() + start_x;
     auto tile_m = it_m->begin();
-    auto tile_t = it_t->begin();
-    for (; tile_m != it_m->end(); ++tile_m, ++tile_t) {
+
+    for (i = start_x; i < end_x; ++tile_m, ++tile_t, ++i) {
       *tile_m = tile_t->backup();
     }
   }

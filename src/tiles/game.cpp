@@ -22,7 +22,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-#define _GLIBCXX_USE_NANOSLEEP 1
+#ifndef EDITOR
 
 #include <thread>
 #include <chrono>
@@ -119,4 +119,6 @@ update_game(GameEngine* game) {
     std::this_thread::sleep_until(tt);
   }
 }
+
+#endif /* EDITOR */
 

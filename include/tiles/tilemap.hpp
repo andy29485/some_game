@@ -84,7 +84,7 @@ public:
   TileMap& operator=(const TileMapBack&);
 
   //[editor only] create backup of tiles 
-  TileMapBack backup() const;
+  TileMapBack backup(bool optimize = false) const;
   #endif /* EDITOR */
 
   //return vector iterator[const]

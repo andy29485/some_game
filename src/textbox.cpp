@@ -22,9 +22,13 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
-sf::Shape&
-RoundedRectangle(const float& x, const float& y,
-                 const float& rectWidth, const float& rectHeight,
+#include <SFML/Graphics/ConvexShape.hpp>
+
+#include "textbox.hpp"
+
+
+sf::ConvexShape
+RoundedRectangle(const float& rectWidth, const float& rectHeight,
                  const float& radius, const float& outline,
                  const sf::Color& fillCol, const sf::Color& outlineCol);
 
@@ -35,42 +39,46 @@ TextBox::TextBox(std::string string) {
 
 
 
-sf::Shape&
-RoundedRectangle(const float& x, const float& y,
-                 const float& rectWidth, const float& rectHeight,
+sf::ConvexShape
+RoundedRectangle(const float& rectWidth, const float& rectHeight,
                  const float& radius, const float& outline,
                  const sf::Color& fillCol, const sf::Color& outlineCol) {
-  sf::Shape rrect = sf::Shape();
   float x = 0, y = 0;
+  int index = -1;
   const int POINTS = 10;
+  sf::ConvexShape rrect = sf::ConvexShape(4*POINTS);
 
-  rrect.SetOutlineWidth(outline);
+  rrect.setOutlineThickness(outline);
+  rrect.setFillColor(fillCol);
+  rrect.setOutlineColor(outlineCol);
 
   for(int i=0; i<POINTS; ++i)	{
     x += radius/POINTS;
-    y  = sqrt(radius*radius-X*X);
-    rrect.AddPoint(x+rectWidth-radius,-y+radius, fillCol, outlineCol);
+    y  = sqrt(radius*radius-x*x);
+    rrect.setPoint(++index, sf::Vector2f(x+rectWidth-radius, -y+radius));
   }
 
   y = 0;
   for(int i=0; i<POINTS; ++i) {
     x += radius/POINTS;
-    y  = sqrt(radius*radius-Y*Y);
-    rrect.AddPoint(x+rectWidth-radius, y+rectHeight-radius, fillCol, outlineCol);
+    y  = sqrt(radius*radius-y*y);
+    rrect.setPoint(++index, sf::Vector2f(x+rectWidth-radius,
+                                         y+rectHeight-radius)
+    );
   }
 
   x = 0;
   for(int i=0; i<POINTS; i++) {
     x += radius/POINTS;
-    y  = sqrt(radius*radius-X*X);
-    rrect.AddPoint(-x+radius, y+rectHeight-radius, fillCol, outlineCol);
+    y  = sqrt(radius*radius-x*x);
+    rrect.setPoint(++index, sf::Vector2f(-x+radius, y+rectHeight-radius));
   }
 
   y = 0;
   for(int i=0; i<POINTS; i++) {
     y += radius/POINTS;
     x  = sqrt(radius*radius - y*y);
-    rrect.AddPoint(-x+radius, -y+radius, fillCol, outlineCol);
+    rrect.setPoint(++index, sf::Vector2f(-x+radius, -y+radius));
   }
   return rrect;
 }
