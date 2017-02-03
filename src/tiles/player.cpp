@@ -36,24 +36,40 @@ Player::Player(const std::string& filename, TileMap* map,
 : Person(filename, map, x, y, state)
 {}
 
-
+void
+Player::update() {
+  if(this->action & 0x4)
+    this->move((unsigned char)this->action & 0x3);
+  Person::update();
+}
 
 void
 Player::processEvent(sf::Event event) {
   switch(event.type) {
     case (sf::Event::KeyPressed):
       switch (event.key.code) {
-        case (sf::Keyboard::Up):
-          this->move(Person::UP);
+        case sf::Keyboard::Up:
+          this->action = 0x4 | Person::UP;
           break;
-        case (sf::Keyboard::Down):
-          this->move(Person::DOWN);
+        case sf::Keyboard::Down:
+          this->action = 0x4 | Person::DOWN;
           break;
-        case (sf::Keyboard::Right):
-          this->move(Person::RIGHT);
+        case sf::Keyboard::Right:
+          this->action = 0x4 | Person::RIGHT;
           break;
-        case (sf::Keyboard::Left):
-          this->move(Person::LEFT);
+        case sf::Keyboard::Left:
+          this->action = 0x4 | Person::LEFT;
+          break;
+      }
+      break;
+    case (sf::Event::KeyReleased):
+      switch (event.key.code) {
+        case sf::Keyboard::Up:
+        case sf::Keyboard::Down:
+        case sf::Keyboard::Right:
+        case sf::Keyboard::Left:
+          //TODO - maybe check if action is not the same as button released?
+          this->action = 0;
           break;
       }
       break;

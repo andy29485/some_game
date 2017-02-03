@@ -45,9 +45,16 @@ public:
 
   virtual void processEvent(sf::Event event) override;
 
+  //update player, responsible for actual movement as well as other
+  // heavy calculations
+  virtual void update();
+
 private:
   //flags that can be checked later
   uint64_t flags;
+
+  //TODO explain what this is
+  int action;
 };
 
 #endif /* PLAYER_HPP */

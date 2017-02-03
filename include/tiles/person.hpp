@@ -69,7 +69,7 @@ public:
 
   //update player, responsible for actual movement as well as other
   // heavy calculations
-  void update();
+  virtual void update();
 
   //sequence of pregiven moves is given to the character
   void follow_path(Path);

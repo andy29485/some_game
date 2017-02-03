@@ -26,6 +26,7 @@
 
 #include <thread>
 #include <chrono>
+
 #ifdef DEBUG
   #include <stdio.h>
 #endif /* DEBUG */
@@ -110,9 +111,12 @@ update_game(GameEngine* game) {
   #endif /* DEBUG */
 
   while(game->running()) {
+    auto tt = std::chrono::steady_clock::now();
+    tt += std::chrono::milliseconds(100);
+
     game->update();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(130));
+    std::this_thread::sleep_until(tt);
   }
 }
 
