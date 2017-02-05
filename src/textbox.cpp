@@ -22,9 +22,13 @@
 // not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////
 
+#include <cmath>
+#include <string>
+
 #include <SFML/Graphics/ConvexShape.hpp>
 
 #include "textbox.hpp"
+
 
 
 sf::ConvexShape
@@ -33,6 +37,8 @@ RoundedRectangle(const float& rectWidth, const float& rectHeight,
                  const sf::Color& fillCol, const sf::Color& outlineCol);
 
 
+                 
+                 
 TextBox::TextBox(std::string string) {
   //TODO
 }
@@ -54,14 +60,14 @@ RoundedRectangle(const float& rectWidth, const float& rectHeight,
 
   for(int i=0; i<POINTS; ++i)	{
     x += radius/POINTS;
-    y  = sqrt(radius*radius-x*x);
+    y  = std::sqrt(radius*radius-x*x);
     rrect.setPoint(++index, sf::Vector2f(x+rectWidth-radius, -y+radius));
   }
 
   y = 0;
   for(int i=0; i<POINTS; ++i) {
     x += radius/POINTS;
-    y  = sqrt(radius*radius-y*y);
+    y  = std::sqrt(radius*radius-y*y);
     rrect.setPoint(++index, sf::Vector2f(x+rectWidth-radius,
                                          y+rectHeight-radius)
     );
@@ -70,14 +76,14 @@ RoundedRectangle(const float& rectWidth, const float& rectHeight,
   x = 0;
   for(int i=0; i<POINTS; i++) {
     x += radius/POINTS;
-    y  = sqrt(radius*radius-x*x);
+    y  = std::sqrt(radius*radius-x*x);
     rrect.setPoint(++index, sf::Vector2f(-x+radius, y+rectHeight-radius));
   }
 
   y = 0;
   for(int i=0; i<POINTS; i++) {
     y += radius/POINTS;
-    x  = sqrt(radius*radius - y*y);
+    x  = std::sqrt(radius*radius - y*y);
     rrect.setPoint(++index, sf::Vector2f(-x+radius, -y+radius));
   }
   return rrect;
