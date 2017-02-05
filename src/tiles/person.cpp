@@ -35,20 +35,6 @@
 void _move(unsigned char&, sf::Sprite&, int);
 
 
-const unsigned char Person::LEFT  = 0;
-const unsigned char Person::WEST  = 0;
-
-const unsigned char Person::UP    = 1;
-const unsigned char Person::NORTH = 1;
-
-const unsigned char Person::RIGHT = 2;
-const unsigned char Person::EAST  = 2;
-
-const unsigned char Person::DOWN  = 3;
-const unsigned char Person::SOUTH = 3;
-
-
-
 Person::Person(const std::string& filename, TileMap* map,
                const unsigned char& state)
 : sf::Vector2i(),

@@ -38,17 +38,17 @@ class TileMap;
 class Person : public GameObject, public sf::Vector2i {
 
 public:
-  static const unsigned char LEFT;
-  static const unsigned char WEST;
+  enum direction {
+    LEFT,
+    UP,
+    RIGHT,
+    DOWN,
 
-  static const unsigned char UP;
-  static const unsigned char NORTH;
-
-  static const unsigned char RIGHT;
-  static const unsigned char EAST;
-
-  static const unsigned char DOWN;
-  static const unsigned char SOUTH;
+    WEST  = LEFT,
+    NORTH = UP,
+    EAST  = RIGHT,
+    SOUTH = DOWN
+  };
 
   Person(const std::string&, TileMap*, const unsigned char& state = 0);
   Person(const std::string&, TileMap*, const int&, const int&,
